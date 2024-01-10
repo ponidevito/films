@@ -1,0 +1,44 @@
+// scroll burger off
+
+//body lock
+._lock {
+  overflow: hidden;
+}
+
+// global container
+
+[class*="__container"] {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 0px 15px;
+  box-sizing: content-box;
+}
+
+// links
+
+.link {
+  display: inline-block;
+  color: #ffd52d;
+  transition: 0.2s ease;
+
+  &:hover {
+    color: #ffe26e;
+  }
+  @media (min-width: 767px) {
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+}
+
+// Animations
+// Fade
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
