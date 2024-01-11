@@ -50,8 +50,20 @@ function bindModal(trigger, modal, close) {
   })
 }
 
-// ПЕРВЫЙ аргумент - класс кнопки, при клике на которую будет открываться модальное окно.
-// ВТОРОЙ аргумент - класс самого модального окна.
-// ТРЕТИЙ аргумент - класс кнопки, при клике на которую будет закрываться модальное окно.
 bindModal('.modal__btn', '.modal__wrapper', '.modal__close')
 
+
+;
+// login
+
+function submitForm() {
+    // Отримати значення з input 
+    let emailValue = document.getElementById("loginForm").elements.email.value;
+    let passwordValue = document.getElementById("loginForm").elements.password.value;
+  
+    // Вивести значення у консоль
+    console.log("Email:", emailValue);
+    console.log("Password:", passwordValue);
+  }
+  
+;
