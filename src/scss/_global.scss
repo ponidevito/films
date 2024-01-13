@@ -17,9 +17,10 @@
 // links
 
 .link {
-  display: inline-block;
+  // display: inline-block;
   color: #ffd52d;
   transition: 0.2s ease;
+  cursor: pointer;
 
   &:hover {
     color: #ffe26e;

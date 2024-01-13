@@ -18,6 +18,7 @@
 
   &__box {
     position: relative;
+    display: none;
     &:hover {
       input {
         width: 350px;
@@ -65,6 +66,26 @@
   &__user {
     cursor: pointer;
   }
+
+  &__login-box {
+    gap: 20px;
+    display: none;
+  }
+
+  &__out {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    svg {
+      transition: .2s ease;
+      fill: #ffd52d;
+    }
+    &:hover{
+      svg{
+        transform: rotate(45deg);
+      }
+    }
+  }
 }
 
 /*  icon search*/
@@ -85,8 +106,13 @@
   box-shadow: 0 0 10px #ff4040;
 }
 
+.show {
+  display: block;
+}
+.show-box {
+  display: flex;
+}
 
-
-
-
-
+.hide {
+  display: none;
+}
