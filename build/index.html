@@ -53,6 +53,7 @@
           <div class="header__right">
               <div class="header__user link  modal__btn">Увійти</div>
               <div class="header__login-box">
+                <a href="collection-films.html" class="header__collection link">Моя колекція</a>
               <div class="header__userName link">Кабінет</div>
               <a href="add-film.html" class="header__add link">Додати фільм</a>
               <div class="header__out link" onclick="logOut()"><svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/></svg></div>
@@ -70,13 +71,19 @@
             <main class="main">
 
                 <!-- add film -->
-                <h1>homge</h1>
-                
+                <h1>home</h1>
 
             </main>
 
          <!-- Footer -->
-    
+    <footer class="footer">
+    <div class="footer__container">
+        <div class="footer__body">
+            <div class="footer__development">Сайт розроблено та підтримується: <a href="https://ponidevito.github.io/cv/" target="_blank" class="link">Олег Кравчук</a></div>
+        </div>
+    </div>
+</footer>
+
 
 
     </div>
@@ -86,6 +93,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
 
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/js/all.min.js"></script> -->
@@ -110,7 +119,8 @@
             firebase.initializeApp(firebaseConfig);
             firebase.analytics();
             let firestore = firebase.firestore();
-
+        // Отримання посилання на об'єкт Storage
+            const storage = firebase.storage();
       </script>
 </body>
 

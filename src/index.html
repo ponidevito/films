@@ -22,13 +22,12 @@
             <main class="main">
 
                 <!-- add film -->
-                <h1>homge</h1>
-                <!-- @@include('./html/_add.html') -->
+                <h1>home</h1>
 
             </main>
 
          <!-- Footer -->
-    <!-- @@include('./html/_footer.html') -->
+    @@include('./html/_footer.html')
 
 
     </div>
@@ -38,6 +37,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
 
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/js/all.min.js"></script> -->
@@ -62,7 +63,8 @@
             firebase.initializeApp(firebaseConfig);
             firebase.analytics();
             let firestore = firebase.firestore();
-
+        // Отримання посилання на об'єкт Storage
+            const storage = firebase.storage();
       </script>
 </body>
 

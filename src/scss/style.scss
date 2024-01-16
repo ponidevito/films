@@ -8,9 +8,10 @@
 // Sections or Pages SCSS-files imports
 @import "./header";
 @import "../scss/modal";
-@import "./add-film";
+@import "./add";
+@import "./collection";
 
-// @import './footer';
+@import './footer';
 
 // Libs
 // @import './libs/swiper';

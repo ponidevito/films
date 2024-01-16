@@ -441,8 +441,17 @@ h6 {
   display: none !important;
 }
 
-.add-film {
+.add {
   padding-top: 60px;
+}
+
+.footer {
+  padding: 20px;
+  background-color: #303030;
+}
+
+.footer__body {
+  text-align: end;
 }
 
 html,

@@ -19,3 +19,4 @@ function togglePasswordVisibility() {
     passwordField.type = "password";
   }
 }
+
