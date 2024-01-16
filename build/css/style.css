@@ -97,6 +97,14 @@ h6 {
   color: #ffe26e;
 }
 
+.top {
+  text-align: center;
+}
+
+.top__title {
+  font-size: 45px;
+}
+
 @-webkit-keyframes fade {
   0% {
     opacity: 0;
@@ -431,6 +439,10 @@ h6 {
 
 .hide {
   display: none !important;
+}
+
+.add-film {
+  padding-top: 60px;
 }
 
 html,

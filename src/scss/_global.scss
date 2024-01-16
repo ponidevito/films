@@ -32,6 +32,16 @@
   }
 }
 
+// h1 title
+
+.top {
+  text-align: center;
+
+  &__title {
+    font-size: 45px;
+  }
+}
+
 // Animations
 // Fade
 @keyframes fade {

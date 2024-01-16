@@ -1,0 +1,80 @@
+<!-- <section class="add-film">
+    <div class="add-film__container">
+        <div class="add-film__top top">
+            <h1 class="add-film__title top__title">Додайте фільм</h1>
+        </div>
+        <div class="add-film__body">
+
+        </div>
+    </div>
+</section> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinema Collection Universe</title>
+    <link rel="stylesheet" href="./css/style.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,regular,italic,500,500italic,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">  
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <!-- Header -->
+    @@include('./html/_header.html')
+
+             <!-- Main Page -->
+            <main class="main">
+
+                <!-- add film -->
+
+                @@include('./html/_add.html')
+
+            </main>
+
+         <!-- Footer -->
+    <!-- @@include('./html/_footer.html') -->
+
+
+    </div>
+    
+   
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/js/all.min.js"></script> -->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+    <script src="./js/scripts.min.js"></script>
+
+    <script type="module">
+      
+        const firebaseConfig = {
+            apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+            authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+            projectId: "cinema-collection-ce9ba",
+            storageBucket: "cinema-collection-ce9ba.appspot.com",
+            messagingSenderId: "597377281566",
+            appId: "1:597377281566:web:c49563737b63b6c131080f"
+            };
+      
+         // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            firebase.analytics();
+            let firestore = firebase.firestore();
+
+      </script>
+</body>
+
+
+
+</html>
