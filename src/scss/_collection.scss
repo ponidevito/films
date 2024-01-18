@@ -1,3 +1,37 @@
+// .collection {
+//   padding-top: 60px;
+
+//   &__container {
+//   }
+
+//   &__body {
+//     display: grid;
+//     grid-template-columns: repeat(3,1fr);
+//   }
+
+//   &__column {
+//     padding: 10px;
+//     overflow: hidden;
+//     height: 100%;
+//     width: 350px;
+//   }
+
+//   &__picture {
+//     width: 300px;
+//     height: 200px;
+//   }
+
+//   &__poster {
+//     max-width: 100%;
+//     // width: 200px;
+//     // width: 100%;
+
+//     height: 100%;
+//   }
+
+// }
+
+
 .collection {
   padding-top: 60px;
 
@@ -5,5 +39,31 @@
   }
 
   &__body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &__column {
+    padding: 10px;
+    overflow: hidden;
+    height: 100%;
+    width: 350px;
+  }
+
+  &__picture {
+    width: 300px;
+    height: 200px; /* Фіксовані розміри */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Додаємо overflow: hidden, щоб обрізати зайвий контент */
+  }
+
+  &__poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Заповнює блок, обрізаючи зайвий контент */
   }
 }
+

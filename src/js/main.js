@@ -48,8 +48,11 @@ document.addEventListener('DOMContentLoaded', function () {
                   const filmElement = document.createElement('div');
                   filmElement.className = 'collection__column';
                   filmElement.innerHTML = `
-                  <img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster">
+                  <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+                  <div class="collection__about">
                   <h2 class="collection__name">${filmData.title}</h2>
+                  </div>
+                  
                   `;
                   filmCollection.appendChild(filmElement);
               });
