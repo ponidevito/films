@@ -1,37 +1,4 @@
-// console.log(form);
-// console.log(imageInput); // Переконайтеся, що виводить правильний елемент вводу файлу
 
-// if (document.title === "Додати фільм - Ваш заголовок сторінки") {
-//   // Отримання посилань на елементи форми
-//   const form = document.querySelector(".form");
-//   const imageInput = document.querySelector("#imageInput"); // Додаєте input для вибору файлу
-
-//   // Додайте слухача подій для форми
-//   form.addEventListener("submit", function (event) {
-//     event.preventDefault();
-
-//     // Отримання файлу з input
-//     const imageFile = imageInput.files[0];
-
-//     // Викликати функцію для завантаження картинки на Firebase
-//     uploadImage(imageFile);
-//   });
-
-//   // Функція для завантаження картинки на Firebase Storage
-//   function uploadImage(file) {
-//     // Створення посилання на Storage
-//     //   const storageRef = storage.ref();
-//     const storageRef = firebase.storage().ref();
-
-//     // Створення посилання на файл у папці "images" (ви можете вказати свою папку)
-//     const imageRef = storageRef.child("images/" + file.name);
-
-//     // Завантаження файлу на Firebase Storage
-//     imageRef.put(file).then((snapshot) => {
-//       console.log("Файл успішно завантажено!");
-//     });
-//   }
-// }
 
 if (document.title === "Додати фільм") {
 const firebaseConfig = {
@@ -50,17 +17,18 @@ firebase.initializeApp(firebaseConfig);
 // Ініціалізація firestore, якщо він не був декларований раніше
 const firestore = firebase.firestore();
 
-// Отримання посилань на елементи форми
-// const form = document.querySelector(".form");
-// const imageInput = document.querySelector("#imageInput");
 
-// form.addEventListener("submit", function (event) {
-//   event.preventDefault();
 
-//   const imageFile = imageInput.files[0];
+const form = document.querySelector(".form");
+const imageInput = document.querySelector("#imageInput");
 
-//   uploadImage(imageFile);
-// });
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const imageFile = imageInput.files[0];
+
+  uploadImage(imageFile);
+});
 
 // function uploadImage(file) {
 //   const storageRef = firebase.storage().ref();
@@ -78,6 +46,9 @@ const firestore = firebase.firestore();
 //         imageURL: url,
 //       }).then((docRef) => {
 //         console.log("Документ успішно додано з ID:", docRef.id);
+
+
+//         console.log("ID документа:", docRef.id);
 //       }).catch((error) => {
 //         console.error("Помилка при додаванні документа:", error);
 //       });
@@ -85,17 +56,6 @@ const firestore = firebase.firestore();
 //   });
 // }
 
-
-const form = document.querySelector(".form");
-const imageInput = document.querySelector("#imageInput");
-
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const imageFile = imageInput.files[0];
-
-  uploadImage(imageFile);
-});
 
 function uploadImage(file) {
   const storageRef = firebase.storage().ref();
@@ -112,20 +72,20 @@ function uploadImage(file) {
         youtubeURL: form.querySelector("input[name='youtube']").value,
         imageURL: url,
       }).then((docRef) => {
-        console.log("Документ успішно додано з ID:", docRef.id);
-
-        // Використовуйте docRef.id як ID документа
-        // Наприклад, ви можете зберігати цей ID в базі даних або виводити його на сторінці
-        // Наприклад, вивести ID на консоль:
-        console.log("ID документа:", docRef.id);
+        // Оновлення додавання збереження id разом із даними
+        docRef.update({
+          id: docRef.id
+        }).then(() => {
+          console.log("Документ успішно додано з ID:", docRef.id);
+        }).catch((error) => {
+          console.error("Помилка при оновленні ID:", error);
+        });
       }).catch((error) => {
         console.error("Помилка при додаванні документа:", error);
       });
     });
   });
 }
-
-
 
 
 }

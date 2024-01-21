@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collection</title>
+    <title>Інформація про фільм</title>
     <link rel="stylesheet" href="./css/style.min.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,regular,italic,500,500italic,700&display=swap" rel="stylesheet" />
@@ -71,18 +71,30 @@
             <main class="main">
 
                 <!-- add film -->
-                <section class="collection">
-    <div class="collection__container">
-        <div class="collection__top top">
-            <h1 class="collection__title top__title">Моя колекція</h1>
-        </div>
-        <div class="collection__body" id="filmCollection">
+                <section class="details">
+    <div class="details__container">
+        <div class="details__body">
+            <div class="details__item">
+                <h2 class="details__title" id="movieTitle"></h2>
+                <p class="details__year" id="movieYear"><span class="details__span" id="releaseYearLabel">Рік виходу: </span> <span id="releaseYearValue"></span></p>
+                <div class="details__info">
+                    <p class="details__descr" id="movieDescription"><span class="details__span" id="movieDescrLabel">Опис</span> <span id="movieDescrValue"></span></p>
+                </div>
+                
+                <iframe class="details__video" src="" id="movieTrailer" frameborder="0"></iframe>
+             </div>
 
-        </div>
+             <div class="details__item">
+                <div class="details__picture">
+                    <img src=""  alt="poster" id="moviePoster">
+                </div>
+             </div>
+
+          </div>
+
     </div>
 </section>
 
-<div id="content"></div>
 
 
             </main>
@@ -108,15 +120,12 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
 
-
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/js/all.min.js"></script> -->
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 
     <script src="./js/scripts.min.js"></script>
 
-   
 
-    <!-- <script type="module">
+    <script type="module">
       
         const firebaseConfig = {
             apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -133,7 +142,7 @@
             let firestore = firebase.firestore();
         // Отримання посилання на об'єкт Storage
             const storage = firebase.storage();
-      </script> -->
+      </script>
 </body>
 
 

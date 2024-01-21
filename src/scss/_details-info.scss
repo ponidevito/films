@@ -1,0 +1,60 @@
+.details {
+  padding: 60px 0px;
+
+  &__body {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__item {
+    flex: 0 1 50%;
+    display: flex;
+    flex-direction:column; /* змінено на flex-direction: row; */
+    flex-wrap: wrap; 
+    &:last-child {
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+
+  &__title {
+    font-size: 38px;
+    color: #ffd52d;
+  }
+  &__year {
+    font-size: 30px;
+  }
+
+  &__info {
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
+  }
+
+  &__descr {
+    font-size: 16px;
+    line-height: 24px;
+    flex: 1;
+    overflow: hidden;
+    white-space: pre-wrap; /* Дозволяє тексту переходити на новий рядок, коли це необхідно */
+  }
+
+  &__span {
+    font-size: 17px;
+    color: #ffd52d;
+  }
+
+  &__video {
+    margin-top: auto;
+    height: 400px;
+    border-radius: 5px;
+  }
+
+  &__picture {
+    width: 500px;
+    text-align: center;
+    img {
+      max-width: 100%;
+    }
+  }
+}

@@ -448,7 +448,7 @@ h6 {
 }
 
 .collection {
-  padding-top: 60px;
+  padding: 60px;
 }
 
 .collection__body {
@@ -512,6 +512,98 @@ h6 {
 
 .collection__about h2 {
   font-size: 20px;
+  color: #ffd52d;
+  line-height: 24px;
+}
+
+.collection__about h2:active {
+  -webkit-transform: translateY(2px);
+      -ms-transform: translateY(2px);
+          transform: translateY(2px);
+}
+
+.collection__about h2:hover {
+  color: #ffe26e;
+}
+
+.details {
+  padding: 60px 0px;
+}
+
+.details__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+
+.details__item {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 50%;
+          flex: 0 1 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* змінено на flex-direction: row; */
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.details__item:last-child {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.details__title {
+  font-size: 38px;
+  color: #ffd52d;
+}
+
+.details__year {
+  font-size: 30px;
+}
+
+.details__info:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.details__descr {
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  overflow: hidden;
+  white-space: pre-wrap;
+  /* Дозволяє тексту переходити на новий рядок, коли це необхідно */
+}
+
+.details__span {
+  font-size: 17px;
+  color: #ffd52d;
+}
+
+.details__video {
+  margin-top: auto;
+  height: 400px;
+  border-radius: 5px;
+}
+
+.details__picture {
+  width: 500px;
+  text-align: center;
+}
+
+.details__picture img {
+  max-width: 100%;
 }
 
 .footer {

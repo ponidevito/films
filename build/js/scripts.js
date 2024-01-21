@@ -24,15 +24,62 @@ function togglePasswordVisibility() {
 
 // add film column 
 
+// document.addEventListener('DOMContentLoaded', function () {
+//   if (document.title === "Collection") {
+//     const firebaseConfig = {
+//       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+//       authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+//       projectId: "cinema-collection-ce9ba",
+//       storageBucket: "cinema-collection-ce9ba.appspot.com",
+//       messagingSenderId: "597377281566",
+//       appId: "1:597377281566:web:c49563737b63b6c131080f"
+//       };
+
+//       // Ініціалізація Firebase з конфігураційними даними
+//       firebase.initializeApp(firebaseConfig);
+
+//       const db = firebase.firestore();
+//       const filmCollection = document.getElementById('filmCollection');
+
+//       // Отримайте дані про фільми з Firebase
+//       db.collection('films').get()
+//           .then((querySnapshot) => {
+//               querySnapshot.forEach((doc) => {
+//                   const filmData = doc.data();
+//                   // Створіть DOM-елемент для фільму та додайте його до відображення
+//                   const filmElement = document.createElement('a');
+//                   filmElement.className = 'collection__column';
+//                   filmElement.href = 'details.html?id=${movie.id}';
+//                   filmElement.innerHTML = `
+//                   <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+//                   <div class="collection__about">
+//                   <h2 class="collection__name">${filmData.title}</h2>
+//                   </a>
+                  
+//                   `;
+//                   filmCollection.appendChild(filmElement);
+//               });
+//           })
+//           .catch((error) => {
+//               console.error('Помилка при отриманні фільмів з Firebase:', error);
+//           });
+//   }
+// });
+
+
+
+// test
+
+
 document.addEventListener('DOMContentLoaded', function () {
   if (document.title === "Collection") {
-    const firebaseConfig = {
-      apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
-      authDomain: "cinema-collection-ce9ba.firebaseapp.com",
-      projectId: "cinema-collection-ce9ba",
-      storageBucket: "cinema-collection-ce9ba.appspot.com",
-      messagingSenderId: "597377281566",
-      appId: "1:597377281566:web:c49563737b63b6c131080f"
+      const firebaseConfig = {
+          apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+          authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+          projectId: "cinema-collection-ce9ba",
+          storageBucket: "cinema-collection-ce9ba.appspot.com",
+          messagingSenderId: "597377281566",
+          appId: "1:597377281566:web:c49563737b63b6c131080f"
       };
 
       // Ініціалізація Firebase з конфігураційними даними
@@ -47,15 +94,16 @@ document.addEventListener('DOMContentLoaded', function () {
               querySnapshot.forEach((doc) => {
                   const filmData = doc.data();
                   // Створіть DOM-елемент для фільму та додайте його до відображення
-                  const filmElement = document.createElement('div');
+                  const filmElement = document.createElement('a');
                   filmElement.className = 'collection__column';
+                  filmElement.href = `details.html?id=${doc.id}`;
                   filmElement.innerHTML = `
-                  <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-                  <div class="collection__about">
-                  <h2 class="collection__name">${filmData.title}</h2>
-                  </div>
-                  
-                  `;
+                <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+                <div class="collection__about">
+                <h2 class="collection__name">${filmData.title}</h2>
+                </a>
+                
+                `;
                   filmCollection.appendChild(filmElement);
               });
           })
@@ -64,41 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
           });
   }
 });
+
+
 ;
-// console.log(form);
-// console.log(imageInput); // Переконайтеся, що виводить правильний елемент вводу файлу
 
-// if (document.title === "Додати фільм - Ваш заголовок сторінки") {
-//   // Отримання посилань на елементи форми
-//   const form = document.querySelector(".form");
-//   const imageInput = document.querySelector("#imageInput"); // Додаєте input для вибору файлу
-
-//   // Додайте слухача подій для форми
-//   form.addEventListener("submit", function (event) {
-//     event.preventDefault();
-
-//     // Отримання файлу з input
-//     const imageFile = imageInput.files[0];
-
-//     // Викликати функцію для завантаження картинки на Firebase
-//     uploadImage(imageFile);
-//   });
-
-//   // Функція для завантаження картинки на Firebase Storage
-//   function uploadImage(file) {
-//     // Створення посилання на Storage
-//     //   const storageRef = storage.ref();
-//     const storageRef = firebase.storage().ref();
-
-//     // Створення посилання на файл у папці "images" (ви можете вказати свою папку)
-//     const imageRef = storageRef.child("images/" + file.name);
-
-//     // Завантаження файлу на Firebase Storage
-//     imageRef.put(file).then((snapshot) => {
-//       console.log("Файл успішно завантажено!");
-//     });
-//   }
-// }
 
 if (document.title === "Додати фільм") {
 const firebaseConfig = {
@@ -117,17 +134,18 @@ firebase.initializeApp(firebaseConfig);
 // Ініціалізація firestore, якщо він не був декларований раніше
 const firestore = firebase.firestore();
 
-// Отримання посилань на елементи форми
-// const form = document.querySelector(".form");
-// const imageInput = document.querySelector("#imageInput");
 
-// form.addEventListener("submit", function (event) {
-//   event.preventDefault();
 
-//   const imageFile = imageInput.files[0];
+const form = document.querySelector(".form");
+const imageInput = document.querySelector("#imageInput");
 
-//   uploadImage(imageFile);
-// });
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const imageFile = imageInput.files[0];
+
+  uploadImage(imageFile);
+});
 
 // function uploadImage(file) {
 //   const storageRef = firebase.storage().ref();
@@ -145,6 +163,9 @@ const firestore = firebase.firestore();
 //         imageURL: url,
 //       }).then((docRef) => {
 //         console.log("Документ успішно додано з ID:", docRef.id);
+
+
+//         console.log("ID документа:", docRef.id);
 //       }).catch((error) => {
 //         console.error("Помилка при додаванні документа:", error);
 //       });
@@ -152,17 +173,6 @@ const firestore = firebase.firestore();
 //   });
 // }
 
-
-const form = document.querySelector(".form");
-const imageInput = document.querySelector("#imageInput");
-
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const imageFile = imageInput.files[0];
-
-  uploadImage(imageFile);
-});
 
 function uploadImage(file) {
   const storageRef = firebase.storage().ref();
@@ -179,20 +189,20 @@ function uploadImage(file) {
         youtubeURL: form.querySelector("input[name='youtube']").value,
         imageURL: url,
       }).then((docRef) => {
-        console.log("Документ успішно додано з ID:", docRef.id);
-
-        // Використовуйте docRef.id як ID документа
-        // Наприклад, ви можете зберігати цей ID в базі даних або виводити його на сторінці
-        // Наприклад, вивести ID на консоль:
-        console.log("ID документа:", docRef.id);
+        // Оновлення додавання збереження id разом із даними
+        docRef.update({
+          id: docRef.id
+        }).then(() => {
+          console.log("Документ успішно додано з ID:", docRef.id);
+        }).catch((error) => {
+          console.error("Помилка при оновленні ID:", error);
+        });
       }).catch((error) => {
         console.error("Помилка при додаванні документа:", error);
       });
     });
   });
 }
-
-
 
 
 }
@@ -318,6 +328,54 @@ function logOut() {
   userEnter.classList.remove("hide");
   loginBox.classList.remove("show-box");
   console.log("Користувач вийшов.");
+}
+;
+if (document.title === "Інформація про фільм") {
+  document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = String(urlParams.get("id"));
+    const moviePoster = document.getElementById("moviePoster");
+    const trailerIframe = document.getElementById("movieTrailer");
+
+    const releaseYearLabel = document.getElementById("releaseYearLabel");
+    const releaseYearValue = document.getElementById("releaseYearValue");
+
+    const movieDescrLabel = document.getElementById("movieDescrLabel");
+    const movieDescrValue = document.getElementById("movieDescrValue");
+
+    console.log("movieId:", movieId); // Додайте цей рядок
+
+    // Отримати інформацію про фільм із Firebase Firestore за допомогою movieId
+    const db = firebase.firestore();
+    const moviesRef = db.collection("films");
+
+    moviesRef
+      .doc(movieId)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const movieData = doc.data();
+          // Відобразити детальну інформацію про фільм
+          moviePoster.src = movieData.imageURL;
+          document.getElementById("movieTitle").innerText = movieData.title;
+        //   document.getElementById("releaseYearSpan").innerText = `Рік виходу:`;
+        //   document.getElementById("movieYear").innerText = movieData.year;
+        releaseYearLabel.innerText = "Рік виходу: ";
+        releaseYearValue.innerText = movieData.year;
+
+        movieDescrLabel.innerText = "Опис: ";
+        movieDescrValue.innerText = movieData.description;
+        //   document.getElementById("movieDescription").innerText =
+        //     movieData.description;
+          trailerIframe.src = movieData.youtubeURL;
+
+          // Додайте інші поля інформації, які вам потрібні
+        } else {
+          console.error("No such document!");
+        }
+      })
+      .catch((error) => console.error("Error fetching movie details:", error));
+  });
 }
 ;
 

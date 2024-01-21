@@ -22,15 +22,62 @@ function togglePasswordVisibility() {
 
 // add film column 
 
+// document.addEventListener('DOMContentLoaded', function () {
+//   if (document.title === "Collection") {
+//     const firebaseConfig = {
+//       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+//       authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+//       projectId: "cinema-collection-ce9ba",
+//       storageBucket: "cinema-collection-ce9ba.appspot.com",
+//       messagingSenderId: "597377281566",
+//       appId: "1:597377281566:web:c49563737b63b6c131080f"
+//       };
+
+//       // Ініціалізація Firebase з конфігураційними даними
+//       firebase.initializeApp(firebaseConfig);
+
+//       const db = firebase.firestore();
+//       const filmCollection = document.getElementById('filmCollection');
+
+//       // Отримайте дані про фільми з Firebase
+//       db.collection('films').get()
+//           .then((querySnapshot) => {
+//               querySnapshot.forEach((doc) => {
+//                   const filmData = doc.data();
+//                   // Створіть DOM-елемент для фільму та додайте його до відображення
+//                   const filmElement = document.createElement('a');
+//                   filmElement.className = 'collection__column';
+//                   filmElement.href = 'details.html?id=${movie.id}';
+//                   filmElement.innerHTML = `
+//                   <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+//                   <div class="collection__about">
+//                   <h2 class="collection__name">${filmData.title}</h2>
+//                   </a>
+                  
+//                   `;
+//                   filmCollection.appendChild(filmElement);
+//               });
+//           })
+//           .catch((error) => {
+//               console.error('Помилка при отриманні фільмів з Firebase:', error);
+//           });
+//   }
+// });
+
+
+
+// test
+
+
 document.addEventListener('DOMContentLoaded', function () {
   if (document.title === "Collection") {
-    const firebaseConfig = {
-      apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
-      authDomain: "cinema-collection-ce9ba.firebaseapp.com",
-      projectId: "cinema-collection-ce9ba",
-      storageBucket: "cinema-collection-ce9ba.appspot.com",
-      messagingSenderId: "597377281566",
-      appId: "1:597377281566:web:c49563737b63b6c131080f"
+      const firebaseConfig = {
+          apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+          authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+          projectId: "cinema-collection-ce9ba",
+          storageBucket: "cinema-collection-ce9ba.appspot.com",
+          messagingSenderId: "597377281566",
+          appId: "1:597377281566:web:c49563737b63b6c131080f"
       };
 
       // Ініціалізація Firebase з конфігураційними даними
@@ -45,15 +92,16 @@ document.addEventListener('DOMContentLoaded', function () {
               querySnapshot.forEach((doc) => {
                   const filmData = doc.data();
                   // Створіть DOM-елемент для фільму та додайте його до відображення
-                  const filmElement = document.createElement('div');
+                  const filmElement = document.createElement('a');
                   filmElement.className = 'collection__column';
+                  filmElement.href = `details.html?id=${doc.id}`;
                   filmElement.innerHTML = `
-                  <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-                  <div class="collection__about">
-                  <h2 class="collection__name">${filmData.title}</h2>
-                  </div>
-                  
-                  `;
+                <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+                <div class="collection__about">
+                <h2 class="collection__name">${filmData.title}</h2>
+                </a>
+                
+                `;
                   filmCollection.appendChild(filmElement);
               });
           })
@@ -62,3 +110,5 @@ document.addEventListener('DOMContentLoaded', function () {
           });
   }
 });
+
+
