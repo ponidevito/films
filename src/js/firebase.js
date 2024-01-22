@@ -30,31 +30,6 @@ form.addEventListener("submit", function (event) {
   uploadImage(imageFile);
 });
 
-// function uploadImage(file) {
-//   const storageRef = firebase.storage().ref();
-//   const imageRef = storageRef.child("images/" + file.name);
-
-//   imageRef.put(file).then((snapshot) => {
-//     console.log("Файл успішно завантажено!");
-
-//     imageRef.getDownloadURL().then((url) => {
-//       firestore.collection("films").add({
-//         title: form.querySelector("input[placeholder='Назва']").value,
-//         year: form.querySelector("input[placeholder='Рік']").value,
-//         description: form.querySelector("input[placeholder='Про фільм']").value,
-//         youtubeURL: form.querySelector("input[name='youtube']").value,
-//         imageURL: url,
-//       }).then((docRef) => {
-//         console.log("Документ успішно додано з ID:", docRef.id);
-
-
-//         console.log("ID документа:", docRef.id);
-//       }).catch((error) => {
-//         console.error("Помилка при додаванні документа:", error);
-//       });
-//     });
-//   });
-// }
 
 
 function uploadImage(file) {

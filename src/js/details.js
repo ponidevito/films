@@ -1,3 +1,5 @@
+
+
 if (document.title === "Інформація про фільм") {
   document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -26,15 +28,12 @@ if (document.title === "Інформація про фільм") {
           // Відобразити детальну інформацію про фільм
           moviePoster.src = movieData.imageURL;
           document.getElementById("movieTitle").innerText = movieData.title;
-        //   document.getElementById("releaseYearSpan").innerText = `Рік виходу:`;
-        //   document.getElementById("movieYear").innerText = movieData.year;
-        releaseYearLabel.innerText = "Рік виходу: ";
-        releaseYearValue.innerText = movieData.year;
 
-        movieDescrLabel.innerText = "Опис: ";
-        movieDescrValue.innerText = movieData.description;
-        //   document.getElementById("movieDescription").innerText =
-        //     movieData.description;
+          releaseYearLabel.innerText = "Рік виходу: ";
+          releaseYearValue.innerText = movieData.year;
+
+          movieDescrLabel.innerText = "Опис: ";
+          movieDescrValue.innerText = movieData.description;
           trailerIframe.src = movieData.youtubeURL;
 
           // Додайте інші поля інформації, які вам потрібні
@@ -45,3 +44,7 @@ if (document.title === "Інформація про фільм") {
       .catch((error) => console.error("Error fetching movie details:", error));
   });
 }
+
+
+
+

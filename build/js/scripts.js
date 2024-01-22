@@ -147,31 +147,6 @@ form.addEventListener("submit", function (event) {
   uploadImage(imageFile);
 });
 
-// function uploadImage(file) {
-//   const storageRef = firebase.storage().ref();
-//   const imageRef = storageRef.child("images/" + file.name);
-
-//   imageRef.put(file).then((snapshot) => {
-//     console.log("Файл успішно завантажено!");
-
-//     imageRef.getDownloadURL().then((url) => {
-//       firestore.collection("films").add({
-//         title: form.querySelector("input[placeholder='Назва']").value,
-//         year: form.querySelector("input[placeholder='Рік']").value,
-//         description: form.querySelector("input[placeholder='Про фільм']").value,
-//         youtubeURL: form.querySelector("input[name='youtube']").value,
-//         imageURL: url,
-//       }).then((docRef) => {
-//         console.log("Документ успішно додано з ID:", docRef.id);
-
-
-//         console.log("ID документа:", docRef.id);
-//       }).catch((error) => {
-//         console.error("Помилка при додаванні документа:", error);
-//       });
-//     });
-//   });
-// }
 
 
 function uploadImage(file) {
@@ -330,6 +305,8 @@ function logOut() {
   console.log("Користувач вийшов.");
 }
 ;
+
+
 if (document.title === "Інформація про фільм") {
   document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -358,15 +335,12 @@ if (document.title === "Інформація про фільм") {
           // Відобразити детальну інформацію про фільм
           moviePoster.src = movieData.imageURL;
           document.getElementById("movieTitle").innerText = movieData.title;
-        //   document.getElementById("releaseYearSpan").innerText = `Рік виходу:`;
-        //   document.getElementById("movieYear").innerText = movieData.year;
-        releaseYearLabel.innerText = "Рік виходу: ";
-        releaseYearValue.innerText = movieData.year;
 
-        movieDescrLabel.innerText = "Опис: ";
-        movieDescrValue.innerText = movieData.description;
-        //   document.getElementById("movieDescription").innerText =
-        //     movieData.description;
+          releaseYearLabel.innerText = "Рік виходу: ";
+          releaseYearValue.innerText = movieData.year;
+
+          movieDescrLabel.innerText = "Опис: ";
+          movieDescrValue.innerText = movieData.description;
           trailerIframe.src = movieData.youtubeURL;
 
           // Додайте інші поля інформації, які вам потрібні
@@ -377,5 +351,9 @@ if (document.title === "Інформація про фільм") {
       .catch((error) => console.error("Error fetching movie details:", error));
   });
 }
+
+
+
+
 ;
 
