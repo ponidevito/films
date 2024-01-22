@@ -24,53 +24,6 @@ function togglePasswordVisibility() {
 
 // add film column 
 
-// document.addEventListener('DOMContentLoaded', function () {
-//   if (document.title === "Collection") {
-//     const firebaseConfig = {
-//       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
-//       authDomain: "cinema-collection-ce9ba.firebaseapp.com",
-//       projectId: "cinema-collection-ce9ba",
-//       storageBucket: "cinema-collection-ce9ba.appspot.com",
-//       messagingSenderId: "597377281566",
-//       appId: "1:597377281566:web:c49563737b63b6c131080f"
-//       };
-
-//       // Ініціалізація Firebase з конфігураційними даними
-//       firebase.initializeApp(firebaseConfig);
-
-//       const db = firebase.firestore();
-//       const filmCollection = document.getElementById('filmCollection');
-
-//       // Отримайте дані про фільми з Firebase
-//       db.collection('films').get()
-//           .then((querySnapshot) => {
-//               querySnapshot.forEach((doc) => {
-//                   const filmData = doc.data();
-//                   // Створіть DOM-елемент для фільму та додайте його до відображення
-//                   const filmElement = document.createElement('a');
-//                   filmElement.className = 'collection__column';
-//                   filmElement.href = 'details.html?id=${movie.id}';
-//                   filmElement.innerHTML = `
-//                   <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-//                   <div class="collection__about">
-//                   <h2 class="collection__name">${filmData.title}</h2>
-//                   </a>
-                  
-//                   `;
-//                   filmCollection.appendChild(filmElement);
-//               });
-//           })
-//           .catch((error) => {
-//               console.error('Помилка при отриманні фільмів з Firebase:', error);
-//           });
-//   }
-// });
-
-
-
-// test
-
-
 document.addEventListener('DOMContentLoaded', function () {
   if (document.title === "Collection") {
       const firebaseConfig = {
@@ -96,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   // Створіть DOM-елемент для фільму та додайте його до відображення
                   const filmElement = document.createElement('a');
                   filmElement.className = 'collection__column';
-                  filmElement.href = `details.html?id=${doc.id}`;
+                  filmElement.href = `details.html?id=${doc.id}`; // зміни тут
                   filmElement.innerHTML = `
                 <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
                 <div class="collection__about">
@@ -112,6 +65,21 @@ document.addEventListener('DOMContentLoaded', function () {
           });
   }
 });
+
+
+// test
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ;
@@ -215,58 +183,60 @@ bindModal('.modal__btn', '.modal__wrapper', '.modal__close')
 ;
 // login
 
+
+
+
 let searchBox = document.querySelector(".header__box");
 let modalLogin = document.querySelector(".modal__wrapper");
 let userEnter = document.querySelector(".header__user");
 let loginBox = document.querySelector(".header__login-box");
 
-// function submitForm() {
-//   let emailValue = document.getElementById("loginForm").elements.email.value;
-//   let passwordValue =
-//     document.getElementById("loginForm").elements.password.value;
-
-//   // Sign in with email and password
-//   firebase
-//     .auth()
-//     .signInWithEmailAndPassword(emailValue, passwordValue)
-//     .then((userCredential) => {
-//       let user = userCredential.user;
-//       searchBox.classList.add("show");
-//       modalLogin.classList.add("hide");
-//       userEnter.classList.add("hide");
-//       loginBox.classList.add("show-box");
-//       console.log("Login successful:", user);
-//     })
-//     .catch((error) => {
-//       var errorCode = error.code;
-//       var errorMessage = error.message;
-//       console.error("Login error:", errorCode, errorMessage);
-//     });
-// }
 
 function submitForm() {
   let emailValue = document.getElementById("loginForm").elements.email.value;
-  let passwordValue =
-    document.getElementById("loginForm").elements.password.value;
+  let passwordValue = document.getElementById("loginForm").elements.password.value;
 
-  // Увійти за допомогою електронної пошти та паролю
-  firebase
-    .auth()
+  firebase.auth()
     .signInWithEmailAndPassword(emailValue, passwordValue)
     .then((userCredential) => {
       let user = userCredential.user;
 
-      // Зберегти інформацію про користувача в localStorage
-      localStorage.setItem("userId", user.uid);
-      localStorage.setItem("userEmail", user.email);
+      // Зчитати роль користувача з бази даних або Firestore
+      const db = firebase.firestore();
+      const userDocRef = db.collection('users').doc(user.uid);
 
-      // Додати/видалити класи або виконати інші дії, пов'язані з інтерфейсом
-      searchBox.classList.add("show");
-      modalLogin.classList.add("hide");
-      userEnter.classList.add("hide");
-      loginBox.classList.add("show-box");
+      userDocRef.get().then((doc) => {
+        if (doc.exists) {
+          const userRole = doc.data().role;
 
-      console.log("Успішний вхід:", user);
+          // Зберегти роль в localStorage
+          localStorage.setItem('userRole', userRole);
+
+          // Зберегти інші дані користувача в localStorage
+          localStorage.setItem('userId', user.uid);
+          localStorage.setItem('userEmail', user.email);
+          localStorage.setItem('userName', doc.data().firstName); // Припустимо, що в Firestore є поле name
+
+          // Додати/видалити класи або виконати інші дії, пов'язані з інтерфейсом
+          searchBox.classList.add("show");
+          modalLogin.classList.add("hide");
+          userEnter.classList.add("hide");
+          loginBox.classList.add("show-box");
+
+          // Виконайте додаткові дії відповідно до ролі користувача
+          if (userRole === 'admin') {
+            console.log(userRole)
+            // Дії для адміністратора
+          } else {
+            console.log(userRole)
+            // Дії для звичайного користувача
+          }
+
+          console.log("Успішний вхід:", user);
+        } else {
+          console.error('Документ користувача не існує!');
+        }
+      });
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -295,15 +265,23 @@ if (userId && userEmail) {
   );
 }
 
+
 function logOut() {
   localStorage.removeItem("userId");
   localStorage.removeItem("userEmail");
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("userName");
   searchBox.classList.remove("show");
   modalLogin.classList.remove("hide");
   userEnter.classList.remove("hide");
   loginBox.classList.remove("show-box");
   console.log("Користувач вийшов.");
 }
+
+
+
+// test
+
 ;
 
 
@@ -351,6 +329,7 @@ if (document.title === "Інформація про фільм") {
       .catch((error) => console.error("Error fetching movie details:", error));
   });
 }
+
 
 
 
