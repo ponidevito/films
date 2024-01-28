@@ -98,56 +98,6 @@ function uploadImage(file) {
 }
 
 
-// тест 2 
-
-// function uploadImage(file, form) {
-//   const storageRef = firebase.storage().ref();
-//   const imageRef = storageRef.child("images/" + file.name);
-
-//   imageRef.put(file).then((snapshot) => {
-//     console.log("Файл успішно завантажено!");
-
-//     imageRef.getDownloadURL().then((url) => {
-//       const title = form.querySelector("input[placeholder='Назва']").value;
-//       const year = form.querySelector("input[placeholder='Рік']").value;
-//       const description = form.querySelector("input[placeholder='Про фільм']").value;
-//       const youtubeURL = form.querySelector("input[name='youtube']").value;
-
-//       // Перевірка наявності фільму з такою ж назвою в колекції
-//       const query = firestore.collection("films").where("title", "==", title);
-//       console.log(query)
-
-//       query.get().then((querySnapshot) => {
-//         if (!querySnapshot.empty) {
-//           console.log("Фільм вже є в колекції!");
-//           // Додаткові дії або повідомлення можна додати тут
-//         } else {
-//           // Додавання фільму до колекції
-//           firestore.collection("films").add({
-//             title: title,
-//             year: year,
-//             description: description,
-//             youtubeURL: youtubeURL,
-//             imageURL: url,
-//           }).then((docRef) => {
-//             // Оновлення додавання збереження id разом із даними
-//             docRef.update({
-//               id: docRef.id
-//             }).then(() => {
-//               console.log("Документ успішно додано з ID:", docRef.id);
-//             }).catch((error) => {
-//               console.error("Помилка при оновленні ID:", error);
-//             });
-//           }).catch((error) => {
-//             console.error("Помилка при додаванні документа:", error);
-//           });
-//         }
-//       }).catch((error) => {
-//         console.error("Помилка при перевірці наявності фільму:", error);
-//       });
-//     });
-//   });
-// }
 
 
 

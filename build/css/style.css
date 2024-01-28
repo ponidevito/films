@@ -602,6 +602,52 @@ h6 {
   max-width: 100%;
 }
 
+.cabinet {
+  padding: 60px 0px;
+}
+
+.admin-cabinet__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.admin-cabinet__table {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.admin-cabinet__table tbody {
+  width: 100%;
+}
+
+.admin-cabinet__table tr {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.admin-cabinet__table tr:first-child {
+  border-top: 2px solid green;
+  border-bottom: 2px solid green;
+}
+
+.admin-cabinet__table th {
+  min-width: 160px;
+  text-align: start;
+}
+
+.admin-cabinet__table td {
+  min-width: 160px;
+  font-size: 16px;
+}
+
 .footer {
   padding: 20px;
   background-color: #303030;

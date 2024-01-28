@@ -1,0 +1,42 @@
+.cabinet {
+  padding: 60px 0px;
+  &__container {
+  }
+
+  &__admin {
+  }
+
+  &__user {
+  }
+}
+.admin-cabinet {
+  &__body {
+    display: flex;
+  }
+
+  &__table {
+    width: 100%;
+    display: flex;
+    tbody {
+      width: 100%;
+    }
+
+    tr {
+      padding: 5px;
+      display: flex;
+      justify-content: space-between;
+      &:first-child {
+        border-top: 2px solid green;
+        border-bottom: 2px solid green;
+      }
+    }
+    th {
+      min-width: 160px;
+      text-align: start;
+    }
+    td {
+        min-width: 160px;
+        font-size: 16px;
+    }
+  }
+}

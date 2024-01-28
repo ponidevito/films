@@ -50,21 +50,83 @@ function togglePasswordVisibility() {
 }
 
 // add film column 
+// let db; // Глобальна змінна для доступу до db
 
+
+// document.addEventListener('DOMContentLoaded', async function () {
+//   if (document.title === "Collection") {
+//     const firebaseConfig = {
+//       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+//       authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+//       projectId: "cinema-collection-ce9ba",
+//       storageBucket: "cinema-collection-ce9ba.appspot.com",
+//       messagingSenderId: "597377281566",
+//       appId: "1:597377281566:web:c49563737b63b6c131080f"
+//     };
+
+//     // Ініціалізація Firebase з конфігураційними даними
+//     firebase.initializeApp(firebaseConfig);
+
+//     const db = firebase.firestore();
+//     const filmCollection = document.getElementById('filmCollection');
+
+//     firebase.auth().onAuthStateChanged(async function (user) {
+//       if (user) {
+//         const userId = user.uid;
+//         const isAdmin = await checkIfUserIsAdmin(user);
+      
+//         try {
+//           const querySnapshot = await db.collection('films').where('authorUid', '==', userId).get();
+
+//           querySnapshot.forEach((doc) => {
+//             const filmData = doc.data();
+
+//             // Перевірте, чи користувач є адміном або автором фільму
+//             if (isAdmin || (userId && userId === filmData.authorUid)) {
+//               // Створіть DOM-елемент для фільму та додайте його до відображення
+//               const filmElement = document.createElement('a');
+//               filmElement.className = 'collection__column';
+//               filmElement.href = `details.html?id=${doc.id}`;
+//               filmElement.innerHTML = `
+//                 <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+//                 <div class="collection__about">
+//                   <h2 class="collection__name">${filmData.title}</h2>
+//                 </div>
+//               `;
+//               filmCollection.appendChild(filmElement);
+//             }
+//           });
+//         } catch (error) {
+//           console.error('Помилка при отриманні фільмів з Firebase:', error);
+//         }
+//       } else if (!window.location.pathname.includes('index.html')) {
+//         console.log('Направляю неавторизованого користувача на index.html');
+//         window.location.href = 'index.html';
+//       }
+//     });
+//   }
+// });
+
+
+let db; // Глобальна змінна для доступу до db
 
 document.addEventListener('DOMContentLoaded', async function () {
   if (document.title === "Collection") {
     const firebaseConfig = {
       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
-      authDomain: "cinema-collection-ce9ba.firebaseapp.com",
-      projectId: "cinema-collection-ce9ba",
-      storageBucket: "cinema-collection-ce9ba.appspot.com",
-      messagingSenderId: "597377281566",
-      appId: "1:597377281566:web:c49563737b63b6c131080f"
+            authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+            projectId: "cinema-collection-ce9ba",
+            storageBucket: "cinema-collection-ce9ba.appspot.com",
+            messagingSenderId: "597377281566",
+            appId: "1:597377281566:web:c49563737b63b6c131080f"
+      // конфігурація Firebase
     };
 
-    // Ініціалізація Firebase з конфігураційними даними
-    firebase.initializeApp(firebaseConfig);
+    try {
+      firebase.initializeApp(firebaseConfig);
+    } catch (error) {
+      console.error('Помилка при ініціалізації Firebase:', error);
+    }
 
     const db = firebase.firestore();
     const filmCollection = document.getElementById('filmCollection');
@@ -73,16 +135,14 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (user) {
         const userId = user.uid;
         const isAdmin = await checkIfUserIsAdmin(user);
-      
+
         try {
           const querySnapshot = await db.collection('films').where('authorUid', '==', userId).get();
 
           querySnapshot.forEach((doc) => {
             const filmData = doc.data();
 
-            // Перевірте, чи користувач є адміном або автором фільму
             if (isAdmin || (userId && userId === filmData.authorUid)) {
-              // Створіть DOM-елемент для фільму та додайте його до відображення
               const filmElement = document.createElement('a');
               filmElement.className = 'collection__column';
               filmElement.href = `details.html?id=${doc.id}`;
@@ -92,7 +152,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                   <h2 class="collection__name">${filmData.title}</h2>
                 </div>
               `;
-              filmCollection.appendChild(filmElement);
+
+              if (filmCollection) {
+                filmCollection.appendChild(filmElement);
+              } else {
+                console.error('Елемент #filmCollection не знайдено.');
+              }
             }
           });
         } catch (error) {
@@ -104,7 +169,108 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     });
   }
+// test
+  if (document.title === "cabinet") {
+    const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
+
+    const firebaseConfig = {
+  
+      // Ваша конфігурація Firebase
+    };
+  
+    db = firebase.firestore(); // Задаємо db глобальній змінній
+  
+    firebase.auth().onAuthStateChanged(async function (user) {
+      if (user) {
+        const isAdmin = await checkIfUserIsAdmin(user);
+  
+        if (isAdmin) {
+          try {
+            const filmsSnapshot = await db.collection('films').get();
+  
+            adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
+  
+            filmsSnapshot.forEach(async (doc) => {
+              const filmData = doc.data();
+  
+              // Отримати дані користувача з колекції "users"
+              const userSnapshot = await db.collection('users').doc(filmData.authorUid).get();
+              const userData = userSnapshot.exists ? userSnapshot.data() : {};
+  
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${userData.firstName}</td>
+                <td>${filmData.title}</td>
+                <td>
+                  <button class="delete-button" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+                </td>
+              `;
+  
+              adminTableBody.appendChild(row);
+            });
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach((button) => {
+              button.addEventListener('click', handleDeleteButtonClick);
+            });
+          } catch (error) {
+            console.error('Помилка при отриманні фільмів з Firebase:', error);
+          }
+        }
+      }
+    });
+  }
 });
+
+// Функція для обробки кліку на кнопку видалення
+function handleDeleteButtonClick(event) {
+  const filmId = event.target.dataset.id;
+  const confirmDelete = confirm('Ви впевнені, що хочете видалити цей фільм?');
+  if (confirmDelete) {
+    deleteFilm(filmId);
+  }
+}
+
+
+
+
+
+// test
+
+
+
+// Функція для форматування дати
+function formatDate(timestamp) {
+  const date = new Date(timestamp.seconds * 1000);
+  return date.toLocaleDateString('uk-UA');
+}
+
+// Функція для видалення фільму
+window.deleteFilm = async function (filmId) {
+  try {
+    if (!db) {
+      console.error('Помилка: db не ініціалізовано.');
+      return;
+    }
+
+    await db.collection('films').doc(filmId).delete();
+    console.log('Фільм видалено успішно!');
+
+    // Оновлення DOM-елементу після видалення
+    const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
+    
+    if (deletedRow) {
+      deletedRow.parentElement.parentElement.remove();
+    } else {
+      console.warn(`Елемент з data-id=${filmId} не знайдено для видалення.`);
+    }
+  } catch (error) {
+    console.error('Помилка при видаленні фільму:', error);
+  }
+};
+
+
+
+
 
 
 
@@ -219,56 +385,6 @@ function uploadImage(file) {
 }
 
 
-// тест 2 
-
-// function uploadImage(file, form) {
-//   const storageRef = firebase.storage().ref();
-//   const imageRef = storageRef.child("images/" + file.name);
-
-//   imageRef.put(file).then((snapshot) => {
-//     console.log("Файл успішно завантажено!");
-
-//     imageRef.getDownloadURL().then((url) => {
-//       const title = form.querySelector("input[placeholder='Назва']").value;
-//       const year = form.querySelector("input[placeholder='Рік']").value;
-//       const description = form.querySelector("input[placeholder='Про фільм']").value;
-//       const youtubeURL = form.querySelector("input[name='youtube']").value;
-
-//       // Перевірка наявності фільму з такою ж назвою в колекції
-//       const query = firestore.collection("films").where("title", "==", title);
-//       console.log(query)
-
-//       query.get().then((querySnapshot) => {
-//         if (!querySnapshot.empty) {
-//           console.log("Фільм вже є в колекції!");
-//           // Додаткові дії або повідомлення можна додати тут
-//         } else {
-//           // Додавання фільму до колекції
-//           firestore.collection("films").add({
-//             title: title,
-//             year: year,
-//             description: description,
-//             youtubeURL: youtubeURL,
-//             imageURL: url,
-//           }).then((docRef) => {
-//             // Оновлення додавання збереження id разом із даними
-//             docRef.update({
-//               id: docRef.id
-//             }).then(() => {
-//               console.log("Документ успішно додано з ID:", docRef.id);
-//             }).catch((error) => {
-//               console.error("Помилка при оновленні ID:", error);
-//             });
-//           }).catch((error) => {
-//             console.error("Помилка при додаванні документа:", error);
-//           });
-//         }
-//       }).catch((error) => {
-//         console.error("Помилка при перевірці наявності фільму:", error);
-//       });
-//     });
-//   });
-// }
 
 
 
@@ -383,96 +499,8 @@ function logOut() {
   window.location.href = '/index.html'; 
 }
 
-// let userId = localStorage.getItem("userId");
-// let userEmail = localStorage.getItem("userEmail");
-
-// if (userId && userEmail) {
-//   // Якщо дані користувача знайдено в localStorage, виконати відповідні дії
-//   searchBox.classList.add("show");
-//   modalLogin.classList.add("hide");
-//   userEnter.classList.add("hide");
-//   loginBox.classList.add("show-box");
-
-//   console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
-// } else {
-//   // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
-//   // або здійсніть інші дії відповідно до вашого сценарію
-//   console.log(
-//     "Користувач не увійшов. Покажіть стандартний інтерфейс або виконайте інші дії."
-//   );
-// }
 
 // test
-
-
-
-
-
-// document.addEventListener('DOMContentLoaded', async function () {
-//   const filmCollection = document.getElementById('filmCollection');
-
-//   firebase.auth().onAuthStateChanged(async function (user) {
-//     if (user) {
-//       // Якщо користувач авторизований
-//       const isAdmin = await checkIfUserIsAdmin(user);
-
-//       // Отримання дані про фільми з Firebase
-//       if (filmCollection) {
-//         try {
-//           const querySnapshot = await firebase.firestore().collection('films').get();
-
-//           querySnapshot.forEach((doc) => {
-//             const filmData = doc.data();
-
-//             // Перевірка, чи користувач є автором фільму
-//             if (user.uid === filmData.authorUid) {
-//               // Створіть DOM-елемент для фільму та додайте його до відображення
-//               const filmElement = document.createElement('div');
-//               filmElement.className = 'collection__column';
-//               filmElement.innerHTML = `
-//                 <h2 class="collection__name">${filmData.title}</h2>
-//                 <img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster">
-//               `;
-//               filmCollection.appendChild(filmElement);
-//             }
-//           });
-//         } catch (error) {
-//           console.error('Помилка при отриманні фільмів з Firebase:', error);
-//         }
-//       }
-//     } else if (!window.location.pathname.includes('index.html')) {
-//       console.log('Направляю неавторизованого користувача на index.html');
-//       window.location.href = 'index.html';
-//     }
-//   });
-// });
-
-// async function checkIfUserIsAdmin(user) {
-//   if (user) {
-//     try {
-//       const userDocRef = firebase.firestore().collection('users').doc(user.uid);
-//       const doc = await userDocRef.get();
-
-//       if (doc.exists) {
-//         const userRole = doc.data().role;
-//         return userRole === 'admin';
-//       } else {
-//         console.error('Документ користувача не існує!');
-//         return false;
-//       }
-//     } catch (error) {
-//       console.error('Помилка при отриманні ролі користувача:', error);
-//       return false;
-//     }
-//   } else {
-//     // Якщо користувач не авторизований, перевірте localStorage на наявність даних
-//     const userRole = localStorage.getItem('userRole');
-//     return userRole === 'admin';
-//   }
-// }
-
-
-
 
 
 document.addEventListener('DOMContentLoaded', async function () {
