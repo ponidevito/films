@@ -182,19 +182,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
           querySnapshot.forEach((doc) => {
             const filmData = doc.data();
-            console.log(filmData.authorUid)
-
-            // Перевірка, чи користувач є автором фільму
-            // if (user.uid === filmData.authorUid) {
-            //   // Створюємо DOM-елемент для фільму та додаємо його до відображення
-            //   const filmElement = document.createElement('div');
-            //   filmElement.className = 'collection__column';
-            //   filmElement.innerHTML = `
-            //     <h2 class="collection__name">${filmData.title}</h2>
-            //     <img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster">
-            //   `;
-            //   filmCollection.appendChild(filmElement);
-            // }
           });
         } catch (error) {
           console.error('Помилка при отриманні фільмів з Firebase:', error);
