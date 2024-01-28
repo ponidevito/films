@@ -1,5 +1,6 @@
 
 
+
 if (document.title === "Інформація про фільм") {
   document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
@@ -46,6 +47,14 @@ if (document.title === "Інформація про фільм") {
 }
 
 
+// Перевірка автентифікації для захищених сторінок
+document.addEventListener("DOMContentLoaded", function () {
+  const protectedPages = ["collection-films.html", "інша-захищена-сторінка.html"];
 
+  if (protectedPages.includes(window.location.pathname) && !checkAuth()) {
+    console.log("Користувач не увійшов. Перенаправлення на сторінку авторизації.");
+    window.location.href = "/index.html"; // Замініть це на URL вашої сторінки авторизації
+  }
+});
 
 
