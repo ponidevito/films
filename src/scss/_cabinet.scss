@@ -17,26 +17,36 @@
   &__table {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    gap: 15px;
+    thead {
+      tr {
+        border-top: 2px solid green;
+      }
+    }
+
     tbody {
       width: 100%;
+      tr {
+        &:first-child {
+          border-top: 1px solid green;
+          border-bottom: 1px solid green;
+        }
+      }
     }
 
     tr {
       padding: 5px;
       display: flex;
       justify-content: space-between;
-      &:first-child {
-        border-top: 2px solid green;
-        border-bottom: 2px solid green;
-      }
     }
     th {
       min-width: 160px;
       text-align: start;
     }
     td {
-        min-width: 160px;
-        font-size: 16px;
+      min-width: 160px;
+      font-size: 16px;
     }
   }
 }

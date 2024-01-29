@@ -617,10 +617,24 @@ h6 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 15px;
+}
+
+.admin-cabinet__table thead tr {
+  border-top: 2px solid green;
 }
 
 .admin-cabinet__table tbody {
   width: 100%;
+}
+
+.admin-cabinet__table tbody tr:first-child {
+  border-top: 1px solid green;
+  border-bottom: 1px solid green;
 }
 
 .admin-cabinet__table tr {
@@ -631,11 +645,6 @@ h6 {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-}
-
-.admin-cabinet__table tr:first-child {
-  border-top: 2px solid green;
-  border-bottom: 2px solid green;
 }
 
 .admin-cabinet__table th {
