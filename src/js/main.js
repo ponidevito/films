@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     });
   }
-// test
   if (document.title === "cabinet") {
     const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
 
@@ -111,11 +110,11 @@ document.addEventListener('DOMContentLoaded', async function () {
               row.innerHTML = `
                 <td>${counter}</td>
                 <td>${userData.firstName}</td>
-                <td>${filmData.title}</td>
+                <td><p>${filmData.title}</p></td>
                 <td>${filmData.time}, ${filmData.date}</td>
 
                 <td>
-                  <button class="delete-button" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+                  <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
                 </td>
               `;
   
@@ -163,29 +162,6 @@ function formatDate(timestamp) {
 }
 
 // Функція для видалення фільму
-// window.deleteFilm = async function (filmId) {
-//   try {
-//     if (!db) {
-//       console.error('Помилка: db не ініціалізовано.');
-//       return;
-//     }
-
-//     await db.collection('films').doc(filmId).delete();
-//     console.log('Фільм видалено успішно!');
-
-//     // Оновлення DOM-елементу після видалення
-//     const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
-//     if (deletedRow) {
-//       deletedRow.parentElement.parentElement.remove();
-//       counter--;
-//       console.log('Лічильник після видалення:', counter);
-//     } else {
-//       console.warn(`Елемент з data-id=${filmId} не знайдено для видалення.`);
-//     }
-//   } catch (error) {
-//     console.error('Помилка при видаленні фільму:', error);
-//   }
-// };
 
 document.addEventListener('DOMContentLoaded', async function () {
   // Інші частини вашого коду...
