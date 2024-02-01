@@ -84,9 +84,60 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     });
   }
+  // if (document.title === "cabinet") {
+  //   const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
+
+  
+  //   db = firebase.firestore(); // Задаємо db глобальній змінній
+  
+  //   firebase.auth().onAuthStateChanged(async function (user) {
+  //     if (user) {
+  //       const isAdmin = await checkIfUserIsAdmin(user);
+  
+  //       if (isAdmin) {
+  //         try {
+  //           const filmsSnapshot = await db.collection('films').get();
+  
+  //           adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
+  //           filmsSnapshot.forEach(async (doc) => {
+  //             const filmData = doc.data();
+  
+  //             // Отримати дані користувача з колекції "users"
+  //             const userSnapshot = await db.collection('users').doc(filmData.authorUid).get();
+  //             const userData = userSnapshot.exists ? userSnapshot.data() : {};
+  
+  //             const row = document.createElement('tr');
+  //             row.innerHTML = `
+  //               <td>${counter}</td>
+  //               <td>${userData.firstName}</td>
+  //               <td><p>${filmData.title}</p></td>
+  //               <td>${filmData.time}, ${filmData.date}</td>
+
+  //               <td>
+  //                 <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+  //               </td>
+  //             `;
+  
+  //             adminTableBody.appendChild(row);
+  //             counter++;
+  //           });
+            
+  //           const deleteButtons = document.querySelectorAll('.delete-button');
+  //           deleteButtons.forEach((button) => {
+  //             button.addEventListener('click', handleDeleteButtonClick);
+  //           });
+  //         } catch (error) {
+  //           console.error('Помилка при отриманні фільмів з Firebase:', error);
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
+
+  // тест
+
   if (document.title === "cabinet") {
     const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
-
   
     db = firebase.firestore(); // Задаємо db глобальній змінній
   
@@ -94,8 +145,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (user) {
         const isAdmin = await checkIfUserIsAdmin(user);
   
-        if (isAdmin) {
-          try {
+        try {
+          if (isAdmin) {
             const filmsSnapshot = await db.collection('films').get();
   
             adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
@@ -112,7 +163,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <td>${userData.firstName}</td>
                 <td><p>${filmData.title}</p></td>
                 <td>${filmData.time}, ${filmData.date}</td>
-
                 <td>
                   <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
                 </td>
@@ -121,18 +171,52 @@ document.addEventListener('DOMContentLoaded', async function () {
               adminTableBody.appendChild(row);
               counter++;
             });
-            
+  
             const deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach((button) => {
               button.addEventListener('click', handleDeleteButtonClick);
             });
-          } catch (error) {
-            console.error('Помилка при отриманні фільмів з Firebase:', error);
+          } else {
+
+
+            // Якщо користувач не адміністратор, виводити тільки його власні фільми
+            const userFilmsSnapshot = await db.collection('films').where('authorUid', '==', user.uid).get();
+            const userSnapshot = await db.collection('users').doc(user.uid).get();
+            const userData = userSnapshot.exists ? userSnapshot.data() : {};
+            console.log(userData);
+
+            adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
+            userFilmsSnapshot.forEach((doc) => {
+              const filmData = doc.data();
+              
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${counter}</td>
+                <td>${userData.firstName}</td>
+                <td>${filmData.title}</td>
+                <td>${filmData.time}, ${filmData.date}</td>
+                <td>
+                  <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+                </td>
+              `;
+  
+              adminTableBody.appendChild(row);
+              counter++;
+            });
+  
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach((button) => {
+              button.addEventListener('click', handleDeleteButtonClick);
+            });
           }
+        } catch (error) {
+          console.error('Помилка при отриманні фільмів з Firebase:', error);
         }
       }
     });
   }
+  
+  
 
 
 

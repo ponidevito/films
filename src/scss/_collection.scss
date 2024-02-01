@@ -15,6 +15,7 @@
 
   &__column {
     padding: 10px;
+    gap: 10px;
     overflow: hidden;
     height: 100%;
     width: 260px;
@@ -43,7 +44,6 @@
     h2 {
       font-size: 20px;
       color: #ffd52d;
-      line-height: 24px;
       &:active {
         transform: translateY(2px);
       }

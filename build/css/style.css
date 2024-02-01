@@ -461,6 +461,7 @@ h6 {
 
 .collection__column {
   padding: 10px;
+  gap: 10px;
   overflow: hidden;
   height: 100%;
   width: 260px;
@@ -509,7 +510,6 @@ h6 {
 .collection__about h2 {
   font-size: 20px;
   color: #ffd52d;
-  line-height: 24px;
 }
 
 .collection__about h2:active {

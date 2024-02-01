@@ -113,9 +113,60 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     });
   }
+  // if (document.title === "cabinet") {
+  //   const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
+
+  
+  //   db = firebase.firestore(); // Задаємо db глобальній змінній
+  
+  //   firebase.auth().onAuthStateChanged(async function (user) {
+  //     if (user) {
+  //       const isAdmin = await checkIfUserIsAdmin(user);
+  
+  //       if (isAdmin) {
+  //         try {
+  //           const filmsSnapshot = await db.collection('films').get();
+  
+  //           adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
+  //           filmsSnapshot.forEach(async (doc) => {
+  //             const filmData = doc.data();
+  
+  //             // Отримати дані користувача з колекції "users"
+  //             const userSnapshot = await db.collection('users').doc(filmData.authorUid).get();
+  //             const userData = userSnapshot.exists ? userSnapshot.data() : {};
+  
+  //             const row = document.createElement('tr');
+  //             row.innerHTML = `
+  //               <td>${counter}</td>
+  //               <td>${userData.firstName}</td>
+  //               <td><p>${filmData.title}</p></td>
+  //               <td>${filmData.time}, ${filmData.date}</td>
+
+  //               <td>
+  //                 <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+  //               </td>
+  //             `;
+  
+  //             adminTableBody.appendChild(row);
+  //             counter++;
+  //           });
+            
+  //           const deleteButtons = document.querySelectorAll('.delete-button');
+  //           deleteButtons.forEach((button) => {
+  //             button.addEventListener('click', handleDeleteButtonClick);
+  //           });
+  //         } catch (error) {
+  //           console.error('Помилка при отриманні фільмів з Firebase:', error);
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
+
+  // тест
+
   if (document.title === "cabinet") {
     const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
-
   
     db = firebase.firestore(); // Задаємо db глобальній змінній
   
@@ -123,8 +174,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (user) {
         const isAdmin = await checkIfUserIsAdmin(user);
   
-        if (isAdmin) {
-          try {
+        try {
+          if (isAdmin) {
             const filmsSnapshot = await db.collection('films').get();
   
             adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
@@ -141,7 +192,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 <td>${userData.firstName}</td>
                 <td><p>${filmData.title}</p></td>
                 <td>${filmData.time}, ${filmData.date}</td>
-
                 <td>
                   <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
                 </td>
@@ -150,18 +200,52 @@ document.addEventListener('DOMContentLoaded', async function () {
               adminTableBody.appendChild(row);
               counter++;
             });
-            
+  
             const deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach((button) => {
               button.addEventListener('click', handleDeleteButtonClick);
             });
-          } catch (error) {
-            console.error('Помилка при отриманні фільмів з Firebase:', error);
+          } else {
+
+
+            // Якщо користувач не адміністратор, виводити тільки його власні фільми
+            const userFilmsSnapshot = await db.collection('films').where('authorUid', '==', user.uid).get();
+            const userSnapshot = await db.collection('users').doc(user.uid).get();
+            const userData = userSnapshot.exists ? userSnapshot.data() : {};
+            console.log(userData);
+
+            adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
+            userFilmsSnapshot.forEach((doc) => {
+              const filmData = doc.data();
+              
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${counter}</td>
+                <td>${userData.firstName}</td>
+                <td>${filmData.title}</td>
+                <td>${filmData.time}, ${filmData.date}</td>
+                <td>
+                  <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+                </td>
+              `;
+  
+              adminTableBody.appendChild(row);
+              counter++;
+            });
+  
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach((button) => {
+              button.addEventListener('click', handleDeleteButtonClick);
+            });
           }
+        } catch (error) {
+          console.error('Помилка при отриманні фільмів з Firebase:', error);
         }
       }
     });
   }
+  
+  
 
 
 
@@ -283,53 +367,6 @@ form.addEventListener("submit", function (event) {
 });
 
 
-
-
-// test працює добре
-
-// function uploadImage(file) {
-//   const storageRef = firebase.storage().ref();
-//   const imageRef = storageRef.child("images/" + file.name);
-
-//   imageRef.put(file).then((snapshot) => {
-//     console.log("Файл успішно завантажено!");
-
-//     imageRef.getDownloadURL().then((url) => {
-//       const userId = localStorage.getItem('userId'); // Отримуємо userId з localStorage
-//       const currentDate = new Date(); // Отримуємо поточну дату і час
-//       const hours = currentDate.getHours().toString().padStart(2, '0'); // Години
-//       const minutes = currentDate.getMinutes().toString().padStart(2, '0'); // Хвилини
-//       const year = currentDate.getFullYear().toString().slice(-2); // Рік в форматі yy
-//       const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Місяць
-//       const day = currentDate.getDate().toString().padStart(2, '0'); // День
-
-//       const formattedTime = `${hours}.${minutes}`;
-//       const formattedDate = `${month}/${day}/${year}`;
-
-//       firestore.collection("films").add({
-//         title: form.querySelector("input[placeholder='Назва']").value,
-//         time: formattedTime, // Додаємо форматований час
-//         date: formattedDate,
-//         year: form.querySelector("input[placeholder='Рік']").value,
-//         description: form.querySelector("input[placeholder='Про фільм']").value,
-//         youtubeURL: form.querySelector("input[name='youtube']").value,
-//         imageURL: url,
-//         authorUid: localStorage.getItem('userId'),
-//       }).then((docRef) => {
-//         // Оновлення додавання збереження id разом із даними
-//         docRef.update({
-//           id: docRef.id
-//         }).then(() => {
-//           console.log("Документ успішно додано з ID:", docRef.id);
-//         }).catch((error) => {
-//           console.error("Помилка при оновленні ID:", error);
-//         });
-//       }).catch((error) => {
-//         console.error("Помилка при додаванні документа:", error);
-//       });
-//     });
-//   });
-// }
 
 async function uploadImage(file) {
   try {
