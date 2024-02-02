@@ -55,6 +55,7 @@ let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
 document.addEventListener('DOMContentLoaded', async function () {
+
   if (document.title === "Collection") {
     const firebaseConfig = {
       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -65,7 +66,29 @@ document.addEventListener('DOMContentLoaded', async function () {
             appId: "1:597377281566:web:c49563737b63b6c131080f"
       // конфігурація Firebase
     };
-
+    
+    window.searchFilms = async function () {
+      const searchTerm = document.forms["header__search"]["txt"].value.trim().toLowerCase();
+      const filmCollection = document.getElementById('filmCollection');
+  
+      if (searchTerm === '') {
+        alert('Введіть назву фільму для пошуку.');
+        return;
+      }
+  
+      try {
+        const filmsSnapshot = await db.collection('films').where('title', '>=', searchTerm)
+          .where('title', '<=', searchTerm + '\uf8ff')
+          .get();
+  
+        // Очищення поточного вмісту перед відображенням нових результатів
+        filmCollection.innerHTML = '';
+  
+        displaySearchResults(filmsSnapshot);
+      } catch (error) {
+        console.error('Помилка при пошуку фільмів:', error);
+      }
+    };
     try {
       firebase.initializeApp(firebaseConfig);
     } catch (error) {
@@ -113,62 +136,13 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
     });
   }
-  // if (document.title === "cabinet") {
-  //   const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
-
   
-  //   db = firebase.firestore(); // Задаємо db глобальній змінній
-  
-  //   firebase.auth().onAuthStateChanged(async function (user) {
-  //     if (user) {
-  //       const isAdmin = await checkIfUserIsAdmin(user);
-  
-  //       if (isAdmin) {
-  //         try {
-  //           const filmsSnapshot = await db.collection('films').get();
-  
-  //           adminTableBody.innerHTML = ''; // Очистити поточний вміст таблиці перед заповненням новими даними
-  //           filmsSnapshot.forEach(async (doc) => {
-  //             const filmData = doc.data();
-  
-  //             // Отримати дані користувача з колекції "users"
-  //             const userSnapshot = await db.collection('users').doc(filmData.authorUid).get();
-  //             const userData = userSnapshot.exists ? userSnapshot.data() : {};
-  
-  //             const row = document.createElement('tr');
-  //             row.innerHTML = `
-  //               <td>${counter}</td>
-  //               <td>${userData.firstName}</td>
-  //               <td><p>${filmData.title}</p></td>
-  //               <td>${filmData.time}, ${filmData.date}</td>
-
-  //               <td>
-  //                 <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
-  //               </td>
-  //             `;
-  
-  //             adminTableBody.appendChild(row);
-  //             counter++;
-  //           });
-            
-  //           const deleteButtons = document.querySelectorAll('.delete-button');
-  //           deleteButtons.forEach((button) => {
-  //             button.addEventListener('click', handleDeleteButtonClick);
-  //           });
-  //         } catch (error) {
-  //           console.error('Помилка при отриманні фільмів з Firebase:', error);
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
-
-  // тест
 
   if (document.title === "cabinet") {
     const adminTableBody = document.querySelector('.admin-cabinet__table tbody');
   
     db = firebase.firestore(); // Задаємо db глобальній змінній
+    
   
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
@@ -189,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               const row = document.createElement('tr');
               row.innerHTML = `
                 <td>${counter}</td>
-                <td>${userData.firstName}</td>
+                <td>${userData.firstName}&nbsp${userData.lastName}</td>
                 <td><p>${filmData.title}</p></td>
                 <td>${filmData.time}, ${filmData.date}</td>
                 <td>
@@ -221,7 +195,7 @@ document.addEventListener('DOMContentLoaded', async function () {
               const row = document.createElement('tr');
               row.innerHTML = `
                 <td>${counter}</td>
-                <td>${userData.firstName}</td>
+                <td>${userData.firstName}&nbsp${userData.lastName}</td>
                 <td>${filmData.title}</td>
                 <td>${filmData.time}, ${filmData.date}</td>
                 <td>
@@ -243,13 +217,42 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
       }
     });
+
+ 
+
   }
   
-  
-
-
 
 });
+
+// Поза блоком event listener
+function displaySearchResults(filmsSnapshot) {
+  const filmCollection = document.getElementById('filmCollection');
+
+  filmsSnapshot.forEach((doc) => {
+    const filmData = doc.data();
+
+    const filmElement = document.createElement('a');
+    filmElement.className = 'collection__column';
+    filmElement.href = `details.html?id=${doc.id}`;
+    filmElement.innerHTML = `
+      <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+      <div class="collection__about">
+        <h2 class="collection__name">${filmData.title}</h2>
+      </div>
+    `;
+
+    if (filmCollection) {
+      filmCollection.appendChild(filmElement);
+    } else {
+      console.error('Елемент #filmCollection не знайдено.');
+    }
+  });
+}
+
+
+
+
 
 // Функція для обробки кліку на кнопку видалення
 function handleDeleteButtonClick(event) {
@@ -259,6 +262,7 @@ function handleDeleteButtonClick(event) {
     deleteFilm(filmId);
   }
 }
+
 
 
 

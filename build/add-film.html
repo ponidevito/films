@@ -44,12 +44,20 @@
           <a href="index.html" class="header__logo"><img src="../img/header/logo.png" alt="logo movie cinema"></a>
 
           <!-- search box -->
-          <div class="header__box">
+          <!-- <div class="header__box">
               <form name="header__search">
                   <input type="text" class="header__input" name="txt" onmouseout="this.value = ''; this.blur();">
               </form>
               <i class="fas fa-search"></i>
-          </div>
+          </div> -->
+
+          <!-- search box -->
+      <div class="header__box">
+        <form name="header__search" onsubmit="searchFilms(); return false;">
+            <input type="text" class="header__input" name="txt" placeholder="Пошук за назвою фільму">
+        </form>
+        <i class="fas fa-search"></i>
+      </div>
 
           <!-- right side -->
           <div class="header__right">
