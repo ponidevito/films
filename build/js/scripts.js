@@ -56,6 +56,87 @@ let counter = 1; // Лічильник
 
 document.addEventListener('DOMContentLoaded', async function () {
 
+  // if (document.title === "Collection") {
+  //   const firebaseConfig = {
+  //     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+  //           authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+  //           projectId: "cinema-collection-ce9ba",
+  //           storageBucket: "cinema-collection-ce9ba.appspot.com",
+  //           messagingSenderId: "597377281566",
+  //           appId: "1:597377281566:web:c49563737b63b6c131080f"
+  //     // конфігурація Firebase
+  //   };
+    
+  //   window.searchFilms = async function () {
+  //     const searchTerm = document.forms["header__search"]["txt"].value.trim().toLowerCase();
+  //     const filmCollection = document.getElementById('filmCollection');
+  
+  //     if (searchTerm === '') {
+  //       alert('Введіть назву фільму для пошуку.');
+  //       return;
+  //     }
+  
+  //     try {
+  //       const filmsSnapshot = await db.collection('films').where('title', '>=', searchTerm)
+  //         .where('title', '<=', searchTerm + '\uf8ff')
+  //         .get();
+  
+  //       // Очищення поточного вмісту перед відображенням нових результатів
+  //       filmCollection.innerHTML = '';
+  
+  //       displaySearchResults(filmsSnapshot);
+  //     } catch (error) {
+  //       console.error('Помилка при пошуку фільмів:', error);
+  //     }
+  //   };
+  //   try {
+  //     firebase.initializeApp(firebaseConfig);
+  //   } catch (error) {
+  //     console.error('Помилка при ініціалізації Firebase:', error);
+  //   }
+
+  //   const db = firebase.firestore();
+  //   const filmCollection = document.getElementById('filmCollection');
+
+  //   firebase.auth().onAuthStateChanged(async function (user) {
+  //     if (user) {
+  //       const userId = user.uid;
+  //       const isAdmin = await checkIfUserIsAdmin(user);
+
+  //       try {
+  //         const querySnapshot = await db.collection('films').where('authorUid', '==', userId).get();
+
+  //         querySnapshot.forEach((doc) => {
+  //           const filmData = doc.data();
+
+  //           if (isAdmin || (userId && userId === filmData.authorUid)) {
+  //             const filmElement = document.createElement('a');
+  //             filmElement.className = 'collection__column';
+  //             filmElement.href = `details.html?id=${doc.id}`;
+  //             filmElement.innerHTML = `
+  //               <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+  //               <div class="collection__about">
+  //                 <h2 class="collection__name">${filmData.title}</h2>
+  //               </div>
+  //             `;
+
+  //             if (filmCollection) {
+  //               filmCollection.appendChild(filmElement);
+  //             } else {
+  //               console.error('Елемент #filmCollection не знайдено.');
+  //             }
+  //           }
+  //         });
+  //       } catch (error) {
+  //         console.error('Помилка при отриманні фільмів з Firebase:', error);
+  //       }
+  //     } else if (!window.location.pathname.includes('index.html')) {
+  //       console.log('Направляю неавторизованого користувача на index.html');
+  //       window.location.href = 'index.html';
+  //     }
+  //   });
+  // }
+
   if (document.title === "Collection") {
     const firebaseConfig = {
       apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -70,25 +151,34 @@ document.addEventListener('DOMContentLoaded', async function () {
     window.searchFilms = async function () {
       const searchTerm = document.forms["header__search"]["txt"].value.trim().toLowerCase();
       const filmCollection = document.getElementById('filmCollection');
-  
+    
       if (searchTerm === '') {
         alert('Введіть назву фільму для пошуку.');
         return;
       }
-  
+    
       try {
-        const filmsSnapshot = await db.collection('films').where('title', '>=', searchTerm)
-          .where('title', '<=', searchTerm + '\uf8ff')
-          .get();
-  
+        const user = firebase.auth().currentUser;
+        const userId = user.uid;
+
+        const filmsSnapshot = await db.collection('films')
+        .where('authorUid', '==', userId)
+        .where('searchTitle', '>=', searchTerm.toLowerCase())
+        .where('searchTitle', '<=', searchTerm.toLowerCase() + '\uf8ff')
+        .get();
+
+
+
+    
         // Очищення поточного вмісту перед відображенням нових результатів
         filmCollection.innerHTML = '';
-  
+    
         displaySearchResults(filmsSnapshot);
       } catch (error) {
         console.error('Помилка при пошуку фільмів:', error);
       }
     };
+    
     try {
       firebase.initializeApp(firebaseConfig);
     } catch (error) {
@@ -416,6 +506,7 @@ async function uploadImage(file) {
       youtubeURL: form.querySelector("input[name='youtube']").value,
       imageURL: url,
       authorUid: userId,
+      searchTitle: filmTitle.toLowerCase(),
     });
   
     // Оновлення додавання збереження id разом із даними

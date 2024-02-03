@@ -32,6 +32,25 @@
   }
 }
 
+.btn {
+  background-color: transparent;
+  border: 1px solid #f0f0f0;
+  color: #f0f0f0;
+  font-size: 18px;
+  transition: 0.2s ease;
+  font-family: inherit;
+  &:hover {
+    background-color: #ffd52d;
+    border: 1px solid #ffd52d;
+    color: #1a1a1a;
+  }
+  @media (min-width: 767px) {
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+}
+
 // h1 title
 
 .top {

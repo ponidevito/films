@@ -76,6 +76,7 @@ async function uploadImage(file) {
       youtubeURL: form.querySelector("input[name='youtube']").value,
       imageURL: url,
       authorUid: userId,
+      searchTitle: filmTitle.toLowerCase(),
     });
   
     // Оновлення додавання збереження id разом із даними

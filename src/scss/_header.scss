@@ -19,12 +19,24 @@
   &__box {
     position: relative;
     display: none;
+    input {
+      &::placeholder {
+        color: transparent; /* Початково робимо transparent */
+        transition: color 0.2s;
+        font-size: 18px;
+        text-align: center;
+      }
+    }
     &:hover {
       input {
         width: 350px;
         background: #3b3640;
         border-radius: 10px;
+        &::placeholder {
+          color: #f0f0f0;
+        }
       }
+
       i {
         opacity: 0;
         z-index: -1;
@@ -57,12 +69,6 @@
     transition: 0.5s;
   }
 
-  &__right {
-  }
-
-  &__add {
-  }
-
   &__user {
     cursor: pointer;
   }
@@ -77,11 +83,11 @@
     align-items: center;
     gap: 20px;
     svg {
-      transition: .2s ease;
+      transition: 0.2s ease;
       fill: #ffd52d;
     }
-    &:hover{
-      svg{
+    &:hover {
+      svg {
         transform: rotate(45deg);
       }
     }
