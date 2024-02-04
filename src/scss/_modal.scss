@@ -52,7 +52,7 @@
     }
 
     &__body {
-      padding: 30px 0px;
+      padding: 10px 0px;
     }
 
     &__form {
@@ -148,7 +148,16 @@
           transform: translateY(2px);
         }
       }
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
     }
+
+    &__registration {
+      width: 100%;
+      display: block;
+      text-align: end;    }
   }
 }
 .changeColor {

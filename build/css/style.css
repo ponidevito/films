@@ -414,7 +414,7 @@ h6 {
 }
 
 .modal__wrapper .modal__body {
-  padding: 30px 0px;
+  padding: 10px 0px;
 }
 
 .modal__wrapper .modal__form {
@@ -516,6 +516,16 @@ h6 {
 
 .modal__wrapper .modal__button:hover {
   background-color: #ffe26e;
+}
+
+.modal__wrapper .modal__button:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.modal__wrapper .modal__registration {
+  width: 100%;
+  display: block;
+  text-align: end;
 }
 
 .changeColor {
