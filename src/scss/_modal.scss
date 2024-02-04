@@ -15,7 +15,7 @@
     background-color: #303030;
     padding: 50px;
     border-radius: 5px;
-    height: 350px;
+    height: 355px;
     width: 450px;
     position: relative;
     &__title {
@@ -140,6 +140,8 @@
       font-size: 18px;
       font-family: inherit;
       transition: 0.2s ease;
+      justify-content: center;
+      align-items: center;
       &:hover {
         background-color: #ffe26e;
       }
@@ -157,13 +159,18 @@
     &__registration {
       width: 100%;
       display: block;
-      text-align: end;    }
+      text-align: end;
+    }
   }
 }
 .changeColor {
   color: #ffd52d;
 }
 
-.hide{
-  display: none!important;
+.hide {
+  display: none !important;
+}
+
+.modal:has(.form-registration) {
+  height: 420px;
 }

@@ -371,7 +371,7 @@ h6 {
   background-color: #303030;
   padding: 50px;
   border-radius: 5px;
-  height: 350px;
+  height: 355px;
   width: 450px;
   position: relative;
 }
@@ -512,6 +512,12 @@ h6 {
   -webkit-transition: 0.2s ease;
   -o-transition: 0.2s ease;
   transition: 0.2s ease;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .modal__wrapper .modal__button:hover {
@@ -534,6 +540,10 @@ h6 {
 
 .hide {
   display: none !important;
+}
+
+.modal:has(.form-registration) {
+  height: 420px;
 }
 
 .add {
