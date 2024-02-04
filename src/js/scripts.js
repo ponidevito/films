@@ -1,9 +1,9 @@
 // Custom Scripts
 
-// @@include('checkAuth.js')
 @@include('main.js')
 @@include('firebase.js')
 @@include('modal.js')
 @@include('login.js')
+@@include('registration.js')
 @@include('details.js')
 
