@@ -1,0 +1,46 @@
+<section class="home">
+    <!-- Modal -->
+  <!-- Modal -->
+  <div class="secondM">
+  <div class="modal__wrapper">
+    <div class="modal">
+        <div class="modal__close"> <svg xmlns="http://www.w3.org/2000/svg" height="16" width="12" viewBox="0 0 384 512">><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></div>
+        <div class="modal__title"><span id="title">Вхід</span> </div>
+        <div class="modal__body">
+          <div class="first-modal">
+          <form class="modal__form" id="loginForm">
+             <input type="email" name="email" class="modal__input" placeholder="email" required>
+             <input type="password" name="password" class="modal__input" id="password" placeholder="password" required>
+             <div class="modal__checkbox" onclick="togglePasswordVisibility()">
+                <input type="checkbox" id="showPassword">
+                <label for="showPassword"></label>
+                Показати пароль
+             </div>
+            </form>
+          
+          <button type="submit" class="modal__button" onclick="submitForm()">Увійти</button>
+        </div>
+             <!-- Additional registration form content (hidden initially) -->
+             <div class="second-modal" style="display: none;">
+             <form class="modal__form " id="registrationForm" >
+              <input type="text" name="firstName" class="modal__input" placeholder="Ім'я" required>
+              <input type="text" name="lastName" class="modal__input" placeholder="Прізвище" required>
+              <input type="email" name="regEmail" class="modal__input" placeholder="Email" required>
+              <input type="password" name="regPassword" class="modal__input" placeholder="Пароль" required>
+              <div class="form-registration__box">
+                <button type="button" class="modal__button modal-enter"  onclick="regForm()" id="reg-button">Зареєструватись</button>
+              </div>
+            </form>
+          </div>
+          <a href="#" class="modal__registration link" id="registrationLink" onclick="toggleRegistrationForm()">Зареєструватись</a>
+  
+       </div>
+    </div>
+  </div>
+</div>
+    <div class="home__container">
+        <div class="home__body">
+            <p>Для отримання доступу до додаткових функцій, таких як створення власної колекції фільмів, будь ласка,  <a href="#" class="modal__btnReg link"onclick="toggleRegistrationForm()">Зареєструватись</a>.</p>   
+        </div>
+    </div>
+</section>

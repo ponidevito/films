@@ -167,6 +167,13 @@
   color: #ffd52d;
 }
 
+.first-modal,
+.second-modal {
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+
 .hide {
   display: none !important;
 }

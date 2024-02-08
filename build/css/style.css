@@ -538,6 +538,15 @@ h6 {
   color: #ffd52d;
 }
 
+.first-modal,
+.second-modal {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 10px;
+}
+
 .hide {
   display: none !important;
 }

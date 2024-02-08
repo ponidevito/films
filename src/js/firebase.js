@@ -30,7 +30,20 @@ form.addEventListener("submit", function (event) {
   uploadImage(imageFile,form);
 });
 
+const filmNameInput = document.getElementById("filmName");
+const filmDescriptionInput = document.getElementById("filmDescription");
 
+filmNameInput.addEventListener("input", function () {
+    this.value = capitalizeFirstLetter(this.value);
+});
+
+filmDescriptionInput.addEventListener("input", function () {
+    this.value = capitalizeFirstLetter(this.value);
+});
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 async function uploadImage(file) {
   try {
