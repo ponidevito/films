@@ -14,8 +14,7 @@
 @import "./cabinet";
 @import "./home";
 
-
-@import './footer';
+@import "./footer";
 
 // Libs
 // @import './libs/swiper';
@@ -47,5 +46,18 @@ body {
 }
 .main {
   flex: 1 1 auto;
+  position: relative;
 }
 
+.background {
+  background-image: url("../img/bg/films.jpg");
+  background-repeat: no-repeat;
+  position: absolute;
+  opacity: 0.8;
+  width: 100%;
+  height: 100%;
+  // height: calc(100vh - 152px);
+  // background-position:  100% 100%;
+  background-position: center;
+  background-size: cover;
+}

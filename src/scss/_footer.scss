@@ -1,11 +1,20 @@
 .footer {
     padding: 20px;
     background-color: #303030;
+    @include sm {
+        padding: 10px;
+    }
 
     &__body {
         text-align: end;
+        @include sm {
+            text-align: center;
+        }
     }
 
     &__development {
+        @include sm {
+            font-size: 16px;
+        }
     }
 }

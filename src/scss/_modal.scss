@@ -10,6 +10,9 @@
   align-items: center;
   z-index: 2;
   display: none;
+  @include xs {
+    padding: 0px 15px;
+  }
 
   .modal {
     background-color: #303030;
@@ -18,6 +21,10 @@
     height: 355px;
     width: 450px;
     position: relative;
+    @include xs {
+      width: 100%;
+      padding: 50px 10px 50px 10px;
+    }
     &__title {
       text-align: center;
       font-size: 30px;

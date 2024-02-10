@@ -11,6 +11,13 @@
   &__logo {
     img {
       max-width: 100px;
+      @include sm {
+        max-width: 80px;
+      }
+
+      @include xs {
+        max-width: 60px;
+      }
     }
   }
 

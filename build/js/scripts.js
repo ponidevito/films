@@ -700,6 +700,7 @@ if(secondModal) {
   
   // Initialize modal with default content
   bindModal('.modal__btnReg', '.modal__wrapper', '.modal__close');
+
 }
 // // login
 
@@ -839,33 +840,37 @@ async function checkIfUserIsAdmin(user) {
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
 
-let userId = localStorage.getItem("userId");
-let userEmail = localStorage.getItem("userEmail");
 
-if (userId && userEmail) {
-  // Якщо дані користувача знайдено в localStorage, виконати відповідні дії
-  modalLogin.classList.add("hide");
-  userEnter.classList.add("hide");
-  loginBox.classList.add("show-box");
-  // homeContainer.style.display = "none";
-  hideContainer();
-  console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
-  if (document.title === "Collection") {
-    searchBox.classList.add("show");
+function handleUserAuthentication() {
+  let userId = localStorage.getItem("userId");
+  let userEmail = localStorage.getItem("userEmail");
+
+  if (userId && userEmail) {
+    // Якщо дані користувача знайдено в localStorage, виконати відповідні дії
+    modalLogin.classList.add("hide");
+    userEnter.classList.add("hide");
+    loginBox.classList.add("show-box");
+    // homeContainer.style.display = "none";
+    hideContainer();
+    console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
+    if (document.title === "Collection") {
+      searchBox.classList.add("show");
+    }
+  } else if (!window.location.pathname.includes("index.html")) {
+    // Якщо користувач не увійшов і не знаходиться на сторінці index.html,
+    // перенаправляємо його на сторінку index.html
+    console.log("Направляю неавторизованого користувача на index.html");
+    window.location.href = "/index.html"; // Замініть на свій шлях
+  } else {
+    homeContainerAuth.style.display = "none";
+    // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
+    // або здійсніть інші дії відповідно до вашого сценарію
+    console.log(
+      "Користувач не увійшов. Покажіть стандартний інтерфейс або виконайте інші дії."
+    );
   }
-} else if (!window.location.pathname.includes("index.html")) {
-  // Якщо користувач не увійшов і не знаходиться на сторінці index.html,
-  // перенаправляємо його на сторінку index.html
-  console.log("Направляю неавторизованого користувача на index.html");
-  window.location.href = "/index.html"; // Замініть на свій шлях
-} else {
-  homeContainerAuth.style.display = "none";
-  // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
-  // або здійсніть інші дії відповідно до вашого сценарію
-  console.log(
-    "Користувач не увійшов. Покажіть стандартний інтерфейс або виконайте інші дії."
-  );
 }
+document.addEventListener("DOMContentLoaded", handleUserAuthentication);
 
 function hideContainer() {
   if (document.title === "home") {
@@ -873,11 +878,7 @@ function hideContainer() {
   }
 }
 
-// function hideContainer() {
-//   if (document.title === "home") {
-//     homeContainer.style.display = "none";
-//   }
-// }
+
 function regForm() {
     const firstName = document.getElementsByName("firstName")[0].value;
     const lastName = document.getElementsByName("lastName")[0].value;

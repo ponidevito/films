@@ -1,0 +1,47 @@
+.home {
+  position: relative;
+  padding: 60px 0px;
+  &__container {
+    @include sm {
+      margin-top: 100px;
+    }
+  }
+
+  &__body {
+    &.body-first {
+      padding: 5px;
+      border-radius: 10px;
+
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(32, 71, 66, 0.82);
+        padding: 5px;
+        border-radius: 10px;
+        filter: blur(12px);
+      }
+    }
+  }
+
+  &__nonAuth {
+    text-align: center;
+    font-size: 30px;
+    position: relative;
+    filter: none;
+    @include lg {
+      font-size: 25px;
+    }
+    @include sm {
+      font-size: 20px;
+    }
+    @include xs {
+      font-size: 18px;
+    }
+  }
+
+  &__container-auth {
+  }
+}

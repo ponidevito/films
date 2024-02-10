@@ -290,4 +290,5 @@ if(secondModal) {
   
   // Initialize modal with default content
   bindModal('.modal__btnReg', '.modal__wrapper', '.modal__close');
+
 }
