@@ -19,6 +19,10 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    @include sm {
+      display: block;
+      overflow-x: scroll;
+    }
     thead {
       tr {
         border-top: 2px solid #ffe26e;
@@ -35,6 +39,9 @@
       }
       tr:last-child {
         border-bottom: 1px solid #ffe26e;
+      }
+      @include sm {
+        display: inline-table;
       }
     }
 

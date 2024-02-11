@@ -76,6 +76,7 @@ function logOut() {
 }
 
 // test
+const effectBurger = document.querySelector ('.effect')
 
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
@@ -159,6 +160,8 @@ function handleUserAuthentication() {
     window.location.href = "/index.html"; // Замініть на свій шлях
   } else {
     homeContainerAuth.style.display = "none";
+    effectBurger.style.display = "none";
+
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
     // або здійсніть інші дії відповідно до вашого сценарію
     console.log(

@@ -48,6 +48,21 @@
 
   .collection__column {
     z-index: 4;
+    @include sm {
+      width: 100%;
+    }
+  }
+  .collection__picture {
+    @include sm {
+      height: 100%;
+    }
+  }
+
+  .collection__poster {
+    @include sm {
+      
+      // object-fit: cover;
+    }
   }
 
   .swiper-slide {

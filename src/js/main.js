@@ -278,7 +278,58 @@ function initializeSwiper() {
       disableOnInteraction: false, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
     },
     speed: 1500, 
+
+        //   // Responsive breakpoints
+        breakpoints: {
+          //   // when window width is >= 320px
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+              centeredSlides: true,
+              autoplay: {
+                delay: 1500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
+                disableOnInteraction: false, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
+              },
+            },
+
+          576: {
+            slidesPerView: 2,
+            spaceBetween: 20
+          },
+
+          700: {
+            slidesPerView: 2,
+            spaceBetween: 40
+          },
+          767: {
+            slidesPerView: 3,
+            spaceBetween: 20
+          },
+
+          1100: {
+            slidesPerView: 4,
+            spaceBetween: 20
+          },
+          1440: {
+            slidesPerView: 5,
+            spaceBetween: 20
+          },
+
+          1650: {
+            slidesPerView: 6,
+            spaceBetween: 20
+          },
+          //   // when window width is >= 480px
+            2100: {
+              slidesPerView: 8,
+              spaceBetween: 20
+            },
+          }
   });
+
+
+
+
 }
 
 // Поза блоком event listener
