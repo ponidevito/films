@@ -26,17 +26,18 @@ let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
 document.addEventListener("DOMContentLoaded", async function () {
-  if (document.title === "Collection") {
-    const firebaseConfig = {
-      apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
-      authDomain: "cinema-collection-ce9ba.firebaseapp.com",
-      projectId: "cinema-collection-ce9ba",
-      storageBucket: "cinema-collection-ce9ba.appspot.com",
-      messagingSenderId: "597377281566",
-      appId: "1:597377281566:web:c49563737b63b6c131080f",
-      // конфігурація Firebase
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
+    authDomain: "cinema-collection-ce9ba.firebaseapp.com",
+    projectId: "cinema-collection-ce9ba",
+    storageBucket: "cinema-collection-ce9ba.appspot.com",
+    messagingSenderId: "597377281566",
+    appId: "1:597377281566:web:c49563737b63b6c131080f",
+    // конфігурація Firebase
+  };
+  const filmCollection = document.getElementById("filmCollection");
 
+  if (document.title === "Collection") {
     window.searchFilms = async function () {
       const searchTerm = document.forms["header__search"]["txt"].value
         .trim()
@@ -118,6 +119,54 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
     });
   }
+
+  if (document.title === "home") {
+    try {
+      firebase.auth().onAuthStateChanged(async function (user) {
+        if (user) {
+          const userId = user.uid;
+
+          // Перевірка ініціалізації db
+          if (!firebase.firestore) {
+            console.error("Firestore не ініціалізовано.");
+            return;
+          }
+
+          const db = firebase.firestore();
+
+          const filmsSnapshot = await db
+            .collection("films")
+            .where("authorUid", "==", userId)
+            .get();
+
+          filmsSnapshot.forEach((doc) => {
+            const filmData = doc.data();
+
+            const slide = document.createElement("a");
+            slide.className = "swiper-slide";
+            slide.href = `details.html?id=${doc.id}`;
+            slide.innerHTML = `
+                        <div class="collection__column">
+                            <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+                            <div class="collection__about">
+                                <h2 class="collection__name">${filmData.title}</h2>
+                            </div>
+                        </div>
+                    `;
+
+            filmCollection.appendChild(slide);
+          });
+
+          // Після додавання всіх елементів ініціалізуйте Swiper
+          initializeSwiper();
+        }
+      });
+    } catch (error) {
+      console.error("Помилка при отриманні фільмів з Firebase:", error);
+    }
+  }
+
+  // Якщо сторінка - це "home", відображення слайдера
 
   if (document.title === "cabinet") {
     const adminTableBody = document.querySelector(
@@ -209,7 +258,31 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
+// Функція для ініціалізації Swiper
+function initializeSwiper() {
+  new Swiper(".swiper", {
+    // Налаштування Swiper
+    loop: true,
+    // navigation: {
+    //   nextEl: ".swiper-button-next",
+    //   prevEl: ".swiper-button-prev",
+    // },
+    pagination: {
+      // el: ".swiper-pagination",
+      // clickable: true,
+    },
+    slidesPerView: 8, // Відображення чотирьох слайдів
+    spaceBetween: 30, // Відступ між слайдами
+    autoplay: {
+      delay: 2500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
+      disableOnInteraction: false, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
+    },
+    speed: 1500, 
+  });
+}
+
 // Поза блоком event listener
+
 function displaySearchResults(filmsSnapshot) {
   const filmCollection = document.getElementById("filmCollection");
 

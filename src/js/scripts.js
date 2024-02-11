@@ -6,4 +6,6 @@
 @@include('login.js')
 @@include('registration.js')
 @@include('details.js')
+@@include('libs/swiper(lib).js')
+@@include('swiper.js')
 
