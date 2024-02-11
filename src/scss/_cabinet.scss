@@ -3,15 +3,14 @@
   &__container {
   }
 
-  &__admin {
-  }
 
-  &__user {
-  }
 }
+
 .admin-cabinet {
   &__body {
     display: flex;
+    flex-direction: column;
+    gap: 30px;
   }
 
   &__table {
@@ -46,7 +45,7 @@
     }
 
     tr {
-      padding: 5px;
+      padding: 10px;
       display: flex;
       justify-content: space-between;
     }
@@ -82,4 +81,45 @@
     font-weight: 700;
     letter-spacing: 0.5px;
   }
+
+  &__button-edit {
+    background: none;
+    font-size: 14px;
+    color: #ffe26e;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .form-cabinet {
+    width: 100%;
+    flex-direction: unset;
+    align-items: center;
+    display: none;
+    @include sm {
+      flex-direction: column;
+    }
+    &.block {
+      display: flex;
+    }
+
+  }
+  .form__group-box {
+    flex: 1 1 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form__picture {
+    flex: 0 1 30%;
+
+    max-width: 200px;
+    img {
+      max-width: 100%;
+    }
+  }
+
+
 }
+
+

@@ -95,6 +95,10 @@
     svg {
       transition: 0.2s ease;
       fill: #ffd52d;
+      @include sm {
+        width: 35px;
+        height: 35px;
+      }
     }
     &:hover {
       svg {

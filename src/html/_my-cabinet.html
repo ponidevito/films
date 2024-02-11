@@ -2,6 +2,25 @@
     <div class="cabinet__container">
         <div class="cabinet__admin admin-cabinet">
             <div class="admin-cabinet__body">
+                <form  class="add__form form form-cabinet" action="#" id="editFilmForm">
+                    <div class="form__group-box">
+                    <div class="form__group">
+                        <input type="text" class="input-form-add" placeholder="Назва" id="filmName">
+                        <input type="text" class="input-form-add" placeholder="Рік" id="filmYear" >
+                    </div>
+                    <div class="form__group">
+                        <input type="text" class="input-form-add" placeholder="Про фільм" id="filmDescription" >
+                        <input type="url" class="input-form-add" name="youtube" id="trailer" placeholder="url для трейлеру" id="filmTrailer" >
+                    </div>
+                    <div class="form__group">
+                    <input type="file" class="form__file" id="imageInput" accept="image/*">
+                    <button type="submit" class="form__btn btn btn-add">Редагувати</button>
+                </div>
+                </div>
+                <div class="form__picture">
+                    <img src="../img/bg/delorean.jpg"  alt="poster" id="moviePoster">
+                </div>
+                </form>
                 <table class="admin-cabinet__table">
                     
                         <thead>

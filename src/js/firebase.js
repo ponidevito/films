@@ -104,12 +104,6 @@ async function uploadImage(file) {
 }
 
 
-
-
-
-
-
-
 }
 
 

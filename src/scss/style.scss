@@ -60,3 +60,10 @@ body {
   background-position: center;
   background-size: cover;
 }
+
+.d-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}

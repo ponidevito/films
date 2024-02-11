@@ -202,9 +202,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <td>${userData.firstName}&nbsp${userData.lastName}</td>
                 <td><p>${filmData.title}</p></td>
                 <td>${filmData.time}, ${filmData.date}</td>
-                <td>
+                <td class="d-flex">
                   <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
-                </td>
+                  <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}" onclick="editFilm('${doc.id}')">Редагувати</button>
+
+                  </td>
               `;
 
               adminTableBody.appendChild(row);
@@ -238,9 +240,11 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <td>${userData.firstName}&nbsp${userData.lastName}</td>
                 <td>${filmData.title}</td>
                 <td>${filmData.time}, ${filmData.date}</td>
-                <td>
+                <td class="d-flex">
                   <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
-                </td>
+                  <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}"  onclick="editFilm('${doc.id}')">Редагувати</button>
+
+                  </td>
               `;
 
               adminTableBody.appendChild(row);
@@ -260,6 +264,180 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
+// Функція для редагування фільму
+
+// async function editFilm(filmId) {
+
+//   try {
+//     // Отримання даних про фільм з Firebase за його ідентифікатором
+//     const filmDoc = await db.collection("films").doc(filmId).get();
+//     if (!filmDoc.exists) {
+//       console.error("Фільм не знайдено.");
+//       return;
+//     }
+
+//     // Отримання даних про фільм з документа
+//     const filmData = filmDoc.data();
+
+//     // Заповнення форми для редагування даними про фільм
+//     document.getElementById("filmName").value = filmData.title;
+//     document.getElementById("filmYear").value = filmData.year;
+//     document.getElementById("filmDescription").value = filmData.description;
+//     document.getElementById("trailer").value = filmData.youtubeURL;
+//     document.getElementById("moviePoster").src = filmData.imageURL;
+
+//     // Призначення обробника події для відправлення форми редагування з відповідним ідентифікатором фільму
+//     document.getElementById("editFilmForm").addEventListener("submit", async function (event) {
+//       event.preventDefault(); // Зупинка стандартної відправки форми
+//       // Отримання даних з форми редагування
+//       const editedFilm = {
+//         title: document.getElementById("filmName").value,
+//         year: document.getElementById("filmYear").value,
+//         description: document.getElementById("filmDescription").value,
+//         youtubeURL: document.getElementById("trailer").value,
+//         imageURL: filmData.imageURL // Користуємося filmData.imageURL
+//       };
+
+//       // Отримання файлу з поля input[type="file"]
+//       const file = document.getElementById("imageInput").files[0];
+
+//       if (file) {
+//         // Завантаження зображення на сервер
+//         const imageUrl = await uploadImage(file);
+//         // Додавання URL зображення до відредагованого фільму
+//         editedFilm.imageURL = imageUrl;
+//       } else {
+//         // Якщо файл не вибрано, використовуємо URL зображення, який вже був у фільмі
+//         editedFilm.imageURL = filmData.imageURL;
+//       }
+
+//       // Виклик функції для збереження змін у Firebase
+//       updateFilm(filmId, editedFilm);
+
+//         // Оновлення відповідного рядка у таблиці
+//         updateFilmRow(filmId, editedFilm);
+//     });
+
+//   } catch (error) {
+//     console.error("Помилка при редагуванні фільму:", error);
+//   }
+// }
+
+async function editFilm(filmId) {
+  let form = document.querySelector(".form")
+  form.classList.toggle('block')
+   console.log(form)
+
+  try {
+    const filmDoc = await db.collection("films").doc(filmId).get();
+    if (!filmDoc.exists) {
+      console.error("Фільм не знайдено.");
+      return;
+    }
+
+    const filmData = filmDoc.data();
+
+    document.getElementById("filmName").value = filmData.title;
+    document.getElementById("filmYear").value = filmData.year;
+    document.getElementById("filmDescription").value = filmData.description;
+    document.getElementById("trailer").value = filmData.youtubeURL;
+    document.getElementById("moviePoster").src = filmData.imageURL;
+
+    document.getElementById("editFilmForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const editedFilm = {
+        title: document.getElementById("filmName").value,
+        year: document.getElementById("filmYear").value,
+        description: document.getElementById("filmDescription").value,
+        youtubeURL: document.getElementById("trailer").value,
+        imageURL: filmData.imageURL
+      };
+
+      const file = document.getElementById("imageInput").files[0];
+
+      if (file) {
+        const imageUrl = await uploadImage(file);
+        editedFilm.imageURL = imageUrl;
+      }
+
+      await updateFilm(filmId, editedFilm);
+
+      // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
+      // Закриття форми після успішного оновлення фільму
+      document.getElementById("editFilmForm").style.display = 'none';
+    });
+
+    // document.getElementById("editFilmForm").style.display = 'flex';
+  } catch (error) {
+    console.error("Помилка при редагуванні фільму:", error);
+  }
+}
+
+
+
+
+// function toogleEdit () {
+//   let form = document.querySelector(".form-cabinet");
+//   if(form) {
+//     form.classList.toogle('block')
+
+//   }
+//   // document.querySelector(".form-cabinet").style.display = 'flex';
+//   console.log('g')
+
+// }
+
+// document.querySelector(".edit-button").addEventListener('click', function() {
+//   // this.classList.toggle('block');
+//   // document.querySelector(".form-cabinet").classList.toggle('block')
+//   console.log('gg')
+// } )
+
+
+
+
+
+
+
+// update film
+async function updateFilm(filmId, editedFilm) {
+  try {
+      const db = firebase.firestore();
+
+      // Оновити документ фільму з використанням методу update
+      await db.collection("films").doc(filmId).update(editedFilm);
+
+      console.log("Фільм успішно оновлено у Firebase.");
+  } catch (error) {
+      console.error("Помилка при оновленні фільму в Firebase:", error);
+  }
+}
+
+async function uploadImage(file) {
+  try {
+    const storageRef = firebase.storage().ref();
+    const imageRef = storageRef.child("images/" + file.name);
+  
+    // Операція завантаження файлу
+    const snapshot = await imageRef.put(file);
+  
+    // Отримання URL для завантаженого зображення
+    const url = await imageRef.getDownloadURL();
+  
+    console.log("Файл успішно завантажено:", url);
+
+    return url; // Повертаємо URL завантаженого зображення
+  } catch (error) {
+    console.error("Виникла помилка при завантаженні зображення:", error);
+    throw error; // Передаємо помилку для обробки у вищих рівнях коду
+  }
+}
+
+
+
+
+
 // Функція для ініціалізації Swiper
 function initializeSwiper() {
   new Swiper(".swiper", {
@@ -276,8 +454,8 @@ function initializeSwiper() {
     slidesPerView: 8, // Відображення чотирьох слайдів
     spaceBetween: 30, // Відступ між слайдами
     autoplay: {
-      delay: 2500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
-      disableOnInteraction: false, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
+      delay: 2000, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
+      disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
     },
     speed: 1500, 
 
@@ -290,7 +468,7 @@ function initializeSwiper() {
               centeredSlides: true,
               autoplay: {
                 delay: 1500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
-                disableOnInteraction: false, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
+                disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
               },
             },
 
@@ -416,6 +594,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Інші частини вашого коду...
 });
 
+
+
+
+
 //burger js
 let burgerMenu = document.querySelector(".menu__icon");
 function burger() {
@@ -528,12 +710,6 @@ async function uploadImage(file) {
     console.error("Виникла помилка при обробці:", error);
   }
 }
-
-
-
-
-
-
 
 
 }
