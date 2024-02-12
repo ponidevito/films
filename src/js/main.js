@@ -322,9 +322,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 // }
 
 async function editFilm(filmId) {
-  let form = document.querySelector(".form")
-  form.classList.toggle('block')
-   console.log(form)
+  let form = document.querySelector(".form");
+  form.classList.toggle("block");
+  console.log(form);
 
   try {
     const filmDoc = await db.collection("films").doc(filmId).get();
@@ -341,30 +341,32 @@ async function editFilm(filmId) {
     document.getElementById("trailer").value = filmData.youtubeURL;
     document.getElementById("moviePoster").src = filmData.imageURL;
 
-    document.getElementById("editFilmForm").addEventListener("submit", async function (event) {
-      event.preventDefault();
+    document
+      .getElementById("editFilmForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-      const editedFilm = {
-        title: document.getElementById("filmName").value,
-        year: document.getElementById("filmYear").value,
-        description: document.getElementById("filmDescription").value,
-        youtubeURL: document.getElementById("trailer").value,
-        imageURL: filmData.imageURL
-      };
+        const editedFilm = {
+          title: document.getElementById("filmName").value,
+          year: document.getElementById("filmYear").value,
+          description: document.getElementById("filmDescription").value,
+          youtubeURL: document.getElementById("trailer").value,
+          imageURL: filmData.imageURL,
+        };
 
-      const file = document.getElementById("imageInput").files[0];
+        const file = document.getElementById("imageInput").files[0];
 
-      if (file) {
-        const imageUrl = await uploadImage(file);
-        editedFilm.imageURL = imageUrl;
-      }
+        if (file) {
+          const imageUrl = await uploadImage(file);
+          editedFilm.imageURL = imageUrl;
+        }
 
-      await updateFilm(filmId, editedFilm);
+        await updateFilm(filmId, editedFilm);
 
-      // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
-      // Закриття форми після успішного оновлення фільму
-      document.getElementById("editFilmForm").style.display = 'none';
-    });
+        // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
+        // Закриття форми після успішного оновлення фільму
+        document.getElementById("editFilmForm").style.display = "none";
+      });
 
     // document.getElementById("editFilmForm").style.display = 'flex';
   } catch (error) {
@@ -372,43 +374,17 @@ async function editFilm(filmId) {
   }
 }
 
-
-
-
-// function toogleEdit () {
-//   let form = document.querySelector(".form-cabinet");
-//   if(form) {
-//     form.classList.toogle('block')
-
-//   }
-//   // document.querySelector(".form-cabinet").style.display = 'flex';
-//   console.log('g')
-
-// }
-
-// document.querySelector(".edit-button").addEventListener('click', function() {
-//   // this.classList.toggle('block');
-//   // document.querySelector(".form-cabinet").classList.toggle('block')
-//   console.log('gg')
-// } )
-
-
-
-
-
-
-
 // update film
 async function updateFilm(filmId, editedFilm) {
   try {
-      const db = firebase.firestore();
+    const db = firebase.firestore();
 
-      // Оновити документ фільму з використанням методу update
-      await db.collection("films").doc(filmId).update(editedFilm);
+    // Оновити документ фільму з використанням методу update
+    await db.collection("films").doc(filmId).update(editedFilm);
 
-      console.log("Фільм успішно оновлено у Firebase.");
+    console.log("Фільм успішно оновлено у Firebase.");
   } catch (error) {
-      console.error("Помилка при оновленні фільму в Firebase:", error);
+    console.error("Помилка при оновленні фільму в Firebase:", error);
   }
 }
 
@@ -416,13 +392,13 @@ async function uploadImage(file) {
   try {
     const storageRef = firebase.storage().ref();
     const imageRef = storageRef.child("images/" + file.name);
-  
+
     // Операція завантаження файлу
     const snapshot = await imageRef.put(file);
-  
+
     // Отримання URL для завантаженого зображення
     const url = await imageRef.getDownloadURL();
-  
+
     console.log("Файл успішно завантажено:", url);
 
     return url; // Повертаємо URL завантаженого зображення
@@ -431,10 +407,6 @@ async function uploadImage(file) {
     throw error; // Передаємо помилку для обробки у вищих рівнях коду
   }
 }
-
-
-
-
 
 // Функція для ініціалізації Swiper
 function initializeSwiper() {
@@ -455,59 +427,55 @@ function initializeSwiper() {
       delay: 2000, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
       disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
     },
-    speed: 1500, 
+    speed: 1500,
 
-        //   // Responsive breakpoints
-        breakpoints: {
-          //   // when window width is >= 320px
-            320: {
-              slidesPerView: 1,
-              spaceBetween: 20,
-              centeredSlides: true,
-              autoplay: {
-                delay: 1500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
-                disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
-              },
-            },
+    //   // Responsive breakpoints
+    breakpoints: {
+      //   // when window width is >= 320px
+      320: {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        centeredSlides: true,
+        autoplay: {
+          delay: 1500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
+          disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
+        },
+      },
 
-          576: {
-            slidesPerView: 2,
-            spaceBetween: 20
-          },
+      576: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+      },
 
-          700: {
-            slidesPerView: 2,
-            spaceBetween: 40
-          },
-          767: {
-            slidesPerView: 3,
-            spaceBetween: 20
-          },
+      700: {
+        slidesPerView: 2,
+        spaceBetween: 40,
+      },
+      767: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      },
 
-          1100: {
-            slidesPerView: 4,
-            spaceBetween: 20
-          },
-          1440: {
-            slidesPerView: 5,
-            spaceBetween: 20
-          },
+      1100: {
+        slidesPerView: 4,
+        spaceBetween: 20,
+      },
+      1440: {
+        slidesPerView: 5,
+        spaceBetween: 20,
+      },
 
-          1650: {
-            slidesPerView: 6,
-            spaceBetween: 20
-          },
-          //   // when window width is >= 480px
-            2100: {
-              slidesPerView: 8,
-              spaceBetween: 20
-            },
-          }
+      1650: {
+        slidesPerView: 6,
+        spaceBetween: 20,
+      },
+      //   // when window width is >= 480px
+      2100: {
+        slidesPerView: 8,
+        spaceBetween: 20,
+      },
+    },
   });
-
-
-
-
 }
 
 // Поза блоком event listener
@@ -594,4 +562,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
 
+
+function validatePassword() {
+  const passwordInput = document.getElementById("regPassword");
+  const password = passwordInput.value;
+  const passwordPattern = /^[A-Za-z0-9]{6,}$/; // Регулярний вираз для валідації пароля
+
+  if (!passwordPattern.test(password)) {
+    console.log('wrong')
+      passwordInput.setCustomValidity("Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів");
+  } else {
+    console.log('good')
+
+      passwordInput.setCustomValidity(""); // Скидаємо валідацію, якщо пароль відповідає вимогам
+  }
+}
 

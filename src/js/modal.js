@@ -139,3 +139,20 @@ if(secondModal) {
 
 
 }
+
+
+const firstNameInput = document.getElementById("firstName");
+const lastNameInput = document.getElementById("lastName");
+
+firstNameInput.addEventListener("input", function () {
+    this.value = capitalizeFirstLetter(this.value);
+});
+
+lastNameInput.addEventListener("input", function () {
+    this.value = capitalizeFirstLetter(this.value);
+});
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+

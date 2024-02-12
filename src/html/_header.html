@@ -23,12 +23,14 @@
            <!-- Additional registration form content (hidden initially) -->
            <div class="second-modal" style="display: none;">
            <form class="modal__form " id="registrationForm" >
-            <input type="text" name="firstName" class="modal__input" placeholder="Ім'я" required>
-            <input type="text" name="lastName" class="modal__input" placeholder="Прізвище" required>
+            <input type="text" name="firstName" id="firstName" class="modal__input" placeholder="Ім'я" required>
+            <input type="text" name="lastName" id="lastName" class="modal__input" placeholder="Прізвище" required>
             <input type="email" name="regEmail" class="modal__input" placeholder="Email" required>
-            <input type="password" name="regPassword" class="modal__input" placeholder="Пароль" required>
+            <label for="regPassword" class="reg">
+            <input type="password" name="regPassword" id="regPassword" class="modal__input" placeholder="Пароль" required  title="Пароль повинен містити принаймні 6 символів та складатися з літер латиниці та цифр">
+            </label>
             <div class="form-registration__box">
-              <button type="button" class="modal__button modal-enter"  onclick="regForm()" id="reg-button">Зареєструватись</button>
+              <button type="button" class="modal__button modal-enter"  onclick="regForm();" id="reg-button">Зареєструватись</button>
             </div>
           </form>
         </div>
