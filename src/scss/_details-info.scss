@@ -1,19 +1,31 @@
 .details {
   padding: 60px 0px;
-
+  @include lg {
+    padding: 40px 0px;
+  }
+  @include xs {
+    padding: 25px 0px;
+  }
   &__body {
     display: flex;
     gap: 10px;
+    @include lg {
+      flex-direction: column-reverse;
+    }
   }
 
   &__item {
     flex: 0 1 50%;
     display: flex;
-    flex-direction:column; /* змінено на flex-direction: row; */
-    flex-wrap: wrap; 
+    flex-direction: column; /* змінено на flex-direction: row; */
+    flex-wrap: wrap;
     &:last-child {
       justify-content: flex-start;
       align-items: center;
+    }
+
+    @include lg {
+      flex: 1 1 100%;
     }
   }
 
@@ -27,7 +39,7 @@
 
   &__info {
     &:not(:last-child) {
-        margin-bottom: 20px;
+      margin-bottom: 20px;
     }
   }
 
@@ -48,13 +60,31 @@
     margin-top: auto;
     height: 400px;
     border-radius: 5px;
+    @media (max-width: 1200px) {
+      height: 300px;
+    }
+    @include sm {
+      height:100%;
+    }
+    @include xs {
+      height:200px;
+      width: 100%;
+    }
   }
 
   &__picture {
     width: 500px;
+    height: 100%;
     text-align: center;
     img {
       max-width: 100%;
+    }
+    @include lg {
+      width: 300px;
+    }
+    @include xs {
+      width: 100%;
+      
     }
   }
 }
