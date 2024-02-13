@@ -664,6 +664,7 @@ input::-webkit-inner-spin-button {
 
 .collection {
   padding: 60px 0px;
+  position: relative;
 }
 
 .collection__body {
@@ -687,6 +688,7 @@ input::-webkit-inner-spin-button {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  position: relative;
 }
 
 .collection__picture {
@@ -732,6 +734,10 @@ input::-webkit-inner-spin-button {
 
 .collection__about h2:hover {
   color: #ffe26e;
+}
+
+.opacity {
+  opacity: 0.3;
 }
 
 .details {
@@ -1018,11 +1024,16 @@ input::-webkit-inner-spin-button {
   height: 100%;
   left: 0;
   right: 0;
-  background-color: rgba(48, 48, 48, 0.83);
+  background-color: rgba(60, 60, 60, 0.27);
   padding: 5px;
   border-radius: 10px;
-  -webkit-filter: blur(12px);
-          filter: blur(12px);
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.home .swiper-slide:hover::before {
+  background-color: rgba(60, 60, 60, 0.75);
 }
 
 header .menu {
@@ -1922,7 +1933,7 @@ body {
   background-image: url("../img/bg/films.jpg");
   background-repeat: no-repeat;
   position: absolute;
-  opacity: 0.8;
+  opacity: 0.6;
   width: 100%;
   height: 100%;
   background-position: center;

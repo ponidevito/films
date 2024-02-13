@@ -266,62 +266,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 // Функція для редагування фільму
 
-// async function editFilm(filmId) {
-
-//   try {
-//     // Отримання даних про фільм з Firebase за його ідентифікатором
-//     const filmDoc = await db.collection("films").doc(filmId).get();
-//     if (!filmDoc.exists) {
-//       console.error("Фільм не знайдено.");
-//       return;
-//     }
-
-//     // Отримання даних про фільм з документа
-//     const filmData = filmDoc.data();
-
-//     // Заповнення форми для редагування даними про фільм
-//     document.getElementById("filmName").value = filmData.title;
-//     document.getElementById("filmYear").value = filmData.year;
-//     document.getElementById("filmDescription").value = filmData.description;
-//     document.getElementById("trailer").value = filmData.youtubeURL;
-//     document.getElementById("moviePoster").src = filmData.imageURL;
-
-//     // Призначення обробника події для відправлення форми редагування з відповідним ідентифікатором фільму
-//     document.getElementById("editFilmForm").addEventListener("submit", async function (event) {
-//       event.preventDefault(); // Зупинка стандартної відправки форми
-//       // Отримання даних з форми редагування
-//       const editedFilm = {
-//         title: document.getElementById("filmName").value,
-//         year: document.getElementById("filmYear").value,
-//         description: document.getElementById("filmDescription").value,
-//         youtubeURL: document.getElementById("trailer").value,
-//         imageURL: filmData.imageURL // Користуємося filmData.imageURL
-//       };
-
-//       // Отримання файлу з поля input[type="file"]
-//       const file = document.getElementById("imageInput").files[0];
-
-//       if (file) {
-//         // Завантаження зображення на сервер
-//         const imageUrl = await uploadImage(file);
-//         // Додавання URL зображення до відредагованого фільму
-//         editedFilm.imageURL = imageUrl;
-//       } else {
-//         // Якщо файл не вибрано, використовуємо URL зображення, який вже був у фільмі
-//         editedFilm.imageURL = filmData.imageURL;
-//       }
-
-//       // Виклик функції для збереження змін у Firebase
-//       updateFilm(filmId, editedFilm);
-
-//         // Оновлення відповідного рядка у таблиці
-//         updateFilmRow(filmId, editedFilm);
-//     });
-
-//   } catch (error) {
-//     console.error("Помилка при редагуванні фільму:", error);
-//   }
-// }
 
 async function editFilm(filmId) {
   let form = document.querySelector(".form");

@@ -52,18 +52,8 @@
       width: 100%;
     }
   }
-  .collection__picture {
-    @include sm {
-      // height: 100%;
-    }
-  }
 
-  .collection__poster {
-    @include sm {
-      
-      // object-fit: cover;
-    }
-  }
+
 
   .swiper-slide {
     border-radius: 20px;
@@ -76,11 +66,14 @@
       height: 100%;
       left: 0;
       right: 0;
-      // background-color: rgba(32, 71, 66, 0.82);
-      background-color: rgba(48,48,48,.83);
+      background-color: rgb(60 60 60 / 27%);
       padding: 5px;
       border-radius: 10px;
-      filter: blur(12px);
+      transition: 0.3s;
     }
+  }
+
+  .swiper-slide:hover::before {
+    background-color: rgb(60 60 60 / 75%);
   }
 }
