@@ -23,15 +23,23 @@
   }
 
   &__column {
-    padding: 10px;
+    padding: 0px 0px 10px 0px;
     gap: 10px;
     overflow: hidden;
     height: 100%;
-    width: 260px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     position: relative;
+    z-index: 5;
+    border-radius: 5px;
+    &:hover {
+      .collection__poster {
+        transform: scale(1.02);
+      }
 
+      
+    }
 
   }
 
@@ -43,12 +51,17 @@
     justify-content: center;
     align-items: center;
     overflow: hidden; /* Додаємо overflow: hidden, щоб обрізати зайвий контент */
+
   }
 
   &__poster {
     width: 100%;
     height: 100%;
-    // object-fit: contain; /* Зберігає пропорції і вміщує зображення повністю */
+    transition: 0.3s;
+    @include sm {
+      width: 100%;
+    }
+
   }
 
   &__about {
@@ -64,22 +77,43 @@
       }
     }
   }
-  .collection__column {
-    // &::before {
-    //   content: "";
-    //   position: absolute;
-    //   width: 297px;
-    //   height: 100%;
-    //   left: 0;
-    //   right: 0;
-    //   background-color: rgb(60 60 60 / 27%);
-    //   padding: 5px;
-    //   border-radius: 10px;
-    //   transition: 0.3s;
-    // }
+  // .collection__column {
+  //   &::before {
+  //     content: "";
+  //     position: absolute;
+  //     height: 100%;
+  //     top: 0;
+  //     left: 0;
+  //     right: 0;
+  //     background-color: rgb(60 60 60 / 27%);
+  //     padding: 5px;
+  //     z-index: -1;
+  //     border-radius: 10px;
+  //     transition: 0.3s;
+  //   }
+  // }
+}
+
+.collection__column {
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(60 60 60 / 60%);
+    padding: 5px;
+    z-index: -1;
+    border-radius: 10px;
+    transition: 0.3s;
   }
 }
 
-.opacity {
-  opacity: 0.3;
+.collection__column:hover::before {
+  background-color: rgb(211 210 205 / 39%);
 }
+
+
+
+

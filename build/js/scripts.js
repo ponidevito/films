@@ -27,6 +27,30 @@ function togglePasswordVisibility() {
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
+function column() {
+  const columns = document.querySelectorAll(".collection__column");
+  const background = document.querySelector(".background");
+  const backgroundCollection = document.querySelector(".background-collection");
+
+  if (columns.length > 0) {
+      columns.forEach((column) => {
+          column.addEventListener('mouseenter', function() {
+            background.classList.add('active')
+            backgroundCollection.classList.add('active')
+              console.log(column.innerHTML);
+          });
+          column.addEventListener('mouseleave', function() {
+            background.classList.remove('active')
+        });
+      });
+  } else {
+      console.error('Елементи з класом .collection__column не знайдено.');
+  }
+}
+
+
+
+
 document.addEventListener("DOMContentLoaded", async function () {
   const firebaseConfig = {
     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -93,6 +117,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
           querySnapshot.forEach((doc) => {
             const filmData = doc.data();
+            
 
             if (isAdmin || (userId && userId === filmData.authorUid)) {
               const filmElement = document.createElement("a");
@@ -104,8 +129,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                   <h2 class="collection__name">${filmData.title}</h2>
                 </div>
               `;
-
+              
               if (filmCollection) {
+                column()
                 filmCollection.appendChild(filmElement);
               } else {
                 console.error("Елемент #filmCollection не знайдено.");
@@ -155,6 +181,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                             </div>
                         </div>
                     `;
+                    column()
 
             filmCollection.appendChild(slide);
           });
@@ -270,8 +297,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function editFilm(filmId) {
   let form = document.querySelector(".form");
   form.classList.toggle("block");
-  console.log(form);
-
   try {
     const filmDoc = await db.collection("films").doc(filmId).get();
     if (!filmDoc.exists) {
