@@ -1974,10 +1974,6 @@ body {
 }
 
 @media (min-width: 767px) {
-  .link {
-    font-size: 16px;
-  }
-
   .link:active {
     -webkit-transform: translateY(2px);
         -ms-transform: translateY(2px);
@@ -2048,6 +2044,12 @@ body {
 
   .home__nonAuth {
     font-size: 25px;
+  }
+}
+
+@media (max-width: 767px) {
+  .link {
+    font-size: 16px;
   }
 }
 
@@ -2281,7 +2283,11 @@ body {
 
   .home__nonAuth {
     font-size: 18px;
-    line-height: 1.2;
+    line-height: 1.4;
+  }
+
+  .home__nonAuth .link {
+    font-size: 18px;
   }
 
   .footer__development {

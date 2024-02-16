@@ -42,7 +42,11 @@
     }
     @include xs {
       font-size: 18px;
-      line-height: 1.2;
+      line-height: 1.4;
+
+      .link {
+        font-size: 18px;
+      }
     }
   }
 

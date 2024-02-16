@@ -104,40 +104,92 @@ document.addEventListener("DOMContentLoaded", async function () {
     db = firebase.firestore();
     const filmCollection = document.getElementById("filmCollection");
 
+    // firebase.auth().onAuthStateChanged(async function (user) {
+    //   if (user) {
+    //     const userId = user.uid;
+    //     const isAdmin = await checkIfUserIsAdmin(user);
+
+    //     try {
+    //       const querySnapshot = await db
+    //         .collection("films")
+    //         .where("authorUid", "==", userId)
+    //         .get();
+
+    //       querySnapshot.forEach((doc) => {
+    //         const filmData = doc.data();
+
+    //         if (isAdmin || (userId && userId === filmData.authorUid)) {
+    //           const filmElement = document.createElement("a");
+    //           filmElement.className = "collection__column";
+    //           filmElement.href = `details.html?id=${doc.id}`;
+    //           filmElement.innerHTML = `
+    //             <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+    //             <div class="collection__about">
+    //               <h2 class="collection__name">${filmData.title}</h2>
+    //             </div>
+    //           `;
+              
+    //           if (filmCollection) {
+    //             column()
+    //             filmCollection.appendChild(filmElement);
+    //           } else {
+    //             console.error("Елемент #filmCollection не знайдено.");
+    //           }
+    //         }
+    //       });
+    //     } catch (error) {
+    //       console.error("Помилка при отриманні фільмів з Firebase:", error);
+    //     }
+    //   } else if (!window.location.pathname.includes("index.html")) {
+    //     console.log("Направляю неавторизованого користувача на index.html");
+    //     window.location.href = "index.html";
+    //   }
+    // });
+
+
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
         const userId = user.uid;
         const isAdmin = await checkIfUserIsAdmin(user);
-
+    
         try {
           const querySnapshot = await db
             .collection("films")
             .where("authorUid", "==", userId)
             .get();
-
-          querySnapshot.forEach((doc) => {
-            const filmData = doc.data();
-            
-
-            if (isAdmin || (userId && userId === filmData.authorUid)) {
-              const filmElement = document.createElement("a");
-              filmElement.className = "collection__column";
-              filmElement.href = `details.html?id=${doc.id}`;
-              filmElement.innerHTML = `
-                <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-                <div class="collection__about">
-                  <h2 class="collection__name">${filmData.title}</h2>
-                </div>
-              `;
-              
-              if (filmCollection) {
-                column()
-                filmCollection.appendChild(filmElement);
-              } else {
-                console.error("Елемент #filmCollection не знайдено.");
+    
+          if (querySnapshot.empty) {
+            const emptyMessage = document.createElement("p");
+            emptyMessage.className = "empty"
+            emptyMessage.textContent = "Ваша колекція порожня";
+            emptyMessage.style.fontSize ="25px"
+            emptyMessage.style.width ="100%"
+            emptyMessage.style.textAlign ="center"
+            filmCollection.appendChild(emptyMessage);
+          } else {
+            querySnapshot.forEach((doc) => {
+              const filmData = doc.data();
+    
+              if (isAdmin || (userId && userId === filmData.authorUid)) {
+                const filmElement = document.createElement("a");
+                filmElement.className = "collection__column";
+                filmElement.href = `details.html?id=${doc.id}`;
+                filmElement.innerHTML = `
+                  <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+                  <div class="collection__about">
+                    <h2 class="collection__name">${filmData.title}</h2>
+                  </div>
+                `;
+                
+                if (filmCollection) {
+                  column()
+                  filmCollection.appendChild(filmElement);
+                } else {
+                  console.error("Елемент #filmCollection не знайдено.");
+                }
               }
-            }
-          });
+            });
+          }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
@@ -146,7 +198,55 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.location.href = "index.html";
       }
     });
+    
   }
+
+  // if (document.title === "home") {
+  //   try {
+  //     firebase.auth().onAuthStateChanged(async function (user) {
+  //       if (user) {
+  //         const userId = user.uid;
+
+  //         // Перевірка ініціалізації db
+  //         if (!firebase.firestore) {
+  //           console.error("Firestore не ініціалізовано.");
+  //           return;
+  //         }
+
+  //         const db = firebase.firestore();
+
+  //         const filmsSnapshot = await db
+  //           .collection("films")
+  //           .where("authorUid", "==", userId)
+  //           .get();
+
+  //         filmsSnapshot.forEach((doc) => {
+  //           const filmData = doc.data();
+
+  //           const slide = document.createElement("a");
+  //           slide.className = "swiper-slide";
+  //           slide.href = `details.html?id=${doc.id}`;
+  //           slide.innerHTML = `
+  //                       <div class="collection__column">
+  //                           <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+  //                           <div class="collection__about">
+  //                               <h2 class="collection__name">${filmData.title}</h2>
+  //                           </div>
+  //                       </div>
+  //                   `;
+  //                   column()
+
+  //           filmCollection.appendChild(slide);
+  //         });
+
+  //         // Після додавання всіх елементів ініціалізуйте Swiper
+  //         initializeSwiper();
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error("Помилка при отриманні фільмів з Firebase:", error);
+  //   }
+  // }
 
   if (document.title === "home") {
     try {
@@ -167,25 +267,33 @@ document.addEventListener("DOMContentLoaded", async function () {
             .where("authorUid", "==", userId)
             .get();
 
-          filmsSnapshot.forEach((doc) => {
-            const filmData = doc.data();
-
-            const slide = document.createElement("a");
-            slide.className = "swiper-slide";
-            slide.href = `details.html?id=${doc.id}`;
-            slide.innerHTML = `
-                        <div class="collection__column">
-                            <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-                            <div class="collection__about">
-                                <h2 class="collection__name">${filmData.title}</h2>
-                            </div>
-                        </div>
-                    `;
-                    column()
-
-            filmCollection.appendChild(slide);
-          });
-
+            if (filmsSnapshot.empty) {
+              const emptyMessage = document.createElement("p");
+              emptyMessage.className = "swipet-empty"
+              emptyMessage.textContent = "Ваша колекція порожня";
+              emptyMessage.style.fontSize ="25px"
+              emptyMessage.style.width ="100%"
+              emptyMessage.style.textAlign ="center"
+              filmCollection.appendChild(emptyMessage);
+          } else {
+              filmsSnapshot.forEach((doc) => {
+                  const filmData = doc.data();
+          
+                  const slide = document.createElement("a");
+                  slide.className = "swiper-slide";
+                  slide.href = `details.html?id=${doc.id}`;
+                  slide.innerHTML = `
+                      <div class="collection__column">
+                          <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+                          <div class="collection__about">
+                              <h2 class="collection__name">${filmData.title}</h2>
+                          </div>
+                      </div>
+                  `;
+          
+                  filmCollection.appendChild(slide);
+              });
+          }
           // Після додавання всіх елементів ініціалізуйте Swiper
           initializeSwiper();
         }
