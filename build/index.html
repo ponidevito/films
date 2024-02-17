@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,regular,italic,500,500italic,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">  
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 
 </head>
 
@@ -46,9 +46,7 @@
             <input type="text" name="firstName" id="firstName" class="modal__input" placeholder="Ім'я" required>
             <input type="text" name="lastName" id="lastName" class="modal__input" placeholder="Прізвище" required>
             <input type="email" name="regEmail" class="modal__input" placeholder="Email" required>
-            <label for="regPassword" class="reg">
-            <input type="password" name="regPassword" id="regPassword" class="modal__input" placeholder="Пароль" required  title="Пароль повинен містити принаймні 6 символів та складатися з літер латиниці та цифр">
-            </label>
+            <input type="password" name="regPassword" id="regPassword" class="modal__input" placeholder="Пароль" required  title="Пароль повинен містити принаймні 6 символів та складатися з літер латиниці та цифр">          
             <div class="form-registration__box">
               <button type="button" class="modal__button modal-enter"  onclick="regForm();" id="reg-button">Зареєструватись</button>
             </div>
@@ -194,19 +192,19 @@
 
 
     </div>
-    
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
    
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 
 
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/js/all.min.js"></script> -->
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <script type="module">
       

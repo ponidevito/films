@@ -95,6 +95,10 @@ h6 {
   cursor: pointer;
 }
 
+.link.link-add {
+  font-size: 30px;
+}
+
 .link:hover {
   color: #ffe26e;
 }
@@ -131,6 +135,54 @@ input[type=number] {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+}
+
+.background {
+  position: absolute;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 0.7;
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/bg/films.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.background.active {
+  opacity: 0.2;
+}
+
+.background.background-details {
+  opacity: 0.2;
+}
+
+.background.background-collection {
+  opacity: 0.2;
+}
+
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  gap: 5px;
+}
+
+.empty {
+  font-size: 45px;
+}
+
+.empty:not(:last-child) {
+  margin-bottom: 20px;
 }
 
 @-webkit-keyframes fade {
@@ -1909,42 +1961,6 @@ body {
   position: relative;
 }
 
-.background {
-  position: absolute;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-  opacity: 0.7;
-  width: 100%;
-  height: 100%;
-  background-image: url("../img/bg/films.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.background.active {
-  opacity: 0.2;
-}
-
-.background.background-details {
-  opacity: 0.2;
-}
-
-.d-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  gap: 5px;
-}
-
 @media (min-width: 576px) {
   .header__box:hover input {
     width: 350px;
@@ -2021,6 +2037,10 @@ body {
     font-size: 40px;
   }
 
+  .empty {
+    font-size: 40px;
+  }
+
   .header__box {
     position: absolute;
     top: 100px;
@@ -2076,6 +2096,10 @@ body {
     font-size: 35px;
   }
 
+  .empty {
+    font-size: 35x;
+  }
+
   .header__body {
     gap: 10px;
   }
@@ -2095,6 +2119,10 @@ body {
 }
 
 @media (max-width: 576px) {
+  .empty {
+    font-size: 30x;
+  }
+
   .header__logo img {
     max-width: 80px;
   }
@@ -2286,8 +2314,16 @@ body {
 }
 
 @media (max-width: 476px) {
+  .link.link-add {
+    font-size: 20px;
+  }
+
   .top__title {
     font-size: 30px;
+  }
+
+  .empty {
+    font-size: 25x;
   }
 
   .header__logo img {

@@ -59,21 +59,11 @@ function submitForm() {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.error("Помилка входу:", errorCode, errorMessage);
+      displayWrongToaster()
     });
 }
 
-function logOut() {
-  localStorage.removeItem("userId");
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("userRole");
-  localStorage.removeItem("userName");
-  searchBox.classList.remove("show");
-  modalLogin.classList.remove("hide");
-  userEnter.classList.remove("hide");
-  loginBox.classList.remove("show-box");
-  console.log("Користувач вийшов.");
-  window.location.href = "/index.html";
-}
+
 
 // test
 const effectBurger = document.querySelector ('.effect')
@@ -85,10 +75,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (user) {
       // Якщо користувач авторизований
       const isAdmin = await checkIfUserIsAdmin(user);
-      // if (window.location.pathname.includes("index.html")) {
-      //   console.log("Користувач вже авторизований, перенаправляю на collection-films.html");
-      //   window.location.href = "collection-films.html"; // Замініть на свій URL
-      // }
+
       // Отримання дані про фільми з Firebase
       if (filmCollection) {
         try {
@@ -184,3 +171,20 @@ function hideContainer() {
   }
 }
 
+function logOut() {
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userRole");
+  localStorage.removeItem("userName");
+  searchBox.classList.remove("show");
+  modalLogin.classList.remove("hide");
+  userEnter.classList.remove("hide");
+  loginBox.classList.remove("show-box");
+  console.log("Користувач вийшов.");
+  window.location.href = "/index.html";
+}
+
+function displayWrongToaster() {
+  toastr.options.timeOut = 1500; // 1.5s 
+  toastr.warning('пароль не вірний');
+}

@@ -25,7 +25,6 @@ function togglePasswordVisibility() {
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
-
 document.addEventListener("DOMContentLoaded", async function () {
   const firebaseConfig = {
     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -78,7 +77,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     db = firebase.firestore();
     const filmCollection = document.getElementById("filmCollection");
-
+    const backgroundCollection = document.querySelector(
+      ".background-collection"
+    );
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
         const userId = user.uid;
@@ -95,15 +96,23 @@ document.addEventListener("DOMContentLoaded", async function () {
             const emptyMessage = document.createElement("p");
             emptyMessage.className = "empty";
             emptyMessage.textContent = "Ваша колекція порожня";
-            emptyMessage.style.fontSize = "25px";
             emptyMessage.style.width = "100%";
             emptyMessage.style.textAlign = "center";
             filmCollection.appendChild(emptyMessage);
+
+            // Створення посилання "додати фільм"
+            const addFilmLink = document.createElement("a");
+            addFilmLink.textContent = "Додати фільм";
+            addFilmLink.className = "link link-add";
+            addFilmLink.href = "add-film.html"; // Замініть це на посилання на вашу сторінку додавання фільму
+            addFilmLink.style.display = "block"; // Щоб посилання відображалося в новому рядку
+            addFilmLink.style.textAlign = "center";
+            filmCollection.appendChild(addFilmLink);
           } else {
             querySnapshot.forEach((doc) => {
               const filmData = doc.data();
-
               if (isAdmin || (userId && userId === filmData.authorUid)) {
+                backgroundCollection.style.display = " none";
                 collectionBody.style.display = "grid";
                 const filmElement = document.createElement("a");
                 filmElement.className = "collection__column";
@@ -116,7 +125,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 `;
 
                 if (filmCollection) {
-                  
                   filmCollection.appendChild(filmElement);
                 } else {
                   console.error("Елемент #filmCollection не знайдено.");
@@ -161,26 +169,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.width = "100%";
             emptyMessage.style.textAlign = "center";
             filmCollection.appendChild(emptyMessage);
-          } else {
-            // filmCollection.innerHTML = "";
-            // filmsSnapshot.forEach((doc) => {
-            //   const filmData = doc.data();
-
-            //   const slide = document.createElement("a");
-            //   slide.className = "swiper-slide";
-            //   slide.href = `details.html?id=${doc.id}`;
-            //   slide.innerHTML = `
-            //           <div class="collection__column">
-            //               <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-            //               <div class="collection__about">
-            //                   <h2 class="collection__name">${filmData.title}</h2>
-            //               </div>
-            //           </div>
-            //       `;
-
-            //   filmCollection.appendChild(slide);
-            // });
-            // column();
           }
         }
       });
@@ -224,10 +212,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <td><p>${filmData.title}</p></td>
                 <td>${filmData.time}, ${filmData.date}</td>
                 <td class="d-flex">
-                  <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
-                  <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}" onclick="editFilm('${doc.id}')">Редагувати</button>
-
-                  </td>
+                <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}" onclick="editFilm('${doc.id}')">Редагувати</button>
+                <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+                </td>
               `;
 
               adminTableBody.appendChild(row);
@@ -262,10 +249,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <td>${filmData.title}</td>
                 <td>${filmData.time}, ${filmData.date}</td>
                 <td class="d-flex">
-                  <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
-                  <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}"  onclick="editFilm('${doc.id}')">Редагувати</button>
-
-                  </td>
+                <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}"  onclick="editFilm('${doc.id}')">Редагувати</button>
+                <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
+                </td>
               `;
 
               adminTableBody.appendChild(row);
@@ -316,7 +302,7 @@ async function editFilm(filmId) {
           description: document.getElementById("filmDescription").value,
           youtubeURL: document.getElementById("trailer").value,
           imageURL: filmData.imageURL,
-          searchTitle:  document.getElementById("filmName").value
+          searchTitle: document.getElementById("filmName").value,
         };
 
         const file = document.getElementById("imageInput").files[0];
@@ -332,8 +318,6 @@ async function editFilm(filmId) {
         // Закриття форми після успішного оновлення фільму
         document.getElementById("editFilmForm").style.display = "none";
       });
-
-    // document.getElementById("editFilmForm").style.display = 'flex';
   } catch (error) {
     console.error("Помилка при редагуванні фільму:", error);
   }
@@ -372,8 +356,6 @@ async function uploadImage(file) {
     throw error; // Передаємо помилку для обробки у вищих рівнях коду
   }
 }
-
-
 
 // Поза блоком event listener
 
@@ -464,9 +446,9 @@ function validatePassword() {
 
   if (!passwordPattern.test(password)) {
     console.log("wrong");
-    passwordInput.setCustomValidity(
-      "Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів"
-    );
+    // passwordInput.setCustomValidity(
+    //   "Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів"
+    // );
   } else {
     console.log("good");
 
@@ -475,16 +457,7 @@ function validatePassword() {
 }
 
 
-// function toasterOptions() {
-//   toastr.options = {
-
-//       "showDuration": "100",
-//       "hideDuration": "1000",
-//       "timeOut": "5000",
- 
-//   };
-// };
-
-
-// toasterOptions();
-// toastr.error("Error Message from toastr");
+function displayWrongToaster() {
+  toastr.options.timeOut = 1500; // 1.5s 
+  toastr.wrong('пароль не вірний');
+}
