@@ -25,29 +25,6 @@ function togglePasswordVisibility() {
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
-function column() {
-  const columns = document.querySelectorAll(".collection__column");
-  const background = document.querySelector(".background");
-  const backgroundCollection = document.querySelector(".background-collection");
-
-  if (columns.length > 0) {
-      columns.forEach((column) => {
-          column.addEventListener('mouseenter', function() {
-            background.classList.add('active')
-            backgroundCollection.classList.add('active')
-              console.log(column.innerHTML);
-          });
-          column.addEventListener('mouseleave', function() {
-            background.classList.remove('active')
-        });
-      });
-  } else {
-      console.error('Елементи з класом .collection__column не знайдено.');
-  }
-}
-
-
-
 
 document.addEventListener("DOMContentLoaded", async function () {
   const firebaseConfig = {
@@ -102,73 +79,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     db = firebase.firestore();
     const filmCollection = document.getElementById("filmCollection");
 
-    // firebase.auth().onAuthStateChanged(async function (user) {
-    //   if (user) {
-    //     const userId = user.uid;
-    //     const isAdmin = await checkIfUserIsAdmin(user);
-
-    //     try {
-    //       const querySnapshot = await db
-    //         .collection("films")
-    //         .where("authorUid", "==", userId)
-    //         .get();
-
-    //       querySnapshot.forEach((doc) => {
-    //         const filmData = doc.data();
-
-    //         if (isAdmin || (userId && userId === filmData.authorUid)) {
-    //           const filmElement = document.createElement("a");
-    //           filmElement.className = "collection__column";
-    //           filmElement.href = `details.html?id=${doc.id}`;
-    //           filmElement.innerHTML = `
-    //             <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-    //             <div class="collection__about">
-    //               <h2 class="collection__name">${filmData.title}</h2>
-    //             </div>
-    //           `;
-              
-    //           if (filmCollection) {
-    //             column()
-    //             filmCollection.appendChild(filmElement);
-    //           } else {
-    //             console.error("Елемент #filmCollection не знайдено.");
-    //           }
-    //         }
-    //       });
-    //     } catch (error) {
-    //       console.error("Помилка при отриманні фільмів з Firebase:", error);
-    //     }
-    //   } else if (!window.location.pathname.includes("index.html")) {
-    //     console.log("Направляю неавторизованого користувача на index.html");
-    //     window.location.href = "index.html";
-    //   }
-    // });
-
-
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
         const userId = user.uid;
         const isAdmin = await checkIfUserIsAdmin(user);
-    
+        const collectionBody = document.querySelector(".collection__body");
         try {
           const querySnapshot = await db
             .collection("films")
             .where("authorUid", "==", userId)
             .get();
-    
+
           if (querySnapshot.empty) {
+            collectionBody.style.display = "block";
             const emptyMessage = document.createElement("p");
-            emptyMessage.className = "empty"
+            emptyMessage.className = "empty";
             emptyMessage.textContent = "Ваша колекція порожня";
-            emptyMessage.style.fontSize ="25px"
-            emptyMessage.style.width ="100%"
-            emptyMessage.style.textAlign ="center"
+            emptyMessage.style.fontSize = "25px";
+            emptyMessage.style.width = "100%";
+            emptyMessage.style.textAlign = "center";
             filmCollection.appendChild(emptyMessage);
           } else {
             querySnapshot.forEach((doc) => {
               const filmData = doc.data();
-    
+
               if (isAdmin || (userId && userId === filmData.authorUid)) {
+                collectionBody.style.display = "grid";
                 const filmElement = document.createElement("a");
                 filmElement.className = "collection__column";
                 filmElement.href = `details.html?id=${doc.id}`;
@@ -178,9 +114,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                     <h2 class="collection__name">${filmData.title}</h2>
                   </div>
                 `;
-                
+
                 if (filmCollection) {
-                  column()
+                  
                   filmCollection.appendChild(filmElement);
                 } else {
                   console.error("Елемент #filmCollection не знайдено.");
@@ -196,55 +132,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.location.href = "index.html";
       }
     });
-    
   }
-
-  // if (document.title === "home") {
-  //   try {
-  //     firebase.auth().onAuthStateChanged(async function (user) {
-  //       if (user) {
-  //         const userId = user.uid;
-
-  //         // Перевірка ініціалізації db
-  //         if (!firebase.firestore) {
-  //           console.error("Firestore не ініціалізовано.");
-  //           return;
-  //         }
-
-  //         const db = firebase.firestore();
-
-  //         const filmsSnapshot = await db
-  //           .collection("films")
-  //           .where("authorUid", "==", userId)
-  //           .get();
-
-  //         filmsSnapshot.forEach((doc) => {
-  //           const filmData = doc.data();
-
-  //           const slide = document.createElement("a");
-  //           slide.className = "swiper-slide";
-  //           slide.href = `details.html?id=${doc.id}`;
-  //           slide.innerHTML = `
-  //                       <div class="collection__column">
-  //                           <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-  //                           <div class="collection__about">
-  //                               <h2 class="collection__name">${filmData.title}</h2>
-  //                           </div>
-  //                       </div>
-  //                   `;
-  //                   column()
-
-  //           filmCollection.appendChild(slide);
-  //         });
-
-  //         // Після додавання всіх елементів ініціалізуйте Swiper
-  //         initializeSwiper();
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error("Помилка при отриманні фільмів з Firebase:", error);
-  //   }
-  // }
 
   if (document.title === "home") {
     try {
@@ -265,35 +153,35 @@ document.addEventListener("DOMContentLoaded", async function () {
             .where("authorUid", "==", userId)
             .get();
 
-            if (filmsSnapshot.empty) {
-              const emptyMessage = document.createElement("p");
-              emptyMessage.className = "swipet-empty"
-              emptyMessage.textContent = "Ваша колекція порожня";
-              emptyMessage.style.fontSize ="25px"
-              emptyMessage.style.width ="100%"
-              emptyMessage.style.textAlign ="center"
-              filmCollection.appendChild(emptyMessage);
+          if (filmsSnapshot.empty) {
+            const emptyMessage = document.createElement("p");
+            emptyMessage.className = "swipet-empty";
+            emptyMessage.textContent = "Ваша колекція порожня";
+            emptyMessage.style.fontSize = "25px";
+            emptyMessage.style.width = "100%";
+            emptyMessage.style.textAlign = "center";
+            filmCollection.appendChild(emptyMessage);
           } else {
-              filmsSnapshot.forEach((doc) => {
-                  const filmData = doc.data();
-          
-                  const slide = document.createElement("a");
-                  slide.className = "swiper-slide";
-                  slide.href = `details.html?id=${doc.id}`;
-                  slide.innerHTML = `
-                      <div class="collection__column">
-                          <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-                          <div class="collection__about">
-                              <h2 class="collection__name">${filmData.title}</h2>
-                          </div>
-                      </div>
-                  `;
-          
-                  filmCollection.appendChild(slide);
-              });
+            // filmCollection.innerHTML = "";
+            // filmsSnapshot.forEach((doc) => {
+            //   const filmData = doc.data();
+
+            //   const slide = document.createElement("a");
+            //   slide.className = "swiper-slide";
+            //   slide.href = `details.html?id=${doc.id}`;
+            //   slide.innerHTML = `
+            //           <div class="collection__column">
+            //               <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+            //               <div class="collection__about">
+            //                   <h2 class="collection__name">${filmData.title}</h2>
+            //               </div>
+            //           </div>
+            //       `;
+
+            //   filmCollection.appendChild(slide);
+            // });
+            // column();
           }
-          // Після додавання всіх елементів ініціалізуйте Swiper
-          initializeSwiper();
         }
       });
     } catch (error) {
@@ -399,7 +287,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 // Функція для редагування фільму
 
-
 async function editFilm(filmId) {
   let form = document.querySelector(".form");
   form.classList.toggle("block");
@@ -429,6 +316,7 @@ async function editFilm(filmId) {
           description: document.getElementById("filmDescription").value,
           youtubeURL: document.getElementById("trailer").value,
           imageURL: filmData.imageURL,
+          searchTitle:  document.getElementById("filmName").value
         };
 
         const file = document.getElementById("imageInput").files[0];
@@ -485,75 +373,7 @@ async function uploadImage(file) {
   }
 }
 
-// Функція для ініціалізації Swiper
-function initializeSwiper() {
-  new Swiper(".swiper", {
-    // Налаштування Swiper
-    loop: true,
-    // navigation: {
-    //   nextEl: ".swiper-button-next",
-    //   prevEl: ".swiper-button-prev",
-    // },
-    pagination: {
-      // el: ".swiper-pagination",
-      // clickable: true,
-    },
-    slidesPerView: 8, // Відображення чотирьох слайдів
-    spaceBetween: 30, // Відступ між слайдами
-    autoplay: {
-      delay: 2000, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
-      disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
-    },
-    speed: 1500,
 
-    //   // Responsive breakpoints
-    breakpoints: {
-      //   // when window width is >= 320px
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        centeredSlides: true,
-        autoplay: {
-          delay: 1500, // Затримка між слайдами у мілісекундах (в цьому випадку 5000 мс, тобто 5 секунд)
-          disableOnInteraction: true, // Вимкнення автопрокрутки після взаємодії користувача (необов'язково)
-        },
-      },
-
-      576: {
-        slidesPerView: 2,
-        spaceBetween: 20,
-      },
-
-      700: {
-        slidesPerView: 2,
-        spaceBetween: 40,
-      },
-      767: {
-        slidesPerView: 3,
-        spaceBetween: 20,
-      },
-
-      1100: {
-        slidesPerView: 4,
-        spaceBetween: 20,
-      },
-      1440: {
-        slidesPerView: 5,
-        spaceBetween: 20,
-      },
-
-      1650: {
-        slidesPerView: 6,
-        spaceBetween: 20,
-      },
-      //   // when window width is >= 480px
-      2100: {
-        slidesPerView: 8,
-        spaceBetween: 20,
-      },
-    },
-  });
-}
 
 // Поза блоком event listener
 
@@ -637,21 +457,34 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Інші частини вашого коду...
 });
 
-
-
-
 function validatePassword() {
   const passwordInput = document.getElementById("regPassword");
   const password = passwordInput.value;
   const passwordPattern = /^[A-Za-z0-9]{6,}$/; // Регулярний вираз для валідації пароля
 
   if (!passwordPattern.test(password)) {
-    console.log('wrong')
-      passwordInput.setCustomValidity("Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів");
+    console.log("wrong");
+    passwordInput.setCustomValidity(
+      "Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів"
+    );
   } else {
-    console.log('good')
+    console.log("good");
 
-      passwordInput.setCustomValidity(""); // Скидаємо валідацію, якщо пароль відповідає вимогам
+    passwordInput.setCustomValidity(""); // Скидаємо валідацію, якщо пароль відповідає вимогам
   }
 }
 
+
+// function toasterOptions() {
+//   toastr.options = {
+
+//       "showDuration": "100",
+//       "hideDuration": "1000",
+//       "timeOut": "5000",
+ 
+//   };
+// };
+
+
+// toasterOptions();
+// toastr.error("Error Message from toastr");

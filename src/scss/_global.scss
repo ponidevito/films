@@ -62,6 +62,17 @@
 
   &__title {
     font-size: 45px;
+    @include lg {
+      font-size: 40px;
+    }
+
+    @include md {
+      font-size: 35px;
+    }
+
+    @include xs {
+      font-size: 30px;
+    }
   }
 }
 

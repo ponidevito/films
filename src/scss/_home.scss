@@ -52,32 +52,15 @@
 
   .collection__column {
     z-index: 4;
-    @include sm {
-      // width: 100%;
-    }
+ 
   }
-
-
 
   .swiper-slide {
     border-radius: 20px;
     display: flex;
     justify-content: center;
-    // &::before {
-    //   content: "";
-    //   position: absolute;
-    //   width: 100%;
-    //   height: 100%;
-    //   left: 0;
-    //   right: 0;
-    //   background-color: rgb(60 60 60 / 27%);
-    //   padding: 5px;
-    //   border-radius: 10px;
-    //   transition: 0.3s;
-    // }
+    @include sm {
+      // height: 550px;
+    }
   }
-
-  // .swiper-slide:hover::before {
-  //   background-color: rgb(60 60 60 / 75%);
-  // }
 }

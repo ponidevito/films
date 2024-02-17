@@ -1,5 +1,8 @@
 .add {
   padding-top: 60px;
+  @include lg {
+    padding-top: 30px;
+  }
   &__container {
     max-width: 570px;
   }

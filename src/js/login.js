@@ -85,7 +85,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (user) {
       // Якщо користувач авторизований
       const isAdmin = await checkIfUserIsAdmin(user);
-
+      // if (window.location.pathname.includes("index.html")) {
+      //   console.log("Користувач вже авторизований, перенаправляю на collection-films.html");
+      //   window.location.href = "collection-films.html"; // Замініть на свій URL
+      // }
       // Отримання дані про фільми з Firebase
       if (filmCollection) {
         try {
@@ -147,6 +150,10 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
+    if (window.location.pathname.includes("index.html")) {
+      console.log("Користувач вже авторизований, перенаправляю на collection-films.html");
+      window.location.href = "collection-films.html"; // Замініть на свій URL
+    }
     // homeContainer.style.display = "none";
     hideContainer();
     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
