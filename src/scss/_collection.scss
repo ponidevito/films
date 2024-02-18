@@ -1,6 +1,17 @@
 .collection {
-  padding: 60px 0px;
+  padding: 100px 0px 60px 0px;
   position: relative;
+  @include lg {
+    padding: 60px 0px 30px 0px;
+  }
+  @include sm {
+    padding: 30px 0px;
+  }
+  &__top {
+    @include lg {
+      display: none;
+    }
+  }
 
   &__body {
     padding: 30px 0px;
@@ -13,6 +24,7 @@
     }
 
     @include lg {
+      padding: 60px 0px;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
@@ -20,6 +32,9 @@
     @include sm {
       grid-template-columns: repeat(1, 1fr);
       gap: 30px;
+    }
+    @include xs {
+      padding: 30px 0px;
     }
   }
 

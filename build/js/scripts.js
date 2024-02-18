@@ -27,6 +27,27 @@ function togglePasswordVisibility() {
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
+const backgroundCollection = document.querySelector(
+  ".background-collection"
+);
+
+function column() {
+  const columns = document.querySelectorAll(".collection__column");
+  if (columns.length > 0) {
+      columns.forEach((column) => {
+          column.addEventListener('mouseenter', function() {
+            backgroundCollection.classList.add("active")
+          });
+
+          column.addEventListener('mouseleave', function() {
+            backgroundCollection.classList.remove("active")
+          });
+      });
+  } else {
+      console.error('Елементи з класом .collection__column не знайдено.');
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   const firebaseConfig = {
     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -79,9 +100,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     db = firebase.firestore();
     const filmCollection = document.getElementById("filmCollection");
-    const backgroundCollection = document.querySelector(
-      ".background-collection"
-    );
+
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
         const userId = user.uid;
@@ -114,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             querySnapshot.forEach((doc) => {
               const filmData = doc.data();
               if (isAdmin || (userId && userId === filmData.authorUid)) {
-                backgroundCollection.style.display = " none";
+                // backgroundCollection.style.display = " none";
                 collectionBody.style.display = "grid";
                 const filmElement = document.createElement("a");
                 filmElement.className = "collection__column";
@@ -127,12 +146,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 `;
 
                 if (filmCollection) {
+                 
                   filmCollection.appendChild(filmElement);
                 } else {
                   console.error("Елемент #filmCollection не знайдено.");
                 }
               }
             });
+            column()
           }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);

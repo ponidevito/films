@@ -1,13 +1,19 @@
 .header {
   background-color: #303030;
-
   &__body {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 15px;
+    @include lg {
+      align-items: flex-start;
+    }
     @include md {
       gap: 10px;
+    }
+    @include sm {
+      align-items: center;
     }
   }
 
@@ -76,12 +82,14 @@
     }
     @include lg {
       position: absolute;
-      top: 100px;
-      left: 50%;
-      transform: translate(-50%, 0);
+      top: 40px;
+      right: 0;
+      // transform: translate(-50%, 0);
     }
-    @include xs {
-      top: 70px;
+    @include sm {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       // position: relative;
       // top: unset;
       // left: unset;
@@ -102,9 +110,12 @@
     color: #ffd52d;
     outline: none;
     transition: 0.5s;
+    @include lg {
+      height: 30px;
+      font-size: 16px;
+    }
     @include md {
       width: 70px;
-      height: 40px;
     }
   }
 

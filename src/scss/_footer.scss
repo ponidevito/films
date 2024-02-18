@@ -1,5 +1,7 @@
 .footer {
     padding: 20px;
+    position: relative;
+    z-index: 1;
     background-color: #303030;
     @include sm {
         padding: 10px;
