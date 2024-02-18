@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Очищення поточного вмісту перед відображенням нових результатів
         filmCollection.innerHTML = "";
+        document.forms["header__search"]["txt"].value = "";
 
         displaySearchResults(filmsSnapshot);
       } catch (error) {

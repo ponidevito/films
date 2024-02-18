@@ -7,13 +7,13 @@
     justify-content: space-between;
     gap: 15px;
     @include lg {
-      align-items: flex-start;
+      // align-items: flex-start;
     }
     @include md {
       gap: 10px;
     }
     @include sm {
-      align-items: center;
+      // align-items: center;
     }
   }
 
@@ -47,7 +47,7 @@
         width: 100%;
       }
     }
-    @media (min-width: 576px) {
+    @media (min-width: 991.98px) {
       &:hover {
         input {
           width: 350px;
@@ -57,7 +57,7 @@
             color: #f0f0f0;
           }
           @include lg {
-            // width: 100%;
+            width: 100%;
           }
         }
 
@@ -81,20 +81,23 @@
       }
     }
     @include lg {
-      position: absolute;
-      top: 40px;
-      right: 0;
+      // position: absolute;
+      // top: 40px;
+      // right: 0;
       // transform: translate(-50%, 0);
     }
     @include sm {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      // top: 50%;
+      // left: 50%;
+      // transform: translate(-50%, -50%);
       // position: relative;
       // top: unset;
       // left: unset;
       // transform: unset;
     }
+  }
+
+  &__right {
   }
 
   &__input {
@@ -114,8 +117,8 @@
       height: 30px;
       font-size: 16px;
     }
-    @include md {
-      width: 70px;
+    @include lg {
+      width: 100%;
     }
   }
 
@@ -126,8 +129,16 @@
   &__login-box {
     gap: 20px;
     display: none;
+    @include lg {
+      @include lg {
+        min-width: 380px;
+      }
+    }
     @include md {
+      min-width: 320px;
       gap: 10px;
+      justify-content: flex-end;
+
     }
     @include sm {
       display: none;

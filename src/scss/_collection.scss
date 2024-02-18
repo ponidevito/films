@@ -86,15 +86,20 @@
     text-align: center;
     h2 {
       font-size: 20px;
+      // color: #303030;
       color: #ffd52d;
       &:active {
         transform: translateY(2px);
       }
-      &:hover {
-        color: #ffe26e;
-      }
+      // &:hover {
+      //   color: #ffe26e;
+      // }
     }
   }
+
+  // &__name {
+  //   color: #303030;
+  // }
 }
 
 .collection__column {
@@ -106,6 +111,8 @@
     left: 0;
     right: 0;
     background-color: rgb(60 60 60 / 60%);
+    // background-color: rgb(53 81 151 / 92%);
+    // background-color: rgb(255 213 45 / 82%);
     padding: 5px;
     z-index: -1;
     border-radius: 10px;
@@ -114,5 +121,11 @@
 }
 
 .collection__column:hover::before {
-  background-color: rgb(211 210 205 / 39%);
+  // background-color: rgb(211 210 205 / 39%);
+  background-color: #ffd52d;
+}
+
+.collection__column:hover .collection__name {
+  // background-color: rgb(211 210 205 / 39%);
+  color: #303030;;
 }

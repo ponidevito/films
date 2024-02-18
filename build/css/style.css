@@ -594,7 +594,7 @@ input::-webkit-inner-spin-button {
 }
 
 .add {
-  padding-top: 60px;
+  padding-top: 100px;
 }
 
 .add__container {
@@ -773,10 +773,6 @@ input::-webkit-inner-spin-button {
           transform: translateY(2px);
 }
 
-.collection__about h2:hover {
-  color: #ffe26e;
-}
-
 .collection__column::before {
   content: "";
   position: absolute;
@@ -794,11 +790,15 @@ input::-webkit-inner-spin-button {
 }
 
 .collection__column:hover::before {
-  background-color: rgba(211, 210, 205, 0.39);
+  background-color: #ffd52d;
+}
+
+.collection__column:hover .collection__name {
+  color: #303030;
 }
 
 .details {
-  padding: 60px 0px;
+  padding: 100px 0px;
   position: relative;
 }
 
@@ -880,7 +880,7 @@ input::-webkit-inner-spin-button {
 }
 
 .cabinet {
-  padding: 60px 0px;
+  padding: 100px 0px;
 }
 
 .admin-cabinet__body {
@@ -1028,7 +1028,7 @@ input::-webkit-inner-spin-button {
 
 .home {
   position: relative;
-  padding: 60px 0px;
+  padding: 100px 0px;
 }
 
 .home__container-auth {
@@ -1948,7 +1948,8 @@ html,
 body {
   height: 100%;
   width: 100%;
-  font-family: Comic Sans MS;
+  font-family: Montserrat;
+  letter-spacing: 0.6px;
   font-weight: 400;
   line-height: 24px;
   font-size: 18px;
@@ -1976,7 +1977,33 @@ body {
   position: relative;
 }
 
-@media (min-width: 576px) {
+@media (min-width: 767px) {
+  .link:active {
+    -webkit-transform: translateY(2px);
+        -ms-transform: translateY(2px);
+            transform: translateY(2px);
+  }
+
+  .btn:active {
+    -webkit-transform: translateY(2px);
+        -ms-transform: translateY(2px);
+            transform: translateY(2px);
+  }
+
+  .modal__wrapper .modal__close:active {
+    -webkit-transform: translateY(2px);
+        -ms-transform: translateY(2px);
+            transform: translateY(2px);
+  }
+
+  .modal__wrapper .modal__button:active {
+    -webkit-transform: translateY(2px);
+        -ms-transform: translateY(2px);
+            transform: translateY(2px);
+  }
+}
+
+@media (min-width: 991.98px) {
   .header__box:hover input {
     width: 350px;
     background: #3b3640;
@@ -2009,32 +2036,6 @@ body {
   }
 }
 
-@media (min-width: 767px) {
-  .link:active {
-    -webkit-transform: translateY(2px);
-        -ms-transform: translateY(2px);
-            transform: translateY(2px);
-  }
-
-  .btn:active {
-    -webkit-transform: translateY(2px);
-        -ms-transform: translateY(2px);
-            transform: translateY(2px);
-  }
-
-  .modal__wrapper .modal__close:active {
-    -webkit-transform: translateY(2px);
-        -ms-transform: translateY(2px);
-            transform: translateY(2px);
-  }
-
-  .modal__wrapper .modal__button:active {
-    -webkit-transform: translateY(2px);
-        -ms-transform: translateY(2px);
-            transform: translateY(2px);
-  }
-}
-
 @media (max-width: 1240px) {
   .collection__body {
     grid-template-columns: repeat(3, 1fr);
@@ -2056,25 +2057,17 @@ body {
     font-size: 40px;
   }
 
-  .header__body {
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-  }
-
-  .header__box {
-    position: absolute;
-    top: 40px;
-    right: 0;
-  }
-
   .header__input {
     height: 30px;
     font-size: 16px;
   }
 
+  .header__input {
+    width: 100%;
+  }
+
   .add {
-    padding-top: 30px;
+    padding-top: 70px;
   }
 
   .collection {
@@ -2117,6 +2110,12 @@ body {
   }
 }
 
+@media (max-width: 991.98px) and (max-width: 991.98px) {
+  .header__login-box {
+    min-width: 380px;
+  }
+}
+
 @media (max-width: 767px) {
   .link {
     font-size: 16px;
@@ -2140,12 +2139,12 @@ body {
     font-size: 16px;
   }
 
-  .header__input {
-    width: 70px;
-  }
-
   .header__login-box {
+    min-width: 320px;
     gap: 10px;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
   }
 }
 
@@ -2154,26 +2153,12 @@ body {
     font-size: 30x;
   }
 
-  .header__body {
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-  }
-
   .header__logo img {
     max-width: 80px;
   }
 
   .header__box input {
     width: 100%;
-  }
-
-  .header__box {
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
   }
 
   .header__login-box {
@@ -2416,5 +2401,11 @@ body {
 
   .footer__development {
     font-size: 14px;
+  }
+}
+
+@media (min-width: 991.98px) and (max-width: 991.98px) {
+  .header__box:hover input {
+    width: 100%;
   }
 }
