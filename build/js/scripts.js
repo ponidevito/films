@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.fontSize = "25px";
             emptyMessage.style.width = "100%";
             emptyMessage.style.textAlign = "center";
-            filmCollection.appendChild(emptyMessage);
+            // filmCollection.appendChild(emptyMessage);
           }
         }
       });
@@ -356,6 +356,7 @@ async function updateFilm(filmId, editedFilm) {
     await db.collection("films").doc(filmId).update(editedFilm);
 
     console.log("Фільм успішно оновлено у Firebase.");
+    displayEditSuccesToaster()
   } catch (error) {
     console.error("Помилка при оновленні фільму в Firebase:", error);
   }
@@ -437,7 +438,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       await db.collection("films").doc(filmId).delete();
       console.log("Фільм видалено успішно!");
-
+      displayDeleteSuccesToaster()
       // Оновлення DOM-елементу після видалення
       const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
       if (deletedRow) {
@@ -470,9 +471,6 @@ function validatePassword() {
 
   if (!passwordPattern.test(password)) {
     console.log("wrong");
-    // passwordInput.setCustomValidity(
-    //   "Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів"
-    // );
   } else {
     console.log("good");
 
@@ -481,9 +479,31 @@ function validatePassword() {
 }
 
 
+// toaster
+
+// warning
+
 function displayWrongToaster() {
-  toastr.options.timeOut = 1500; // 1.5s 
-  toastr.wrong('пароль не вірний');
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.warning("Email або пароль не вірний");
+}
+
+
+// success
+
+function displaySuccesToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.success("Фільм успішно додано");
+}
+
+function displayEditSuccesToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.success("Відредаговано");
+}
+
+function displayDeleteSuccesToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.success("Фільм видалено");
 }
 
 //burger js
@@ -574,7 +594,6 @@ if (document.title === "Додати фільм") {
       }
       console.log("Файл успішно завантажено!");
       // toastr.success('Файл успішно завантажено!');
-      displaySuccesToaster()
       form.reset()
 
       // Додавання нового фільму
@@ -595,7 +614,7 @@ if (document.title === "Додати фільм") {
       await docRef.update({
         id: docRef.id,
       });
-
+      displaySuccesToaster()
       console.log("Документ успішно додано з ID:", docRef.id);
     } catch (error) {
       console.error("Виникла помилка при обробці:", error);
@@ -605,168 +624,90 @@ if (document.title === "Додати фільм") {
 
 
 
-function displaySuccesToaster() {
-  toastr.options.timeOut = 1500; // 1.5s 
-  toastr.success('Фільм додано');
-}
-
-const firstModal = document.querySelector ('.firstM')
-const secondModal = document.querySelector ('.secondM')
-
-if(firstModal) {
-  const modalBtnEnter = document.querySelector ('.modal-enter')
-  const modalTitle = document.getElementById ('title')
-  
-  function bindModal(trigger, modal, close) {
-    trigger = document.querySelector(trigger);
-    modal = document.querySelector(modal);
-    close = document.querySelector(close);
-    const body = document.body;
-  
-    trigger.addEventListener('click', e => {
-      e.preventDefault();
-      modal.style.display = 'flex';
-      body.classList.add('locked');
-    });
-  
-    close.addEventListener('click', () => {
-      modal.style.display = 'none';
-      body.classList.remove('locked');
-    });
-  
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-        body.classList.remove('locked');
-      }
-    });
-  }
-  
-  function toggleRegistrationForm() {
-    const loginForm = document.querySelector('.first-modal');
-    const registrationForm = document.querySelector('.second-modal');
-    const registrationLink = document.getElementById('registrationLink');
-    const regButton = document.getElementById('reg-button'); // Додаємо клас reg-button
-  
-  
-    loginForm.style.display = 'none';
-    modalBtnEnter.style.display = 'none';
-    registrationForm.classList.add('form-registration')
-    registrationForm.style.display = 'flex';
-    registrationLink.textContent = 'Увійти';
-    registrationLink.style.textAlign = 'start';
-    registrationLink.onclick = toggleLoginForm;
-    regButton.style.display = 'flex';
-    modalTitle.textContent = 'Зареєструватись';
-  }
-  
-  function toggleLoginForm() {
-    const loginForm = document.querySelector('.first-modal');
-    const registrationForm = document.querySelector('.second-modal');
-    const registrationLink = document.getElementById('registrationLink');
-    const regButton = document.getElementById('reg-button'); // Додаємо клас reg-button
-  
-    loginForm.style.display = 'flex';
-    registrationForm.classList.remove('form-registration')
-    registrationForm.style.display = 'none';
-    registrationLink.textContent = 'Зареєструватись';
-    modalTitle.textContent = 'Вхід';
-    registrationLink.style.textAlign = 'end';
-    registrationLink.onclick = toggleRegistrationForm;
-    regButton.style.display = 'none';
-  }
-  
-  // Initialize modal with default content
-  bindModal('.modal__btn', '.modal__wrapper', '.modal__close');
-
-}
-
-if(secondModal) {
-  const modalBtnEnter = document.querySelector ('.modal-enter')
-  const modalTitle = document.getElementById ('title')
-  
-  function bindModal(trigger, modal, close) {
-    trigger = document.querySelector(trigger);
-    modal = document.querySelector(modal);
-    close = document.querySelector(close);
-    const body = document.body;
-  
-    trigger.addEventListener('click', e => {
-      e.preventDefault();
-      modal.style.display = 'flex';
-      body.classList.add('locked');
-    });
-  
-    close.addEventListener('click', () => {
-      modal.style.display = 'none';
-      body.classList.remove('locked');
-    });
-  
-    modal.addEventListener('click', e => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-        body.classList.remove('locked');
-      }
-    });
-  }
-  
-  function toggleRegistrationForm() {
-    const loginForm = document.querySelector('.first-modal');
-    const registrationForm = document.querySelector('.second-modal');
-    const registrationLink = document.getElementById('registrationLink');
-    const regButton = document.getElementById('reg-button'); // Додаємо клас reg-button
-  
-  
-    loginForm.style.display = 'none';
-    modalBtnEnter.style.display = 'none';
-    registrationForm.classList.add('form-registration')
-    registrationForm.style.display = 'flex';
-    registrationLink.textContent = 'Увійти';
-    registrationLink.style.textAlign = 'start';
-    registrationLink.onclick = toggleLoginForm;
-    regButton.style.display = 'flex';
-    modalTitle.textContent = 'Зареєструватись';
-  }
-  
-  function toggleLoginForm() {
-    const loginForm = document.querySelector('.first-modal');
-    const registrationForm = document.querySelector('.second-modal');
-    const registrationLink = document.getElementById('registrationLink');
-    const regButton = document.getElementById('reg-button'); // Додаємо клас reg-button
-  
-    loginForm.style.display = 'flex';
-    registrationForm.classList.remove('form-registration')
-    registrationForm.style.display = 'none';
-    registrationLink.textContent = 'Зареєструватись';
-    modalTitle.textContent = 'Вхід';
-    registrationLink.style.textAlign = 'end';
-    registrationLink.onclick = toggleRegistrationForm;
-    regButton.style.display = 'none';
-  }
-  
-  // Initialize modal with default content
-  bindModal('.modal__btnReg', '.modal__wrapper', '.modal__close');
-
-
-
-}
 
 
 const firstNameInput = document.getElementById("firstName");
 const lastNameInput = document.getElementById("lastName");
 
 firstNameInput.addEventListener("input", function () {
-    this.value = capitalizeFirstLetter(this.value);
+  this.value = capitalizeFirstLetter(this.value);
 });
 
 lastNameInput.addEventListener("input", function () {
-    this.value = capitalizeFirstLetter(this.value);
+  this.value = capitalizeFirstLetter(this.value);
 });
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const modalBtnEnter = document.querySelector(".modal-enter");
+const modalTitle = document.getElementById("title");
+
+function bindModal(trigger, modal, close) {
+  trigger = document.querySelector(trigger);
+  modal = document.querySelector(modal);
+  close = document.querySelector(close);
+  const body = document.body;
+
+  trigger.addEventListener("click", (e) => {
+    e.preventDefault();
+    modal.style.display = "flex";
+    body.classList.add("locked");
+  });
+
+  close.addEventListener("click", () => {
+    modal.style.display = "none";
+    body.classList.remove("locked");
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      body.classList.remove("locked");
+    }
+  });
+}
+
+function toggleRegistrationForm() {
+  const loginForm = document.querySelector(".first-modal");
+  const registrationForm = document.querySelector(".second-modal");
+  const registrationLink = document.getElementById("registrationLink");
+  const regButton = document.getElementById("reg-button"); // Додаємо клас reg-button
+
+  loginForm.style.display = "none";
+  modalBtnEnter.style.display = "none";
+  registrationForm.classList.add("form-registration");
+  registrationForm.style.display = "flex";
+  registrationLink.textContent = "Увійти";
+  registrationLink.style.textAlign = "start";
+  registrationLink.onclick = toggleLoginForm;
+  regButton.style.display = "flex";
+  modalTitle.textContent = "Зареєструватись";
+}
+
+function toggleLoginForm() {
+  const loginForm = document.querySelector(".first-modal");
+  const registrationForm = document.querySelector(".second-modal");
+  const registrationLink = document.getElementById("registrationLink");
+  const regButton = document.getElementById("reg-button"); // Додаємо клас reg-button
+
+  loginForm.style.display = "flex";
+  registrationForm.classList.remove("form-registration");
+  registrationForm.style.display = "none";
+  registrationLink.textContent = "Зареєструватись";
+  modalTitle.textContent = "Вхід";
+  registrationLink.style.textAlign = "end";
+  registrationLink.onclick = toggleRegistrationForm;
+  regButton.style.display = "none";
+}
+
+// Initialize modal with default content
+bindModal(".modal__btn", ".modal__wrapper", ".modal__close");
+
+if (document.title === "home") {
+  bindModal(".modal__btnReg", ".modal__wrapper", ".modal__close");
+}
 
 // // login
 
@@ -820,6 +761,7 @@ function submitForm() {
           console.log("Успішний вхід:", user);
           // Перенаправити на сторінку collection-films
           window.location.href = "collection-films.html";
+          displaySuccesToaster();
         } else {
           console.error("Документ користувача не існує!");
         }
@@ -829,14 +771,12 @@ function submitForm() {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.error("Помилка входу:", errorCode, errorMessage);
-      displayWrongToaster()
+      displayWrongToaster();
     });
 }
 
-
-
 // test
-const effectBurger = document.querySelector ('.effect')
+const effectBurger = document.querySelector(".effect");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
@@ -897,7 +837,6 @@ async function checkIfUserIsAdmin(user) {
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
 
-
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
   let userEmail = localStorage.getItem("userEmail");
@@ -908,7 +847,9 @@ function handleUserAuthentication() {
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
     if (window.location.pathname.includes("index.html")) {
-      console.log("Користувач вже авторизований, перенаправляю на collection-films.html");
+      console.log(
+        "Користувач вже авторизований, перенаправляю на collection-films.html"
+      );
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
     // homeContainer.style.display = "none";
@@ -952,11 +893,6 @@ function logOut() {
   loginBox.classList.remove("show-box");
   console.log("Користувач вийшов.");
   window.location.href = "/index.html";
-}
-
-function displayWrongToaster() {
-  toastr.options.timeOut = 1500; // 1.5s 
-  toastr.warning('пароль не вірний');
 }
 
 function regForm() {

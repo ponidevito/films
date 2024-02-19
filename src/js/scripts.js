@@ -1,6 +1,7 @@
 // Custom Scripts
 
 @@include('main.js')
+@@include('toasts.js')
 @@include('burger.js')
 @@include('firebase.js')
 @@include('modal.js')

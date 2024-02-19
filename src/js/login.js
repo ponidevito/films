@@ -50,6 +50,7 @@ function submitForm() {
           console.log("Успішний вхід:", user);
           // Перенаправити на сторінку collection-films
           window.location.href = "collection-films.html";
+          displaySuccesToaster();
         } else {
           console.error("Документ користувача не існує!");
         }
@@ -59,14 +60,12 @@ function submitForm() {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.error("Помилка входу:", errorCode, errorMessage);
-      displayWrongToaster()
+      displayWrongToaster();
     });
 }
 
-
-
 // test
-const effectBurger = document.querySelector ('.effect')
+const effectBurger = document.querySelector(".effect");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
@@ -127,7 +126,6 @@ async function checkIfUserIsAdmin(user) {
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
 
-
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
   let userEmail = localStorage.getItem("userEmail");
@@ -138,7 +136,9 @@ function handleUserAuthentication() {
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
     if (window.location.pathname.includes("index.html")) {
-      console.log("Користувач вже авторизований, перенаправляю на collection-films.html");
+      console.log(
+        "Користувач вже авторизований, перенаправляю на collection-films.html"
+      );
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
     // homeContainer.style.display = "none";
@@ -182,9 +182,4 @@ function logOut() {
   loginBox.classList.remove("show-box");
   console.log("Користувач вийшов.");
   window.location.href = "/index.html";
-}
-
-function displayWrongToaster() {
-  toastr.options.timeOut = 1500; // 1.5s 
-  toastr.warning('пароль не вірний');
 }

@@ -78,7 +78,6 @@ if (document.title === "Додати фільм") {
       }
       console.log("Файл успішно завантажено!");
       // toastr.success('Файл успішно завантажено!');
-      displaySuccesToaster()
       form.reset()
 
       // Додавання нового фільму
@@ -99,7 +98,7 @@ if (document.title === "Додати фільм") {
       await docRef.update({
         id: docRef.id,
       });
-
+      displaySuccesToaster()
       console.log("Документ успішно додано з ID:", docRef.id);
     } catch (error) {
       console.error("Виникла помилка при обробці:", error);
@@ -109,7 +108,3 @@ if (document.title === "Додати фільм") {
 
 
 
-function displaySuccesToaster() {
-  toastr.options.timeOut = 1500; // 1.5s 
-  toastr.success('Фільм додано');
-}

@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.fontSize = "25px";
             emptyMessage.style.width = "100%";
             emptyMessage.style.textAlign = "center";
-            filmCollection.appendChild(emptyMessage);
+            // filmCollection.appendChild(emptyMessage);
           }
         }
       });
@@ -354,6 +354,7 @@ async function updateFilm(filmId, editedFilm) {
     await db.collection("films").doc(filmId).update(editedFilm);
 
     console.log("Фільм успішно оновлено у Firebase.");
+    displayEditSuccesToaster()
   } catch (error) {
     console.error("Помилка при оновленні фільму в Firebase:", error);
   }
@@ -435,7 +436,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       await db.collection("films").doc(filmId).delete();
       console.log("Фільм видалено успішно!");
-
+      displayDeleteSuccesToaster()
       // Оновлення DOM-елементу після видалення
       const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
       if (deletedRow) {
@@ -468,9 +469,6 @@ function validatePassword() {
 
   if (!passwordPattern.test(password)) {
     console.log("wrong");
-    // passwordInput.setCustomValidity(
-    //   "Пароль повинен містити лише цифри та літери і бути довжиною принаймні 6 символів"
-    // );
   } else {
     console.log("good");
 
@@ -478,8 +476,3 @@ function validatePassword() {
   }
 }
 
-
-function displayWrongToaster() {
-  toastr.options.timeOut = 1500; // 1.5s 
-  toastr.wrong('пароль не вірний');
-}
