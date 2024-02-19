@@ -14,7 +14,6 @@
     &.body-first {
       padding: 5px;
       border-radius: 10px;
-
       position: relative;
       &::before {
         content: "";
@@ -52,7 +51,6 @@
 
   .collection__column {
     z-index: 4;
- 
   }
 
   .swiper-slide {
