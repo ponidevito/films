@@ -66,19 +66,21 @@ if (document.title === "Додати фільм") {
 
       const filmTitle = form.querySelector("input[placeholder='Назва']").value;
 
-      // Перевірка, чи існує фільм з такою ж назвою
+      // Перевірка, чи існує фільм з такою ж назвою, але не належить поточному користувачеві
       const existingFilms = await firestore
         .collection("films")
         .where("title", "==", filmTitle)
+        .where("authorUid", "==", userId) // Додайте умову перевірки userId
         .get();
 
       if (!existingFilms.empty) {
         console.error("Фільм з такою назвою вже існує.");
         return;
       }
+
       console.log("Файл успішно завантажено!");
       // toastr.success('Файл успішно завантажено!');
-      form.reset()
+      form.reset();
 
       // Додавання нового фільму
       const docRef = await firestore.collection("films").add({
@@ -93,18 +95,14 @@ if (document.title === "Додати фільм") {
         searchTitle: filmTitle.toLowerCase(),
       });
 
-
       // Оновлення додавання збереження id разом із даними
       await docRef.update({
         id: docRef.id,
       });
-      displaySuccesToaster()
+      displaySuccesToaster();
       console.log("Документ успішно додано з ID:", docRef.id);
     } catch (error) {
       console.error("Виникла помилка при обробці:", error);
     }
   }
 }
-
-
-
