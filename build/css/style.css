@@ -807,6 +807,30 @@ input::-webkit-inner-spin-button {
   transition: 0.3s;
 }
 
+#page-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 20px;
+}
+
+#page-buttons button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  outline: 1px solid #494a4f;
+  border-radius: 1px;
+  border: none;
+}
+
+#page-buttons .active {
+  background-color: #007bff;
+  color: white;
+}
+
 .details {
   padding: 100px 0px;
   position: relative;
