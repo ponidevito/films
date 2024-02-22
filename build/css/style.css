@@ -807,6 +807,23 @@ input::-webkit-inner-spin-button {
   transition: 0.3s;
 }
 
+.pagination {
+  position: relative;
+}
+
+.pagination__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 20px;
+}
+
 #page-buttons {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -814,12 +831,11 @@ input::-webkit-inner-spin-button {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 #page-buttons button {
   padding: 5px 10px;
-  margin: 0 5px;
   cursor: pointer;
   outline: 1px solid #494a4f;
   border-radius: 1px;

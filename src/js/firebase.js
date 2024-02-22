@@ -80,7 +80,7 @@ if (document.title === "Додати фільм") {
 
       console.log("Файл успішно завантажено!");
       // toastr.success('Файл успішно завантажено!');
-      form.reset();
+      // form.reset();
 
       // Додавання нового фільму
       const docRef = await firestore.collection("films").add({

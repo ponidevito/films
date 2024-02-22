@@ -147,13 +147,36 @@
   }
 }
 
+// .pagination {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+.pagination {
+  position: relative;
+  // height: 60px;
+  // background: rgba(255, 255, 255, 0.05);
+  // box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
+
+  // backdrop-filter: blur(3px);
+  // border-radius: 2px;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+}
+
 #page-buttons {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 15px;
   button {
     padding: 5px 10px;
-    margin: 0 5px;
+    // margin: 0 5px;
     cursor: pointer;
     outline: 1px solid #494a4f;
     border-radius: 1px;
@@ -162,7 +185,5 @@
   .active {
     background-color: #007bff;
     color: white;
+  }
 }
-}
-
-
