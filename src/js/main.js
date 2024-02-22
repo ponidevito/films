@@ -22,11 +22,10 @@ function togglePasswordVisibility() {
 
 // add film column
 
-
 // тест
 
 let current_page = 1;
-let records_per_page = 4;
+let records_per_page = 12;
 
 function prevPage() {
   if (current_page > 1) {
@@ -42,71 +41,13 @@ function nextPage() {
   }
 }
 
-// function changePage(page) {
-//   let btn_next = document.getElementById("btn_next");
-//   let btn_prev = document.getElementById("btn_prev");
-//   let listing_table = document.getElementById("filmCollection");
-
-//   let items = Array.from(listing_table.children);
-//   let startIndex = (page - 1) * records_per_page;
-//   let endIndex = startIndex + records_per_page;
-
-//   for (let i = 0; i < items.length; i++) {
-//     if (i >= startIndex && i < endIndex) {
-//       items[i].style.display = "block";
-//     } else {
-//       items[i].style.display = "none";
-//     }
-//   }
-
-//   if (page == 1) {
-//     btn_prev.style.visibility = "hidden";
-//   } else {
-//     btn_prev.style.visibility = "visible";
-//   }
-
-//   if (page == numPages()) {
-//     btn_next.style.visibility = "hidden";
-//   } else {
-//     btn_next.style.visibility = "visible";
-//   }
-// }
-
 function numPages() {
   let listing_table = document.getElementById("filmCollection");
   let items = Array.from(listing_table.children);
   return Math.ceil(items.length / records_per_page);
 }
 
-// function generatePageButtons() {
-//   let pageButtonsContainer = document.getElementById("page-buttons");
-//   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
-
-//   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
-
-//   let startPage = current_page - 5 > 0 ? current_page - 5 : 1;
-//   let endPage = startPage + 9 <= totalPages ? startPage + 9 : totalPages;
-
-//   for (let i = startPage; i <= endPage; i++) {
-//     let button = document.createElement("button");
-//     button.textContent = i;
-//     button.dataset.page = i;
-//     if (i === current_page) {
-//       button.classList.add("active"); // Позначаємо активну сторінку
-//     }
-//     button.addEventListener("click", function () {
-//       changePage(parseInt(this.dataset.page));
-//     });
-//     pageButtonsContainer.appendChild(button);
-//   }
-// }
-
-// window.onload = function () {
-//   generatePageButtons();
-// };
-
 // Змінена функція changePage для оновлення кнопок сторінки після зміни сторінки
-
 
 function generatePageButtons() {
   let pageButtonsContainer = document.getElementById("page-buttons");
@@ -117,43 +58,38 @@ function generatePageButtons() {
   let startPage, endPage;
 
   if (totalPages <= 10) {
-      startPage = 1;
-      endPage = totalPages;
+    startPage = 1;
+    endPage = totalPages;
   } else {
-      if (current_page <= 6) {
-          startPage = 1;
-          endPage = 10;
-      } else if (current_page + 4 >= totalPages) {
-          startPage = totalPages - 9;
-          endPage = totalPages;
-      } else {
-          startPage = current_page - 5;
-          endPage = current_page + 4;
-      }
+    if (current_page <= 6) {
+      startPage = 1;
+      endPage = 10;
+    } else if (current_page + 4 >= totalPages) {
+      startPage = totalPages - 9;
+      endPage = totalPages;
+    } else {
+      startPage = current_page - 5;
+      endPage = current_page + 4;
+    }
   }
 
   for (let i = startPage; i <= endPage; i++) {
-      let button = document.createElement("button");
-      button.textContent = i;
-      button.dataset.page = i;
-      if (i === current_page) {
-          button.classList.add("active"); // Позначаємо активну сторінку
-      }
-      button.addEventListener("click", function () {
-          changePage(parseInt(this.dataset.page));
-      });
-      pageButtonsContainer.appendChild(button);
+    let button = document.createElement("button");
+    button.textContent = i;
+    button.dataset.page = i;
+    if (i === current_page) {
+      button.classList.add("active"); // Позначаємо активну сторінку
+    }
+    button.addEventListener("click", function () {
+      changePage(parseInt(this.dataset.page));
+    });
+    pageButtonsContainer.appendChild(button);
   }
 }
 
-
-
-
-
 function changePage(page) {
-
   current_page = page;
-    let btn_next = document.getElementById("btn_next");
+  let btn_next = document.getElementById("btn_next");
   let btn_prev = document.getElementById("btn_prev");
   let listing_table = document.getElementById("filmCollection");
   let items = Array.from(listing_table.children);
@@ -170,17 +106,41 @@ function changePage(page) {
 
   generatePageButtons(); // Оновлюємо кнопки сторінки
 
-      // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
-      if (current_page === 1) {
-        btn_prev.style.visibility = "hidden";
-        btn_next.style.visibility = "visible";
-    } else if (current_page === numPages()) {
-        btn_prev.style.visibility = "visible";
-        btn_next.style.visibility = "hidden";
-    } else {
-        btn_prev.style.visibility = "visible";
-        btn_next.style.visibility = "visible";
-    }
+  // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
+  if (current_page === 1) {
+    btn_prev.style.visibility = "hidden";
+    btn_next.style.visibility = "visible";
+  } else if (current_page === numPages()) {
+    btn_prev.style.visibility = "visible";
+    btn_next.style.visibility = "hidden";
+  } else {
+    btn_prev.style.visibility = "visible";
+    btn_next.style.visibility = "visible";
+  }
+}
+
+function initializeEventListeners() {
+  // Додаємо слухачів подій до кнопок пагінації
+  var prevButton = document.getElementById("btn_prev");
+  var nextButton = document.getElementById("btn_next");
+
+  prevButton.addEventListener("click", function () {
+    prevPage();
+    changePage(current_page);
+  });
+
+  nextButton.addEventListener("click", function () {
+    nextPage();
+    changePage(current_page);
+  });
+
+  var pageButtons = document.querySelectorAll("#page-buttons button");
+  pageButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      var pageNumber = parseInt(this.textContent);
+      changePage(pageNumber);
+    });
+  });
 }
 
 // Викликаємо функцію генерації кнопок сторінки після завантаження сторінки
@@ -243,11 +203,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         items[i].style.display = "none";
       }
       // Викликаємо функцію changePage(1) для відображення першої сторінки
-      
+
       changePage(1);
-      generatePageButtons();
       // Генеруємо кнопки сторінки
       generatePageButtons();
+      initializeEventListeners();
     };
 
     window.searchFilms = async function () {
