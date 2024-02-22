@@ -808,10 +808,12 @@ input::-webkit-inner-spin-button {
 }
 
 .pagination {
+  margin-top: 50px;
   position: relative;
 }
 
 .pagination__container {
+  width: 680px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -821,10 +823,13 @@ input::-webkit-inner-spin-button {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
   gap: 20px;
 }
 
 #page-buttons {
+  width: 450px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -835,7 +840,17 @@ input::-webkit-inner-spin-button {
 }
 
 #page-buttons button {
-  padding: 5px 10px;
+  width: 30px;
+  min-height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   cursor: pointer;
   outline: 1px solid #494a4f;
   border-radius: 1px;
@@ -845,6 +860,14 @@ input::-webkit-inner-spin-button {
 #page-buttons .active {
   background-color: #007bff;
   color: white;
+}
+
+#btn_prev {
+  display: inline-block;
+}
+
+#btn_next {
+  display: inline-block;
 }
 
 .details {

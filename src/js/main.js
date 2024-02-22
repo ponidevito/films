@@ -22,202 +22,170 @@ function togglePasswordVisibility() {
 
 // add film column
 
-// var current_page = 1;
-// var records_per_page = 4;
-
-// function prevPage() {
-//     if (current_page > 1) {
-//         current_page--;
-//         changePage(current_page);
-//     }
-// }
-
-// function nextPage() {
-//     if (current_page < numPages()) {
-//         current_page++;
-//         changePage(current_page);
-//     }
-// }
-
-// function changePage(page) {
-//     var btn_next = document.getElementById("btn_next");
-//     var btn_prev = document.getElementById("btn_prev");
-//     var listing_table = document.getElementById("filmCollection");
-//     // var page_span = document.getElementById("page");
-
-//     var items = Array.from(listing_table.children);
-//     var startIndex = (page - 1) * records_per_page;
-//     var endIndex = startIndex + records_per_page;
-
-//     for (var i = 0; i < items.length; i++) {
-//         if (i >= startIndex && i < endIndex) {
-//             items[i].style.display = "block";
-//         } else {
-//             items[i].style.display = "none";
-//         }
-//     }
-
-//     // page_span.innerHTML = page;
-
-//     if (page == 1) {
-//         btn_prev.style.visibility = "hidden";
-//     } else {
-//         btn_prev.style.visibility = "visible";
-//     }
-
-//     if (page == numPages()) {
-//         btn_next.style.visibility = "hidden";
-//     } else {
-//         btn_next.style.visibility = "visible";
-//     }
-// }
-
-
-
-// function numPages() {
-//     var listing_table = document.getElementById("filmCollection");
-//     var items = Array.from(listing_table.children);
-//     return Math.ceil(items.length / records_per_page);
-// }
-
-
-
-// // test
-// // Функція для генерації кнопок сторінки
-// function generatePageButtons() {
-//   var pageButtonsContainer = document.getElementById("page-buttons");
-//   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
-
-//   var totalPages = numPages(); // Отримуємо загальну кількість сторінок
-//   var currentPage = current_page;
-
-//   for (var i = 1; i <= totalPages; i++) {
-//       var button = document.createElement("button");
-//       button.textContent = i;
-//       button.dataset.page = i;
-//       if (i === currentPage) {
-//           button.classList.add("active"); // Позначаємо активну сторінку
-//       }
-//       button.addEventListener("click", function() {
-//           changePage(parseInt(this.dataset.page));
-//       });
-//       pageButtonsContainer.appendChild(button);
-//   }
-// }
-
 
 // тест
 
-
-
-var current_page = 1;
-var records_per_page = 4;
+let current_page = 1;
+let records_per_page = 4;
 
 function prevPage() {
-    if (current_page > 1) {
-        current_page--;
-        changePage(current_page);
-    }
+  if (current_page > 1) {
+    current_page--;
+    changePage(current_page);
+  }
 }
 
 function nextPage() {
-    if (current_page < numPages()) {
-        current_page++;
-        changePage(current_page);
-    }
+  if (current_page < numPages()) {
+    current_page++;
+    changePage(current_page);
+  }
 }
 
-function changePage(page) {
-    var btn_next = document.getElementById("btn_next");
-    var btn_prev = document.getElementById("btn_prev");
-    var listing_table = document.getElementById("filmCollection");
+// function changePage(page) {
+//   let btn_next = document.getElementById("btn_next");
+//   let btn_prev = document.getElementById("btn_prev");
+//   let listing_table = document.getElementById("filmCollection");
 
-    var items = Array.from(listing_table.children);
-    var startIndex = (page - 1) * records_per_page;
-    var endIndex = startIndex + records_per_page;
+//   let items = Array.from(listing_table.children);
+//   let startIndex = (page - 1) * records_per_page;
+//   let endIndex = startIndex + records_per_page;
 
-    for (var i = 0; i < items.length; i++) {
-        if (i >= startIndex && i < endIndex) {
-            items[i].style.display = "block";
-        } else {
-            items[i].style.display = "none";
-        }
-    }
+//   for (let i = 0; i < items.length; i++) {
+//     if (i >= startIndex && i < endIndex) {
+//       items[i].style.display = "block";
+//     } else {
+//       items[i].style.display = "none";
+//     }
+//   }
 
-    if (page == 1) {
-        btn_prev.style.visibility = "hidden";
-    } else {
-        btn_prev.style.visibility = "visible";
-    }
+//   if (page == 1) {
+//     btn_prev.style.visibility = "hidden";
+//   } else {
+//     btn_prev.style.visibility = "visible";
+//   }
 
-    if (page == numPages()) {
-        btn_next.style.visibility = "hidden";
-    } else {
-        btn_next.style.visibility = "visible";
-    }
-}
+//   if (page == numPages()) {
+//     btn_next.style.visibility = "hidden";
+//   } else {
+//     btn_next.style.visibility = "visible";
+//   }
+// }
 
 function numPages() {
-    var listing_table = document.getElementById("filmCollection");
-    var items = Array.from(listing_table.children);
-    return Math.ceil(items.length / records_per_page);
+  let listing_table = document.getElementById("filmCollection");
+  let items = Array.from(listing_table.children);
+  return Math.ceil(items.length / records_per_page);
 }
 
-function generatePageButtons() {
-    var pageButtonsContainer = document.getElementById("page-buttons");
-    pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
+// function generatePageButtons() {
+//   let pageButtonsContainer = document.getElementById("page-buttons");
+//   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
 
-    var totalPages = numPages(); // Отримуємо загальну кількість сторінок
+//   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
 
-    var startPage = current_page - 5 > 0 ? current_page - 5 : 1;
-    var endPage = startPage + 9 <= totalPages ? startPage + 9 : totalPages;
+//   let startPage = current_page - 5 > 0 ? current_page - 5 : 1;
+//   let endPage = startPage + 9 <= totalPages ? startPage + 9 : totalPages;
 
-    for (var i = startPage; i <= endPage; i++) {
-        var button = document.createElement("button");
-        button.textContent = i;
-        button.dataset.page = i;
-        if (i === current_page) {
-            button.classList.add("active"); // Позначаємо активну сторінку
-        }
-        button.addEventListener("click", function() {
-            changePage(parseInt(this.dataset.page));
-        });
-        pageButtonsContainer.appendChild(button);
-    }
-}
+//   for (let i = startPage; i <= endPage; i++) {
+//     let button = document.createElement("button");
+//     button.textContent = i;
+//     button.dataset.page = i;
+//     if (i === current_page) {
+//       button.classList.add("active"); // Позначаємо активну сторінку
+//     }
+//     button.addEventListener("click", function () {
+//       changePage(parseInt(this.dataset.page));
+//     });
+//     pageButtonsContainer.appendChild(button);
+//   }
+// }
 
-window.onload = function() {
-    generatePageButtons();
-};
-
-
-
-
+// window.onload = function () {
+//   generatePageButtons();
+// };
 
 // Змінена функція changePage для оновлення кнопок сторінки після зміни сторінки
-function changePage(page) {
-  current_page = page;
-  var listing_table = document.getElementById("filmCollection");
-  var items = Array.from(listing_table.children);
-  var startIndex = (page - 1) * records_per_page;
-  var endIndex = startIndex + records_per_page;
 
-  for (var i = 0; i < items.length; i++) {
-      if (i >= startIndex && i < endIndex) {
-          items[i].style.display = "block";
+
+function generatePageButtons() {
+  let pageButtonsContainer = document.getElementById("page-buttons");
+  pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
+
+  let totalPages = numPages(); // Отримуємо загальну кількість сторінок
+
+  let startPage, endPage;
+
+  if (totalPages <= 10) {
+      startPage = 1;
+      endPage = totalPages;
+  } else {
+      if (current_page <= 6) {
+          startPage = 1;
+          endPage = 10;
+      } else if (current_page + 4 >= totalPages) {
+          startPage = totalPages - 9;
+          endPage = totalPages;
       } else {
-          items[i].style.display = "none";
+          startPage = current_page - 5;
+          endPage = current_page + 4;
       }
   }
 
+  for (let i = startPage; i <= endPage; i++) {
+      let button = document.createElement("button");
+      button.textContent = i;
+      button.dataset.page = i;
+      if (i === current_page) {
+          button.classList.add("active"); // Позначаємо активну сторінку
+      }
+      button.addEventListener("click", function () {
+          changePage(parseInt(this.dataset.page));
+      });
+      pageButtonsContainer.appendChild(button);
+  }
+}
+
+
+
+
+
+function changePage(page) {
+
+  current_page = page;
+    let btn_next = document.getElementById("btn_next");
+  let btn_prev = document.getElementById("btn_prev");
+  let listing_table = document.getElementById("filmCollection");
+  let items = Array.from(listing_table.children);
+  let startIndex = (page - 1) * records_per_page;
+  let endIndex = startIndex + records_per_page;
+
+  for (let i = 0; i < items.length; i++) {
+    if (i >= startIndex && i < endIndex) {
+      items[i].style.display = "block";
+    } else {
+      items[i].style.display = "none";
+    }
+  }
+
   generatePageButtons(); // Оновлюємо кнопки сторінки
+
+      // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
+      if (current_page === 1) {
+        btn_prev.style.visibility = "hidden";
+        btn_next.style.visibility = "visible";
+    } else if (current_page === numPages()) {
+        btn_prev.style.visibility = "visible";
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+        btn_next.style.visibility = "visible";
+    }
 }
 
 // Викликаємо функцію генерації кнопок сторінки після завантаження сторінки
 
 // test
-
-
 
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
@@ -254,33 +222,33 @@ document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
 
   if (document.title === "Collection") {
+    window.onload = function () {
+      var listing_table = document.getElementById("filmCollection");
+      var items = Array.from(listing_table.children);
+
+      // Приховати всі елементи, крім перших 10
+      for (var i = records_per_page; i < items.length; i++) {
+        items[i].style.display = "none";
+      }
+
+      // Викликати функцію changePage(1) для приховання всіх елементів крім перших 10
+      // changePage(1);
+    };
 
     window.onload = function () {
       var listing_table = document.getElementById("filmCollection");
       var items = Array.from(listing_table.children);
-  
-      // Приховати всі елементи, крім перших 10
-      for (var i = records_per_page; i < items.length; i++) {
-          items[i].style.display = "none";
-      }
-      
-      // Викликати функцію changePage(1) для приховання всіх елементів крім перших 10
-      // changePage(1);
-  };
-
-    window.onload = function() {
-      var listing_table = document.getElementById("filmCollection");
-      var items = Array.from(listing_table.children);
       // Приховуємо всі елементи, крім перших records_per_page
       for (var i = records_per_page; i < items.length; i++) {
-          items[i].style.display = "none";
+        items[i].style.display = "none";
       }
       // Викликаємо функцію changePage(1) для відображення першої сторінки
+      
       changePage(1);
+      generatePageButtons();
       // Генеруємо кнопки сторінки
       generatePageButtons();
     };
-
 
     window.searchFilms = async function () {
       const searchTerm = document.forms["header__search"]["txt"].value
@@ -369,7 +337,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 if (filmCollection) {
                   filmCollection.appendChild(filmElement);
                   changePage(1);
-
                 } else {
                   console.error("Елемент #filmCollection не знайдено.");
                 }
@@ -699,7 +666,4 @@ function validatePassword() {
   }
 }
 
-
 // test
-
-

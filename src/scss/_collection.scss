@@ -147,35 +147,32 @@
   }
 }
 
-// .pagination {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
 .pagination {
+  margin-top: 50px;
   position: relative;
-  // height: 60px;
-  // background: rgba(255, 255, 255, 0.05);
-  // box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
-
-  // backdrop-filter: blur(3px);
-  // border-radius: 2px;
-
   &__container {
+    // display: inline-block;
+    width: 680px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: nowrap;
     gap: 20px;
   }
 }
 
 #page-buttons {
+  width: 450px;
   display: flex;
   justify-content: center;
   gap: 15px;
   button {
-    padding: 5px 10px;
+    width: 30px;
+    min-height: 30px;
+    // padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     // margin: 0 5px;
     cursor: pointer;
     outline: 1px solid #494a4f;
@@ -186,4 +183,12 @@
     background-color: #007bff;
     color: white;
   }
+}
+
+#btn_prev {
+  display: inline-block;
+}
+
+#btn_next {
+  display: inline-block;
 }
