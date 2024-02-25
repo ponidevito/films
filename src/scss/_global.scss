@@ -91,7 +91,7 @@ input::-webkit-inner-spin-button {
 }
 
 .background {
-  position: absolute;
+  position: fixed;
   transition: 0.3s;
   opacity: 0.6;
   width: 100%;
@@ -100,21 +100,27 @@ input::-webkit-inner-spin-button {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  &.active {
-    opacity: 0.2;
-  }
 
   &.background-details {
+    position: fixed;
     opacity: 0.2;
+    @include sm {
+      display: none;
+    }
   }
 
   &.background-collection {
     position: fixed;
     z-index: 0;
-    &.active {
-      opacity: 
-      0.3;
+    @include sm {
+      display: none;
     }
+  }
+  @include lg {
+    opacity: 0.3;
+  }
+  @include sm {
+    display: none;
   }
 }
 
