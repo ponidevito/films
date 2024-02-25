@@ -235,7 +235,8 @@ function column() {
         backgroundCollection.classList.remove("active");
       });
     });
-  } else {
+  } 
+  else {
     console.error("Елементи з класом .collection__column не знайдено.");
   }
 }
@@ -259,7 +260,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
 
   if (document.title === "Collection") {
-    // generatePageButtons();
     window.onload = function () {
       var listing_table = document.getElementById("filmCollection");
       var items = Array.from(listing_table.children);

@@ -201,6 +201,9 @@
   padding: 5px 10px;
   display: inline-block;
   position: relative;
+  position: relative;
+  color: #303030;
+  z-index: 1;
   &::before {
     content: "";
     position: absolute;
@@ -208,7 +211,8 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgb(60 60 60 / 60%);
+    // background-color: rgb(60 60 60 / 60%);
+    background-color: #ffd52d;
     padding: 5px;
     z-index: -1;
     border-radius: 10px;
@@ -220,6 +224,8 @@
   padding: 5px 10px;
   display: inline-block;
   position: relative;
+  color: #303030;
+  z-index: 1;
   &::before {
     content: "";
     position: absolute;
@@ -227,7 +233,8 @@
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgb(60 60 60 / 60%);
+    // background-color: rgb(60 60 60 / 60%);
+    background-color: #ffd52d;
     padding: 5px;
     z-index: -1;
     border-radius: 10px;
