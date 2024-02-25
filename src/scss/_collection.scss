@@ -16,11 +16,10 @@
       left: 50%;
       width: 50%;
       height: 100%;
-      background-color: rgba(48, 48, 48, 0.83);
+      // background-color: rgba(48, 48, 48, 0.83);
       padding: 5px;
       border-radius: 10px;
-      -webkit-filter: blur(12px);
-      filter: blur(12px);
+      // filter: blur(10px);
       transform: translate(-50%, 0);
     }
     @include lg {
@@ -58,8 +57,6 @@
   }
 
   &__column {
-    // padding: 0px 0px 10px 0px;
-    // gap: 10px;
     overflow: hidden;
     height: 100%;
     width: 250px;
@@ -106,7 +103,7 @@
     text-align: center;
     h2 {
       overflow: hidden;
-      word-wrap: break-word; 
+      word-wrap: break-word;
       color: #303030;
       @media (min-width: 991.98px) {
         font-size: 20px;
@@ -165,28 +162,28 @@
     justify-content: center;
     flex-wrap: nowrap;
     gap: 20px;
-   
   }
- 
 }
 
 #page-buttons {
-  // width: 450px;
   display: flex;
   justify-content: center;
   gap: 15px;
   button {
-    width: 30px;
-    min-height: 30px;
-    // padding: 10px 15px;
+    width: 50px;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    // margin: 0 5px;
     cursor: pointer;
-    outline: 1px solid #494a4f;
-    border-radius: 1px;
+    border-radius: 2px;
     border: none;
+    transition: 0.3s;
+    &:hover {
+      @media (min-width: 767px) {
+        background-color: #ffd52d;
+      }
+    }
   }
   .active {
     background-color: #ffd52d;
@@ -204,6 +201,9 @@
   position: relative;
   color: #303030;
   z-index: 1;
+  min-height: 40px;
+  width: 100px;
+  text-align: center;
   &::before {
     content: "";
     position: absolute;
@@ -211,21 +211,29 @@
     top: 0;
     left: 0;
     right: 0;
-    // background-color: rgb(60 60 60 / 60%);
     background-color: #ffd52d;
     padding: 5px;
     z-index: -1;
-    border-radius: 10px;
+    border-radius: 2px;
     transition: 0.3s;
   }
 }
 
+#btn_prev:hover::before {
+  background-color: #ffe26e;
+}
+
 #btn_next {
+  width: 100px;
+  text-align: center;
+
   padding: 5px 10px;
   display: inline-block;
   position: relative;
   color: #303030;
   z-index: 1;
+  min-height: 40px;
+
   &::before {
     content: "";
     position: absolute;
@@ -233,11 +241,14 @@
     top: 0;
     left: 0;
     right: 0;
-    // background-color: rgb(60 60 60 / 60%);
     background-color: #ffd52d;
     padding: 5px;
     z-index: -1;
-    border-radius: 10px;
+    border-radius: 2px;
     transition: 0.3s;
   }
+}
+
+#btn_next:hover::before {
+  background-color: #ffe26e;
 }

@@ -22,13 +22,11 @@
 }
 
 .add {
-
-
-
   &__body {
     padding: 20px 10px;
     background-color: #303030;
     border-radius: 10px;
+    margin-bottom: 20px;
   }
 
   &__form {
@@ -59,9 +57,6 @@
   }
 }
 
-
-
-
 .input-form-add {
   width: 100%;
   min-height: 50px;
@@ -80,5 +75,4 @@
   &:focus {
     border: 2px solid #ffd52d;
   }
-
 }

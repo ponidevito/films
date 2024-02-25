@@ -23,7 +23,7 @@ function togglePasswordVisibility() {
 // тест
 
 let current_page = 1;
-let records_per_page = 4;
+let records_per_page = 12;
 let filmsData = [];
 
 function prevPage() {
@@ -45,18 +45,20 @@ function nextPage() {
 }
 
 function numPages() {
-  let listing_table = document.getElementById("filmCollection");
-  let items = Array.from(listing_table.children);
-  // return Math.ceil(items.length / records_per_page);
+  // let listing_table = document.getElementById("filmCollection");
+  // let items = Array.from(listing_table.children);
+  // // return Math.ceil(items.length / records_per_page);
   return Math.ceil(filmsData.length / records_per_page);
 }
 
 // Функція для завантаження даних з Firebase
 
-
 async function loadFilmsData(userId) {
   try {
-    const filmsSnapshot = await db.collection("films").where("authorUid", "==", userId).get();
+    const filmsSnapshot = await db
+      .collection("films")
+      .where("authorUid", "==", userId)
+      .get();
     filmsData = filmsSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -67,63 +69,13 @@ async function loadFilmsData(userId) {
   }
 }
 
-
-// Змінена функція changePage для оновлення кнопок сторінки після зміни сторінки
-
-// function generatePageButtons() {
-//   let pageButtonsContainer = document.getElementById("page-buttons");
-//   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
-//   let btn_next = document.getElementById("btn_next");
-//   let btn_prev = document.getElementById("btn_prev");
-//   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
-
-//   if (totalPages <= 1) {
-//     // Якщо тільки одна сторінка, приховуємо обидві кнопки
-//     btn_prev.style.display = "none";
-//     btn_next.style.display = "none";
-    
-//     return;
-//   }
-
-//   let startPage, endPage;
-
-//   if (totalPages <= 10) {
-//     startPage = 1;
-//     endPage = totalPages;
-//   } else {
-//     if (current_page <= 6) {
-//       startPage = 1;
-//       endPage = 10;
-//     } else if (current_page + 4 >= totalPages) {
-//       startPage = totalPages - 9;
-//       endPage = totalPages;
-//     } else {
-//       startPage = current_page - 5;
-//       endPage = current_page + 4;
-//     }
-//   }
-
-//   for (let i = startPage; i <= endPage; i++) {
-//     let button = document.createElement("button");
-//     button.textContent = i;
-//     button.dataset.page = i;
-//     if (i === current_page) {
-//       button.classList.add("active"); // Позначаємо активну сторінку
-//     }
-//     button.addEventListener("click", function () {
-//       changePage(parseInt(this.dataset.page));
-//     });
-//     pageButtonsContainer.appendChild(button);
-//   }
-// }
-
 function generatePageButtons() {
   let pageButtonsContainer = document.getElementById("page-buttons");
   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
   let btn_next = document.getElementById("btn_next");
   let btn_prev = document.getElementById("btn_prev");
   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
-  let maxVisibleButtons = window.innerWidth < 767 ? 5 : 10; // Визначаємо максимальну кількість видимих кнопок в залежності від розміру екрану
+  let maxVisibleButtons = window.innerWidth < 992 ? 5 : 10; // Визначаємо максимальну кількість видимих кнопок в залежності від розміру екрану
 
   if (totalPages <= 1) {
     // Якщо тільки одна сторінка, приховуємо обидві кнопки
@@ -164,7 +116,6 @@ function generatePageButtons() {
   }
 }
 
-
 function changePage(page) {
   current_page = page;
 
@@ -194,14 +145,12 @@ function renderFilms() {
     `;
     listing_table.appendChild(filmElement);
   }
-  column()
+  column();
   generatePageButtons(); // Оновлюємо кнопки сторінки
   if (current_page === 1) {
     btn_prev.style.visibility = "hidden";
     btn_next.style.visibility = "visible";
-  }
-
-  else if (current_page === numPages()) {
+  } else if (current_page === numPages()) {
     btn_prev.style.visibility = "visible";
     btn_next.style.visibility = "hidden";
   } else {
@@ -222,26 +171,27 @@ let counter = 1; // Лічильник
 const backgroundCollection = document.querySelector(".background-collection");
 
 function column() {
-  const columns = document.querySelectorAll(".collection__column");
-  if (columns.length > 0) {
-    columns.forEach((column) => {
-      column.addEventListener("mouseenter", function () {
-        backgroundCollection.classList.add("active");
-      });
+  // const columns = document.querySelectorAll(".collection__column");
+  // if (columns.length > 0) {
+  //   columns.forEach((column) => {
+  //     column.addEventListener("mouseenter", function () {
+  //       backgroundCollection.classList.add("active");
+  //     });
 
-      column.addEventListener("mouseleave", function () {
-        backgroundCollection.classList.remove("active");
-      });
-    });
-  } 
-  else {
-    console.error("Елементи з класом .collection__column не знайдено.");
-  }
+  //     column.addEventListener("mouseleave", function () {
+  //       backgroundCollection.classList.remove("active");
+  //     });
+  //   });
+  // } else {
+  //   console.error("Елементи з класом .collection__column не знайдено.");
+  // }
 }
 
 // Додаємо прослуховувач подій на зміну розміру вікна
-window.addEventListener('resize', function() {
-  generatePageButtons(); // Викликаємо функцію генерації кнопок сторінок при кожній зміні розміру вікна
+window.addEventListener("resize", function () {
+  if (document.title === "Collection") {
+    generatePageButtons(); // Викликаємо функцію генерації кнопок сторінок при кожній зміні розміру вікна
+  }
 });
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -340,7 +290,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             addFilmLink.style.textAlign = "center";
             filmCollection.appendChild(addFilmLink);
           } else {
-            loadFilmsData(userId)
+            loadFilmsData(userId);
           }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
