@@ -35,6 +35,8 @@ function regForm() {
                 loginBox.classList.add("show-box");
 
                 console.log("Успішна реєстрація та вхід:", user);
+                location.reload()
+
                 // Перенаправлення на сторінку collection-films
                 // window.location.href = "collection-films.html";
             }).catch((error) => {

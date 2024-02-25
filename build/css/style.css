@@ -97,6 +97,9 @@ h6 {
 
 .link.link-add {
   font-size: 30px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .link:hover {

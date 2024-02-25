@@ -78,9 +78,6 @@ if (document.title === "Додати фільм") {
         return;
       }
 
-      console.log("Файл успішно завантажено!");
-      // toastr.success('Файл успішно завантажено!');
-      // form.reset();
 
       // Додавання нового фільму
       const docRef = await firestore.collection("films").add({
@@ -101,6 +98,16 @@ if (document.title === "Додати фільм") {
       });
       displaySuccesToaster();
       console.log("Документ успішно додано з ID:", docRef.id);
+      document.getElementById("filmName").value = "";
+      document.getElementById("filmYear").value = "";
+      document.getElementById("filmDescription").value = "";
+      if (document.getElementById("trailer")) {
+        document.getElementById("trailer").value = "";
+      }
+
+      if (document.getElementById("moviePoster")) {
+        document.getElementById("moviePoster").src = "";
+      }
     } catch (error) {
       console.error("Виникла помилка при обробці:", error);
     }

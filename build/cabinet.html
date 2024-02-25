@@ -130,7 +130,7 @@
                     <div class="form__group-box">
                     <div class="form__group">
                         <input type="text" class="input-form-add" placeholder="Назва" id="filmName">
-                        <input type="text" class="input-form-add" placeholder="Рік" id="filmYear" >
+                        <input type="number" class="input-form-add" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==4) return false;" placeholder="Рік" minlength="4" maxlength="4" placeholder="Рік" id="filmYear" >
                     </div>
                     <div class="form__group">
                         <input type="text" class="input-form-add" placeholder="Про фільм" id="filmDescription" >

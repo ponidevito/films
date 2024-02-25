@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       }
-    } else if (! window.location.pathname.includes("index.html")) {
+    } else if (!window.location.pathname.includes("index.html")) {
       console.log("Направляю неавторизованого користувача на index.html");
       window.location.href = "index.html";
     } else {
@@ -99,9 +99,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 });
-
-
-
 
 async function checkIfUserIsAdmin(user) {
   if (user) {
@@ -139,15 +136,13 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
-    if (window.location.pathname.includes("index.html") ) {
+    if (window.location.pathname.includes("index.html")) {
       console.log(
         "Користувач вже авторизований, перенаправляю на collection-films.html"
       );
       window.location.href = "collection-films.html"; // Замініть на свій URL
-    }
-    else if (window.location.pathname === "/") {
+    } else if (window.location.pathname === "/") {
       window.location.href = "collection-films.html"; // Замініть на свій URL
-
     }
     // homeContainer.style.display = "none";
     hideContainer();

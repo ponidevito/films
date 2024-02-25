@@ -22,7 +22,6 @@ function togglePasswordVisibility() {
   }
 }
 
-// тест
 
 let current_page = 1;
 let records_per_page = 12;
@@ -47,9 +46,6 @@ function nextPage() {
 }
 
 function numPages() {
-  // let listing_table = document.getElementById("filmCollection");
-  // let items = Array.from(listing_table.children);
-  // // return Math.ceil(items.length / records_per_page);
   return Math.ceil(filmsData.length / records_per_page);
 }
 
@@ -219,7 +215,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       // Викликаємо функцію changePage(1) для відображення першої сторінки
 
-      // changePage(1);
     };
 
     window.searchFilms = async function () {
@@ -268,6 +263,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const userId = user.uid;
         const isAdmin = await checkIfUserIsAdmin(user);
         const collectionBody = document.querySelector(".collection__body");
+        const collectionTitle = document.querySelector (".collection__title")
         try {
           const querySnapshot = await db
             .collection("films")
@@ -282,7 +278,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.width = "100%";
             emptyMessage.style.textAlign = "center";
             filmCollection.appendChild(emptyMessage);
-
+            collectionTitle.style.display = "none";
             // Створення посилання "додати фільм"
             const addFilmLink = document.createElement("a");
             addFilmLink.textContent = "Додати фільм";
@@ -290,6 +286,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             addFilmLink.href = "add-film.html"; // Замініть це на посилання на вашу сторінку додавання фільму
             addFilmLink.style.display = "flex"; // Щоб посилання відображалося в новому рядку
             addFilmLink.style.textAlign = "center";
+            btn_prev.style.display = "none";
+            btn_next.style.display = "none";
             filmCollection.appendChild(addFilmLink);
           } else {
             loadFilmsData(userId);
@@ -330,7 +328,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.fontSize = "25px";
             emptyMessage.style.width = "100%";
             emptyMessage.style.textAlign = "center";
-            // filmCollection.appendChild(emptyMessage);
           }
         }
       });
@@ -430,9 +427,60 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 // Функція для редагування фільму
 
+// async function editFilm(filmId) {
+//   let form = document.querySelector(".form");
+//   form.classList.toggle("block");
+//   try {
+//     const filmDoc = await db.collection("films").doc(filmId).get();
+//     if (!filmDoc.exists) {
+//       console.error("Фільм не знайдено.");
+//       return;
+//     }
+
+//     const filmData = filmDoc.data();
+
+//     document.getElementById("filmName").value = filmData.title;
+//     document.getElementById("filmYear").value = filmData.year;
+//     document.getElementById("filmDescription").value = filmData.description;
+//     document.getElementById("trailer").value = filmData.youtubeURL;
+//     document.getElementById("moviePoster").src = filmData.imageURL;
+
+//     document
+//       .getElementById("editFilmForm")
+//       .addEventListener("submit", async function (event) {
+//         event.preventDefault();
+
+//         const editedFilm = {
+//           title: document.getElementById("filmName").value,
+//           year: document.getElementById("filmYear").value,
+//           description: document.getElementById("filmDescription").value,
+//           youtubeURL: document.getElementById("trailer").value,
+//           imageURL: filmData.imageURL,
+//           searchTitle: document.getElementById("filmName").value,
+//         };
+
+//         const file = document.getElementById("imageInput").files[0];
+
+//         if (file) {
+//           const imageUrl = await uploadImage(file);
+//           editedFilm.imageURL = imageUrl;
+//         }
+
+//         await updateFilm(filmId, editedFilm);
+
+//         // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
+//         // Закриття форми після успішного оновлення фільму
+//         document.getElementById("editFilmForm").style.display = "none";
+//       });
+//   } catch (error) {
+//     console.error("Помилка при редагуванні фільму:", error);
+//   }
+// }
+
 async function editFilm(filmId) {
   let form = document.querySelector(".form");
   form.classList.toggle("block");
+
   try {
     const filmDoc = await db.collection("films").doc(filmId).get();
     if (!filmDoc.exists) {
@@ -442,43 +490,45 @@ async function editFilm(filmId) {
 
     const filmData = filmDoc.data();
 
+    // Заповнюємо форму даними фільму
     document.getElementById("filmName").value = filmData.title;
     document.getElementById("filmYear").value = filmData.year;
     document.getElementById("filmDescription").value = filmData.description;
     document.getElementById("trailer").value = filmData.youtubeURL;
     document.getElementById("moviePoster").src = filmData.imageURL;
 
-    document
-      .getElementById("editFilmForm")
-      .addEventListener("submit", async function (event) {
-        event.preventDefault();
+    // Додаємо обробник події для форми
+    document.getElementById("editFilmForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
 
-        const editedFilm = {
-          title: document.getElementById("filmName").value,
-          year: document.getElementById("filmYear").value,
-          description: document.getElementById("filmDescription").value,
-          youtubeURL: document.getElementById("trailer").value,
-          imageURL: filmData.imageURL,
-          searchTitle: document.getElementById("filmName").value,
-        };
+      const editedFilm = {
+        title: document.getElementById("filmName").value,
+        year: document.getElementById("filmYear").value,
+        description: document.getElementById("filmDescription").value,
+        youtubeURL: document.getElementById("trailer").value,
+        imageURL: filmData.imageURL,
+        searchTitle: document.getElementById("filmName").value,
+      };
 
-        const file = document.getElementById("imageInput").files[0];
+      const file = document.getElementById("imageInput").files[0];
 
-        if (file) {
-          const imageUrl = await uploadImage(file);
-          editedFilm.imageURL = imageUrl;
-        }
+      if (file) {
+        const imageUrl = await uploadImage(file);
+        editedFilm.imageURL = imageUrl;
+      }
 
-        await updateFilm(filmId, editedFilm);
+      await updateFilm(filmId, editedFilm);
 
-        // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
-        // Закриття форми після успішного оновлення фільму
-        document.getElementById("editFilmForm").style.display = "none";
-      });
+      // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
+      // Закриття форми після успішного оновлення фільму
+      form.style.display = "none";
+    });
   } catch (error) {
     console.error("Помилка при редагуванні фільму:", error);
   }
 }
+
+
 
 // update film
 async function updateFilm(filmId, editedFilm) {
@@ -748,9 +798,6 @@ if (document.title === "Додати фільм") {
         return;
       }
 
-      console.log("Файл успішно завантажено!");
-      // toastr.success('Файл успішно завантажено!');
-      // form.reset();
 
       // Додавання нового фільму
       const docRef = await firestore.collection("films").add({
@@ -771,6 +818,16 @@ if (document.title === "Додати фільм") {
       });
       displaySuccesToaster();
       console.log("Документ успішно додано з ID:", docRef.id);
+      document.getElementById("filmName").value = "";
+      document.getElementById("filmYear").value = "";
+      document.getElementById("filmDescription").value = "";
+      if (document.getElementById("trailer")) {
+        document.getElementById("trailer").value = "";
+      }
+
+      if (document.getElementById("moviePoster")) {
+        document.getElementById("moviePoster").src = "";
+      }
     } catch (error) {
       console.error("Виникла помилка при обробці:", error);
     }
@@ -954,7 +1011,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       }
-    } else if (! window.location.pathname.includes("index.html")) {
+    } else if (!window.location.pathname.includes("index.html")) {
       console.log("Направляю неавторизованого користувача на index.html");
       window.location.href = "index.html";
     } else {
@@ -962,9 +1019,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 });
-
-
-
 
 async function checkIfUserIsAdmin(user) {
   if (user) {
@@ -1002,15 +1056,13 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
-    if (window.location.pathname.includes("index.html") ) {
+    if (window.location.pathname.includes("index.html")) {
       console.log(
         "Користувач вже авторизований, перенаправляю на collection-films.html"
       );
       window.location.href = "collection-films.html"; // Замініть на свій URL
-    }
-    else if (window.location.pathname === "/") {
+    } else if (window.location.pathname === "/") {
       window.location.href = "collection-films.html"; // Замініть на свій URL
-
     }
     // homeContainer.style.display = "none";
     hideContainer();
@@ -1093,6 +1145,8 @@ function regForm() {
                 loginBox.classList.add("show-box");
 
                 console.log("Успішна реєстрація та вхід:", user);
+                location.reload()
+
                 // Перенаправлення на сторінку collection-films
                 // window.location.href = "collection-films.html";
             }).catch((error) => {
