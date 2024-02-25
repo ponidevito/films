@@ -20,17 +20,18 @@ function togglePasswordVisibility() {
   }
 }
 
-// add film column
-
 // тест
 
 let current_page = 1;
 let records_per_page = 12;
+let filmsData = [];
 
 function prevPage() {
   if (current_page > 1) {
     current_page--;
     changePage(current_page);
+    renderFilms();
+    window.scrollTo(0, 0);
   }
 }
 
@@ -38,22 +39,51 @@ function nextPage() {
   if (current_page < numPages()) {
     current_page++;
     changePage(current_page);
+    renderFilms();
+    window.scrollTo(0, 0);
   }
 }
 
 function numPages() {
   let listing_table = document.getElementById("filmCollection");
   let items = Array.from(listing_table.children);
-  return Math.ceil(items.length / records_per_page);
+  // return Math.ceil(items.length / records_per_page);
+  return Math.ceil(filmsData.length / records_per_page);
 }
+
+// Функція для завантаження даних з Firebase
+
+
+async function loadFilmsData(userId) {
+  try {
+    const filmsSnapshot = await db.collection("films").where("authorUid", "==", userId).get();
+    filmsData = filmsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    renderFilms();
+  } catch (error) {
+    console.error("Помилка при завантаженні фільмів з Firebase:", error);
+  }
+}
+
 
 // Змінена функція changePage для оновлення кнопок сторінки після зміни сторінки
 
 function generatePageButtons() {
   let pageButtonsContainer = document.getElementById("page-buttons");
   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
-
+  let btn_next = document.getElementById("btn_next");
+  let btn_prev = document.getElementById("btn_prev");
   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
+
+  if (totalPages <= 1) {
+    // Якщо тільки одна сторінка, приховуємо обидві кнопки
+    btn_prev.style.display = "none";
+    btn_next.style.display = "none";
+    
+    return;
+  }
 
   let startPage, endPage;
 
@@ -89,58 +119,49 @@ function generatePageButtons() {
 
 function changePage(page) {
   current_page = page;
+
+  generatePageButtons(); // Оновлюємо кнопки сторінки
+  renderFilms();
+  window.scrollTo(0, 0);
+}
+
+function renderFilms() {
   let btn_next = document.getElementById("btn_next");
   let btn_prev = document.getElementById("btn_prev");
   let listing_table = document.getElementById("filmCollection");
-  let items = Array.from(listing_table.children);
-  let startIndex = (page - 1) * records_per_page;
+  listing_table.innerHTML = ""; // Очищаємо колекцію перед відображенням нових фільмів
+  let startIndex = (current_page - 1) * records_per_page;
   let endIndex = startIndex + records_per_page;
 
-  for (let i = 0; i < items.length; i++) {
-    if (i >= startIndex && i < endIndex) {
-      items[i].style.display = "block";
-    } else {
-      items[i].style.display = "none";
-    }
+  for (let i = startIndex; i < endIndex && i < filmsData.length; i++) {
+    const filmData = filmsData[i];
+    const filmElement = document.createElement("a");
+    filmElement.className = "collection__column";
+    filmElement.href = `details.html?id=${filmData.id}`; // Формуємо посилання з ідентифікатором фільму
+    filmElement.innerHTML = `
+      <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster" loading="lazy"></div>
+      <div class="collection__about">
+        <h2 class="collection__name">${filmData.title}</h2>
+      </div>
+    `;
+    listing_table.appendChild(filmElement);
   }
-
+  column()
   generatePageButtons(); // Оновлюємо кнопки сторінки
-
-  // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
   if (current_page === 1) {
     btn_prev.style.visibility = "hidden";
     btn_next.style.visibility = "visible";
-  } else if (current_page === numPages()) {
+  }
+
+  else if (current_page === numPages()) {
     btn_prev.style.visibility = "visible";
     btn_next.style.visibility = "hidden";
   } else {
     btn_prev.style.visibility = "visible";
     btn_next.style.visibility = "visible";
   }
-}
 
-function initializeEventListeners() {
-  // Додаємо слухачів подій до кнопок пагінації
-  var prevButton = document.getElementById("btn_prev");
-  var nextButton = document.getElementById("btn_next");
-
-  prevButton.addEventListener("click", function () {
-    prevPage();
-    changePage(current_page);
-  });
-
-  nextButton.addEventListener("click", function () {
-    nextPage();
-    changePage(current_page);
-  });
-
-  var pageButtons = document.querySelectorAll("#page-buttons button");
-  pageButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      var pageNumber = parseInt(this.textContent);
-      changePage(pageNumber);
-    });
-  });
+  // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
 }
 
 // Викликаємо функцію генерації кнопок сторінки після завантаження сторінки
@@ -179,22 +200,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     appId: "1:597377281566:web:c49563737b63b6c131080f",
     // конфігурація Firebase
   };
+
   const filmCollection = document.getElementById("filmCollection");
 
   if (document.title === "Collection") {
-    window.onload = function () {
-      var listing_table = document.getElementById("filmCollection");
-      var items = Array.from(listing_table.children);
-
-      // Приховати всі елементи, крім перших 10
-      for (var i = records_per_page; i < items.length; i++) {
-        items[i].style.display = "none";
-      }
-
-      // Викликати функцію changePage(1) для приховання всіх елементів крім перших 10
-      // changePage(1);
-    };
-
     window.onload = function () {
       var listing_table = document.getElementById("filmCollection");
       var items = Array.from(listing_table.children);
@@ -204,10 +213,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       }
       // Викликаємо функцію changePage(1) для відображення першої сторінки
 
-      changePage(1);
-      // Генеруємо кнопки сторінки
-      generatePageButtons();
-      initializeEventListeners();
+      // changePage(1);
     };
 
     window.searchFilms = async function () {
@@ -276,33 +282,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             addFilmLink.textContent = "Додати фільм";
             addFilmLink.className = "link link-add";
             addFilmLink.href = "add-film.html"; // Замініть це на посилання на вашу сторінку додавання фільму
-            addFilmLink.style.display = "block"; // Щоб посилання відображалося в новому рядку
+            addFilmLink.style.display = "flex"; // Щоб посилання відображалося в новому рядку
             addFilmLink.style.textAlign = "center";
             filmCollection.appendChild(addFilmLink);
           } else {
-            querySnapshot.forEach((doc) => {
-              const filmData = doc.data();
-              if (isAdmin || (userId && userId === filmData.authorUid)) {
-                collectionBody.style.display = "grid";
-                const filmElement = document.createElement("a");
-                filmElement.className = "collection__column";
-                filmElement.href = `details.html?id=${doc.id}`;
-                filmElement.innerHTML = `
-                  <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster" loading="lazy"></div>
-                  <div class="collection__about">
-                    <h2 class="collection__name">${filmData.title}</h2>
-                  </div>
-                `;
-
-                if (filmCollection) {
-                  filmCollection.appendChild(filmElement);
-                  changePage(1);
-                } else {
-                  console.error("Елемент #filmCollection не знайдено.");
-                }
-              }
-            });
-            column();
+            loadFilmsData(userId)
           }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
@@ -429,11 +413,6 @@ document.addEventListener("DOMContentLoaded", async function () {
               adminTableBody.appendChild(row);
               counter++;
             });
-
-            // const deleteButtons = document.querySelectorAll(".delete-button");
-            // deleteButtons.forEach((button) => {
-            //   button.addEventListener("click", handleDeleteButtonClick);
-            // });
           }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);

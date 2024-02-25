@@ -730,8 +730,6 @@ input::-webkit-inner-spin-button {
 }
 
 .collection__column {
-  padding: 0px 0px 10px 0px;
-  gap: 10px;
   overflow: hidden;
   height: 100%;
   width: 250px;
@@ -2054,6 +2052,10 @@ button.swiper-pagination-bullet {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   overflow: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,

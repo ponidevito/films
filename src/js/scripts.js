@@ -3,6 +3,7 @@
 @@include('main.js')
 @@include('toasts.js')
 @@include('burger.js')
+@@include('server.js')
 @@include('firebase.js')
 @@include('modal.js')
 @@include('login.js')

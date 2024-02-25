@@ -20,6 +20,10 @@
 // Libs
 @import "./libs/swiper";
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   height: 100%;
