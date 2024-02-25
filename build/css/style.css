@@ -2287,6 +2287,10 @@ body {
         -ms-flex-pack: end;
             justify-content: flex-end;
   }
+
+  .pagination {
+    margin-top: 0px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -2335,14 +2339,6 @@ body {
 
   .collection__picture {
     height: 100%;
-  }
-
-  .pagination__container {
-    width: 100%;
-  }
-
-  .pagination {
-    margin-top: 0px;
   }
 
   #page-buttons {

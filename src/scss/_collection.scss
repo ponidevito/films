@@ -156,20 +156,18 @@
 .pagination {
   margin-top: 50px;
   position: relative;
+  @include md {
+    margin-top: 0px;
+  }
   &__container {
-    // width: 680px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
     gap: 20px;
-    @include sm {
-      width: 100%;
-    }
+   
   }
-  @include sm {
-    margin-top: 0px;
-  }
+ 
 }
 
 #page-buttons {

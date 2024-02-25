@@ -25,7 +25,7 @@ function togglePasswordVisibility() {
 // тест
 
 let current_page = 1;
-let records_per_page = 12;
+let records_per_page = 4;
 let filmsData = [];
 
 function prevPage() {
@@ -72,36 +72,83 @@ async function loadFilmsData(userId) {
 
 // Змінена функція changePage для оновлення кнопок сторінки після зміни сторінки
 
+// function generatePageButtons() {
+//   let pageButtonsContainer = document.getElementById("page-buttons");
+//   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
+//   let btn_next = document.getElementById("btn_next");
+//   let btn_prev = document.getElementById("btn_prev");
+//   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
+
+//   if (totalPages <= 1) {
+//     // Якщо тільки одна сторінка, приховуємо обидві кнопки
+//     btn_prev.style.display = "none";
+//     btn_next.style.display = "none";
+    
+//     return;
+//   }
+
+//   let startPage, endPage;
+
+//   if (totalPages <= 10) {
+//     startPage = 1;
+//     endPage = totalPages;
+//   } else {
+//     if (current_page <= 6) {
+//       startPage = 1;
+//       endPage = 10;
+//     } else if (current_page + 4 >= totalPages) {
+//       startPage = totalPages - 9;
+//       endPage = totalPages;
+//     } else {
+//       startPage = current_page - 5;
+//       endPage = current_page + 4;
+//     }
+//   }
+
+//   for (let i = startPage; i <= endPage; i++) {
+//     let button = document.createElement("button");
+//     button.textContent = i;
+//     button.dataset.page = i;
+//     if (i === current_page) {
+//       button.classList.add("active"); // Позначаємо активну сторінку
+//     }
+//     button.addEventListener("click", function () {
+//       changePage(parseInt(this.dataset.page));
+//     });
+//     pageButtonsContainer.appendChild(button);
+//   }
+// }
+
 function generatePageButtons() {
   let pageButtonsContainer = document.getElementById("page-buttons");
   pageButtonsContainer.innerHTML = ""; // Очищаємо контейнер кнопок перед генерацією
   let btn_next = document.getElementById("btn_next");
   let btn_prev = document.getElementById("btn_prev");
   let totalPages = numPages(); // Отримуємо загальну кількість сторінок
+  let maxVisibleButtons = window.innerWidth < 767 ? 5 : 10; // Визначаємо максимальну кількість видимих кнопок в залежності від розміру екрану
 
   if (totalPages <= 1) {
     // Якщо тільки одна сторінка, приховуємо обидві кнопки
     btn_prev.style.display = "none";
     btn_next.style.display = "none";
-    
     return;
   }
 
   let startPage, endPage;
 
-  if (totalPages <= 10) {
+  if (totalPages <= maxVisibleButtons) {
     startPage = 1;
     endPage = totalPages;
   } else {
-    if (current_page <= 6) {
+    if (current_page <= Math.floor(maxVisibleButtons / 2) + 1) {
       startPage = 1;
-      endPage = 10;
-    } else if (current_page + 4 >= totalPages) {
-      startPage = totalPages - 9;
+      endPage = maxVisibleButtons;
+    } else if (current_page + Math.floor(maxVisibleButtons / 2) >= totalPages) {
+      startPage = totalPages - maxVisibleButtons + 1;
       endPage = totalPages;
     } else {
-      startPage = current_page - 5;
-      endPage = current_page + 4;
+      startPage = current_page - Math.floor(maxVisibleButtons / 2);
+      endPage = current_page + Math.floor(maxVisibleButtons / 2);
     }
   }
 
@@ -118,6 +165,7 @@ function generatePageButtons() {
     pageButtonsContainer.appendChild(button);
   }
 }
+
 
 function changePage(page) {
   current_page = page;
@@ -192,6 +240,11 @@ function column() {
   }
 }
 
+// Додаємо прослуховувач подій на зміну розміру вікна
+window.addEventListener('resize', function() {
+  generatePageButtons(); // Викликаємо функцію генерації кнопок сторінок при кожній зміні розміру вікна
+});
+
 document.addEventListener("DOMContentLoaded", async function () {
   const firebaseConfig = {
     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -206,6 +259,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
 
   if (document.title === "Collection") {
+    // generatePageButtons();
     window.onload = function () {
       var listing_table = document.getElementById("filmCollection");
       var items = Array.from(listing_table.children);
