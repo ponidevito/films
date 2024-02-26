@@ -2,6 +2,7 @@
 
 @@include('main.js')
 @@include('toasts.js')
+@@include('spin.js')
 @@include('burger.js')
 @@include('server.js')
 @@include('firebase.js')

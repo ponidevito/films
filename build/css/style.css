@@ -186,6 +186,10 @@ input::-webkit-inner-spin-button {
   margin-bottom: 20px;
 }
 
+.d-none {
+  display: none;
+}
+
 @-webkit-keyframes fade {
   0% {
     opacity: 0;
@@ -777,7 +781,6 @@ input::-webkit-inner-spin-button {
 .collection__about {
   width: 100%;
   padding: 5px 10px;
-  overflow: hidden;
   text-align: center;
 }
 
@@ -785,6 +788,7 @@ input::-webkit-inner-spin-button {
   overflow: hidden;
   word-wrap: break-word;
   color: #303030;
+  line-height: 1.2;
 }
 
 .collection__column::before {
@@ -881,9 +885,6 @@ input::-webkit-inner-spin-button {
   padding: 5px;
   z-index: -1;
   border-radius: 2px;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
 }
 
 #btn_prev:hover::before {
@@ -912,9 +913,6 @@ input::-webkit-inner-spin-button {
   padding: 5px;
   z-index: -1;
   border-radius: 2px;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
 }
 
 #btn_next:hover::before {
@@ -2356,12 +2354,11 @@ body {
   }
 
   .collection__body {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 30px;
+    padding: 60px 0px 30px 0px;
   }
 
   .collection__column {
-    width: 80%;
+    width: 100%;
   }
 
   .collection__picture {
@@ -2566,7 +2563,11 @@ body {
   }
 
   .collection__body {
-    padding: 30px 0px;
+    padding: 0px;
+  }
+
+  .pagination {
+    margin-top: 30px;
   }
 
   .details {
@@ -2603,5 +2604,11 @@ body {
 @media (min-width: 991.98px) and (max-width: 991.98px) {
   .header__box:hover input {
     width: 100%;
+  }
+}
+
+@media (width < 467px) {
+  .collection__about h2 {
+    font-size: 16px;
   }
 }

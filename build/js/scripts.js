@@ -22,7 +22,6 @@ function togglePasswordVisibility() {
   }
 }
 
-
 let current_page = 1;
 let records_per_page = 12;
 let filmsData = [];
@@ -30,6 +29,7 @@ let filmsData = [];
 function prevPage() {
   if (current_page > 1) {
     current_page--;
+    showSpinner(); // Показати спінер перед початком завантаження
     changePage(current_page);
     renderFilms();
     window.scrollTo(0, 0);
@@ -39,6 +39,7 @@ function prevPage() {
 function nextPage() {
   if (current_page < numPages()) {
     current_page++;
+    showSpinner(); // Показати спінер перед початком завантаження
     changePage(current_page);
     renderFilms();
     window.scrollTo(0, 0);
@@ -53,6 +54,7 @@ function numPages() {
 
 async function loadFilmsData(userId) {
   try {
+    showSpinner(); // Показати спінер перед початком завантаження
     const filmsSnapshot = await db
       .collection("films")
       .where("authorUid", "==", userId)
@@ -61,9 +63,12 @@ async function loadFilmsData(userId) {
       id: doc.id,
       ...doc.data(),
     }));
+
     renderFilms();
+    hideSpinner(); // Приховати спінер після завершення завантаження
   } catch (error) {
     console.error("Помилка при завантаженні фільмів з Firebase:", error);
+    hideSpinner(); // Приховати спінер після завершення завантаження
   }
 }
 
@@ -116,10 +121,10 @@ function generatePageButtons() {
 
 function changePage(page) {
   current_page = page;
-
-  generatePageButtons(); // Оновлюємо кнопки сторінки
   renderFilms();
+  generatePageButtons(); // Оновлюємо кнопки сторінки
   window.scrollTo(0, 0);
+  hideSpinner(); // Приховати спінер після завершення завантаження
 }
 
 function renderFilms() {
@@ -143,8 +148,8 @@ function renderFilms() {
     `;
     listing_table.appendChild(filmElement);
   }
-  column();
   generatePageButtons(); // Оновлюємо кнопки сторінки
+
   if (current_page === 1) {
     btn_prev.style.visibility = "hidden";
     btn_next.style.visibility = "visible";
@@ -168,26 +173,9 @@ let counter = 1; // Лічильник
 
 const backgroundCollection = document.querySelector(".background-collection");
 
-function column() {
-  // const columns = document.querySelectorAll(".collection__column");
-  // if (columns.length > 0) {
-  //   columns.forEach((column) => {
-  //     column.addEventListener("mouseenter", function () {
-  //       backgroundCollection.classList.add("active");
-  //     });
-
-  //     column.addEventListener("mouseleave", function () {
-  //       backgroundCollection.classList.remove("active");
-  //     });
-  //   });
-  // } else {
-  //   console.error("Елементи з класом .collection__column не знайдено.");
-  // }
-}
-
 // Додаємо прослуховувач подій на зміну розміру вікна
 window.addEventListener("resize", function () {
-  if (document.title === "Collection") {
+  if (document.title === "Моя коллекція") {
     generatePageButtons(); // Викликаємо функцію генерації кнопок сторінок при кожній зміні розміру вікна
   }
 });
@@ -205,7 +193,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   const filmCollection = document.getElementById("filmCollection");
 
-  if (document.title === "Collection") {
+  if (document.title === "Моя коллекція") {
     window.onload = function () {
       var listing_table = document.getElementById("filmCollection");
       var items = Array.from(listing_table.children);
@@ -214,7 +202,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         items[i].style.display = "none";
       }
       // Викликаємо функцію changePage(1) для відображення першої сторінки
-
     };
 
     window.searchFilms = async function () {
@@ -260,10 +247,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
+        showSpinner();
         const userId = user.uid;
         const isAdmin = await checkIfUserIsAdmin(user);
         const collectionBody = document.querySelector(".collection__body");
-        const collectionTitle = document.querySelector (".collection__title")
+        const collectionTitle = document.querySelector(".collection__title");
         try {
           const querySnapshot = await db
             .collection("films")
@@ -291,6 +279,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             filmCollection.appendChild(addFilmLink);
           } else {
             loadFilmsData(userId);
+            hideSpinner();
           }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
@@ -336,9 +325,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   }
 
-  // Якщо сторінка - це "home", відображення слайдера
-
-  if (document.title === "cabinet") {
+  if (document.title === "Кабінет") {
     const adminTableBody = document.querySelector(
       ".admin-cabinet__table tbody"
     );
@@ -348,6 +335,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
         const isAdmin = await checkIfUserIsAdmin(user);
+        showSpinner();
 
         try {
           if (isAdmin) {
@@ -386,6 +374,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
           } else {
             // Якщо користувач не адміністратор, виводити тільки його власні фільми
+            // showSpinner();
+
             const userFilmsSnapshot = await db
               .collection("films")
               .where("authorUid", "==", user.uid)
@@ -417,6 +407,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               counter++;
             });
           }
+          hideSpinner();
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
@@ -424,58 +415,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 });
-
-// Функція для редагування фільму
-
-// async function editFilm(filmId) {
-//   let form = document.querySelector(".form");
-//   form.classList.toggle("block");
-//   try {
-//     const filmDoc = await db.collection("films").doc(filmId).get();
-//     if (!filmDoc.exists) {
-//       console.error("Фільм не знайдено.");
-//       return;
-//     }
-
-//     const filmData = filmDoc.data();
-
-//     document.getElementById("filmName").value = filmData.title;
-//     document.getElementById("filmYear").value = filmData.year;
-//     document.getElementById("filmDescription").value = filmData.description;
-//     document.getElementById("trailer").value = filmData.youtubeURL;
-//     document.getElementById("moviePoster").src = filmData.imageURL;
-
-//     document
-//       .getElementById("editFilmForm")
-//       .addEventListener("submit", async function (event) {
-//         event.preventDefault();
-
-//         const editedFilm = {
-//           title: document.getElementById("filmName").value,
-//           year: document.getElementById("filmYear").value,
-//           description: document.getElementById("filmDescription").value,
-//           youtubeURL: document.getElementById("trailer").value,
-//           imageURL: filmData.imageURL,
-//           searchTitle: document.getElementById("filmName").value,
-//         };
-
-//         const file = document.getElementById("imageInput").files[0];
-
-//         if (file) {
-//           const imageUrl = await uploadImage(file);
-//           editedFilm.imageURL = imageUrl;
-//         }
-
-//         await updateFilm(filmId, editedFilm);
-
-//         // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
-//         // Закриття форми після успішного оновлення фільму
-//         document.getElementById("editFilmForm").style.display = "none";
-//       });
-//   } catch (error) {
-//     console.error("Помилка при редагуванні фільму:", error);
-//   }
-// }
 
 async function editFilm(filmId) {
   let form = document.querySelector(".form");
@@ -498,37 +437,37 @@ async function editFilm(filmId) {
     document.getElementById("moviePoster").src = filmData.imageURL;
 
     // Додаємо обробник події для форми
-    document.getElementById("editFilmForm").addEventListener("submit", async function (event) {
-      event.preventDefault();
+    document
+      .getElementById("editFilmForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-      const editedFilm = {
-        title: document.getElementById("filmName").value,
-        year: document.getElementById("filmYear").value,
-        description: document.getElementById("filmDescription").value,
-        youtubeURL: document.getElementById("trailer").value,
-        imageURL: filmData.imageURL,
-        searchTitle: document.getElementById("filmName").value,
-      };
+        const editedFilm = {
+          title: document.getElementById("filmName").value,
+          year: document.getElementById("filmYear").value,
+          description: document.getElementById("filmDescription").value,
+          youtubeURL: document.getElementById("trailer").value,
+          imageURL: filmData.imageURL,
+          searchTitle: document.getElementById("filmName").value,
+        };
 
-      const file = document.getElementById("imageInput").files[0];
+        const file = document.getElementById("imageInput").files[0];
 
-      if (file) {
-        const imageUrl = await uploadImage(file);
-        editedFilm.imageURL = imageUrl;
-      }
+        if (file) {
+          const imageUrl = await uploadImage(file);
+          editedFilm.imageURL = imageUrl;
+        }
 
-      await updateFilm(filmId, editedFilm);
+        await updateFilm(filmId, editedFilm);
 
-      // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
-      // Закриття форми після успішного оновлення фільму
-      form.style.display = "none";
-    });
+        // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
+        // Закриття форми після успішного оновлення фільму
+        form.style.display = "none";
+      });
   } catch (error) {
     console.error("Помилка при редагуванні фільму:", error);
   }
 }
-
-
 
 // update film
 async function updateFilm(filmId, editedFilm) {
@@ -688,6 +627,37 @@ function displayEditSuccesToaster() {
 function displayDeleteSuccesToaster() {
   toastr.options.timeOut = 1500; // 1.5s
   toastr.success("Фільм видалено");
+}
+
+
+  let spinner = new Spinner({
+    lines: 13, // Кількість ліній
+    length: 28, // Довжина ліній
+    width: 14, // Товщина ліній
+    radius: 42, // Радіус кола
+    scale: 1, // Масштаб
+    corners: 1, // Форма кутів (0 - круглі, 1 - квадратні)
+    color: "#ffffff", // Колір
+    speed: 1, // Швидкість обертання
+    rotate: 0, // Початковий оберт (градуси)
+    animation: "spinner-line-fade-quick", // Анімація
+    direction: 1, // Напрямок обертання (1 - годинникова стрілка, -1 - проти годинникової стрілки)
+    zIndex: 2e9, // Z-index
+    className: "spinner", // Клас елементу спінера
+    top: "50%", // Верхній відступ
+    left: "50%", // Лівий відступ
+    shadow: false, // Тінь
+    hwaccel: false, // Використання апаратного прискорення
+    position: "absolute", // Позиція
+  });
+
+
+function showSpinner() {
+  spinner.spin(document.body); // Показати спінер на сторінці
+}
+
+function hideSpinner() {
+  spinner.stop(); // Приховати спінер
 }
 
 //burger js
@@ -1046,6 +1016,7 @@ async function checkIfUserIsAdmin(user) {
 
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
+const bgNonAuth = document.querySelector(".background")
 
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
@@ -1078,7 +1049,7 @@ function handleUserAuthentication() {
   } else {
     homeContainerAuth.style.display = "none";
     effectBurger.style.display = "none";
-
+    bgNonAuth.style.display="block";
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
     // або здійсніть інші дії відповідно до вашого сценарію
     console.log(

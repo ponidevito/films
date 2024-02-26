@@ -126,6 +126,7 @@ async function checkIfUserIsAdmin(user) {
 
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
+const bgNonAuth = document.querySelector(".background")
 
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
@@ -158,7 +159,7 @@ function handleUserAuthentication() {
   } else {
     homeContainerAuth.style.display = "none";
     effectBurger.style.display = "none";
-
+    bgNonAuth.style.display="block";
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
     // або здійсніть інші дії відповідно до вашого сценарію
     console.log(
