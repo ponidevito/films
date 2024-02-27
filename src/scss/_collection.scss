@@ -63,7 +63,13 @@
     position: relative;
     z-index: 3;
     border-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1px solid transparent;
+    transition: 0.3s ease;
     &:hover {
+      border: 1px solid #ffd52d;
+
       .collection__poster {
         transform: scale(1.02);
       }
@@ -127,7 +133,7 @@
     background-color: #ffd52d;
     padding: 5px;
     z-index: -1;
-    border-radius: 10px;
+    border-radius: 0px;
     transition: 0.3s;
   }
 }
@@ -254,4 +260,3 @@
 #btn_next:hover::before {
   background-color: #ffe26e;
 }
-

@@ -740,6 +740,16 @@ input::-webkit-inner-spin-button {
   position: relative;
   z-index: 3;
   border-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 1px solid transparent;
+  -webkit-transition: 0.3s ease;
+  -o-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
+
+.collection__column:hover {
+  border: 1px solid #ffd52d;
 }
 
 .collection__column:hover .collection__poster {
@@ -801,7 +811,7 @@ input::-webkit-inner-spin-button {
   background-color: #ffd52d;
   padding: 5px;
   z-index: -1;
-  border-radius: 10px;
+  border-radius: 0px;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
