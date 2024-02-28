@@ -2356,7 +2356,7 @@ body {
   }
 
   .collection__column {
-    width: 80%;
+    width: 70%;
   }
 
   .collection__picture {
@@ -2565,7 +2565,6 @@ body {
   }
 
   .collection__body {
-    grid-template-columns: repeat(1, 1fr);
     padding: 0px;
   }
 
@@ -2583,6 +2582,10 @@ body {
   }
 
   .details__picture {
+    width: 100%;
+  }
+
+  .details__picture img {
     width: 100%;
   }
 

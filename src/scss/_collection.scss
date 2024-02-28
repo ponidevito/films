@@ -55,11 +55,15 @@
     }
 
     @include xs {
-      grid-template-columns: repeat(1, 1fr);
+      // grid-template-columns: repeat(1, 1fr);
 
       padding: 0px;
     }
   }
+
+
+
+ 
 
   &__column {
     overflow: hidden;
@@ -97,7 +101,7 @@
       }
     }
     @include sm {
-      width: 80%;
+      width: 70%;
     }
   }
 
@@ -126,7 +130,6 @@
     padding: 10px 10px;
     text-align: center;
     background-color: #ffd52d;
-    // color: #303030;
     transition: 0.3s ease;
     display: block;
     background-color: rgb(60 60 60 / 60%);
