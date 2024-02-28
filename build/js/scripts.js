@@ -448,7 +448,7 @@ async function editFilm(filmId) {
           description: document.getElementById("filmDescription").value,
           youtubeURL: document.getElementById("trailer").value,
           imageURL: filmData.imageURL,
-          searchTitle: document.getElementById("filmName").value,
+          searchTitle: document.getElementById("filmName").value.toLowerCase()
         };
 
         const file = document.getElementById("imageInput").files[0];
