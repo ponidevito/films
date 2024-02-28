@@ -1,8 +1,6 @@
-
-
-
 if (document.title === "Інформація про фільм") {
   document.addEventListener("DOMContentLoaded", function () {
+    showSpinner();
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = String(urlParams.get("id"));
     const moviePoster = document.getElementById("moviePoster");
@@ -14,8 +12,6 @@ if (document.title === "Інформація про фільм") {
     const movieDescrLabel = document.getElementById("movieDescrLabel");
     const movieDescrValue = document.getElementById("movieDescrValue");
 
-    console.log("movieId:", movieId); // Додайте цей рядок
-
     // Отримати інформацію про фільм із Firebase Firestore за допомогою movieId
     const db = firebase.firestore();
     const moviesRef = db.collection("films");
@@ -26,6 +22,9 @@ if (document.title === "Інформація про фільм") {
       .then((doc) => {
         if (doc.exists) {
           const movieData = doc.data();
+          moviePoster.style.display = "block";
+          releaseYearLabel.style.display = "block";
+          movieDescrLabel.style.display = "block";
           // Відобразити детальну інформацію про фільм
           moviePoster.src = movieData.imageURL;
           document.getElementById("movieTitle").innerText = movieData.title;
@@ -37,6 +36,7 @@ if (document.title === "Інформація про фільм") {
           movieDescrValue.innerText = movieData.description;
           trailerIframe.src = movieData.youtubeURL;
 
+          hideSpinner();
           // Додайте інші поля інформації, які вам потрібні
         } else {
           console.error("No such document!");
@@ -46,15 +46,17 @@ if (document.title === "Інформація про фільм") {
   });
 }
 
-
 // Перевірка автентифікації для захищених сторінок
 document.addEventListener("DOMContentLoaded", function () {
-  const protectedPages = ["collection-films.html", "інша-захищена-сторінка.html"];
+  const protectedPages = [
+    "collection-films.html",
+    "інша-захищена-сторінка.html",
+  ];
 
   if (protectedPages.includes(window.location.pathname) && !checkAuth()) {
-    console.log("Користувач не увійшов. Перенаправлення на сторінку авторизації.");
+    console.log(
+      "Користувач не увійшов. Перенаправлення на сторінку авторизації."
+    );
     window.location.href = "/index.html"; // Замініть це на URL вашої сторінки авторизації
   }
 });
-
-

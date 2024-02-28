@@ -148,7 +148,7 @@ function handleUserAuthentication() {
     // homeContainer.style.display = "none";
     hideContainer();
     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
-    if (document.title === "Collection") {
+    if (document.title === "Моя коллекція") {
       searchBox.classList.add("show");
     }
   } else if (!window.location.pathname.includes("index.html")) {

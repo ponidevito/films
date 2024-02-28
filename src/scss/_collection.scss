@@ -2,10 +2,13 @@
   padding: 100px 0px 60px 0px;
   position: relative;
   @include lg {
-    padding: 60px 0px 30px 0px;
+    padding: 70px 0px 30px 0px;
   }
   @include sm {
     padding: 50px 0px 30px 0px;
+  }
+  @include xs {
+    padding: 80px 0px 30px 0px;
   }
   &__top {
     position: relative;
@@ -46,10 +49,14 @@
     }
 
     @include sm {
+      grid-template-columns: repeat(1, 1fr);
+
       padding: 60px 0px 30px 0px;
     }
 
     @include xs {
+      grid-template-columns: repeat(1, 1fr);
+
       padding: 0px;
     }
   }
@@ -68,14 +75,29 @@
     border: 1px solid transparent;
     transition: 0.3s ease;
     &:hover {
-      border: 1px solid #ffd52d;
+      @media (min-width: 991.98px) {
+        border: 1px solid #ffd52d;
+      }
 
       .collection__poster {
-        transform: scale(1.02);
+        @media (min-width: 991.98px) {
+          transform: scale(1.02);
+        }
+      }
+      .collection__about {
+        @media (min-width: 991.98px) {
+          background-color: #ffd52d;
+        }
+      }
+
+      @media (min-width: 991.98px) {
+        .collection__name {
+          color: #303030;
+        }
       }
     }
     @include sm {
-      width: 100%;
+      width: 80%;
     }
   }
 
@@ -101,16 +123,22 @@
 
   &__about {
     width: 100%;
-    padding: 5px 10px;
+    padding: 10px 10px;
     text-align: center;
-    h2 {
-      overflow: hidden;
+    background-color: #ffd52d;
+    // color: #303030;
+    transition: 0.3s ease;
+    display: block;
+    background-color: rgb(60 60 60 / 60%);
+
+    .collection__name {
       word-wrap: break-word;
-      color: #303030;
       line-height: 1.2;
+      transition: 0.3s ease;
+      color: #ffd52d;
       @media (min-width: 991.98px) {
         font-size: 20px;
-        color: #ffd52d;
+
         &:active {
           transform: translateY(2px);
         }
@@ -119,40 +147,6 @@
         font-size: 16px;
       }
     }
-  }
-}
-
-.collection__column {
-  &::before {
-    content: "";
-    position: absolute;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #ffd52d;
-    padding: 5px;
-    z-index: -1;
-    border-radius: 0px;
-    transition: 0.3s;
-  }
-}
-
-.collection__column::before {
-  @media (min-width: 991.98px) {
-    background-color: rgb(60 60 60 / 60%);
-  }
-}
-
-.collection__column:hover::before {
-  @media (min-width: 991.98px) {
-    background-color: #ffd52d;
-  }
-}
-
-.collection__column:hover .collection__name {
-  @media (min-width: 991.98px) {
-    color: #303030;
   }
 }
 
