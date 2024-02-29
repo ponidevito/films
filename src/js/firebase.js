@@ -75,6 +75,7 @@ if (document.title === "Додати фільм") {
 
       if (!existingFilms.empty) {
         console.error("Фільм з такою назвою вже існує.");
+        displayNameToaster()
         return;
       }
 

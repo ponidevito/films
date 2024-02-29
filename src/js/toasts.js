@@ -7,6 +7,12 @@ function displayWrongToaster() {
   toastr.warning("Email або пароль не вірний");
 }
 
+function displayNameToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.warning("Фільм з такою назвою вже існує.");
+}
+
+
 
 // success
 

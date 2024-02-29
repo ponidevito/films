@@ -522,6 +522,7 @@ function displaySearchResults(filmsSnapshot) {
 
     if (filmCollection) {
       filmCollection.appendChild(filmElement);
+      window.scrollTo(0, 0);
     } else {
       console.error("Елемент #filmCollection не знайдено.");
     }

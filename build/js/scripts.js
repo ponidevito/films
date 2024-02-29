@@ -524,6 +524,7 @@ function displaySearchResults(filmsSnapshot) {
 
     if (filmCollection) {
       filmCollection.appendChild(filmElement);
+      window.scrollTo(0, 0);
     } else {
       console.error("Елемент #filmCollection не знайдено.");
     }
@@ -610,6 +611,12 @@ function displayWrongToaster() {
   toastr.options.timeOut = 1500; // 1.5s
   toastr.warning("Email або пароль не вірний");
 }
+
+function displayNameToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.warning("Фільм з такою назвою вже існує.");
+}
+
 
 
 // success
@@ -765,6 +772,7 @@ if (document.title === "Додати фільм") {
 
       if (!existingFilms.empty) {
         console.error("Фільм з такою назвою вже існує.");
+        displayNameToaster()
         return;
       }
 

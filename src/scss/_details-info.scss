@@ -11,7 +11,7 @@
 
   &__body {
     display: flex;
-    gap: 10px;
+    gap: 20px;
     @include lg {
       flex-direction: column-reverse;
     }

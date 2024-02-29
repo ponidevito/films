@@ -1,5 +1,3 @@
-
-
 .collection {
   padding: 100px 0px 60px 0px;
   position: relative;
@@ -45,7 +43,7 @@
     }
 
     @include lg {
-      padding: 60px 0px;
+      padding: 60px 0px 0px 0px;
       grid-template-columns: repeat(2, 0fr);
       justify-content: center;
       gap: 15px;
@@ -99,6 +97,7 @@
         }
       }
     }
+
     @include sm {
       flex-basis: calc(50% - 20px);
     }
@@ -112,6 +111,8 @@
     justify-content: center;
     align-items: center;
     overflow: hidden; /* Додаємо overflow: hidden, щоб обрізати зайвий контент */
+    @media (max-width: 1240px) {
+    }
     @include sm {
       height: 100%;
     }
@@ -132,7 +133,7 @@
     transition: 0.3s ease;
     display: block;
     background-color: rgb(60 60 60 / 60%);
-    @include xs {
+    @include sm {
       background-color: transparent;
     }
 
@@ -155,16 +156,13 @@
   }
 }
 
-
 .pagination {
   margin-top: 50px;
   position: relative;
-  @include md {
-    margin-top: 0px;
-  }
-  @include xs {
+  @include lg {
     margin-top: 30px;
   }
+
   &__container {
     display: flex;
     align-items: center;
