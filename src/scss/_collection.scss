@@ -1,3 +1,5 @@
+
+
 .collection {
   padding: 100px 0px 60px 0px;
   position: relative;
@@ -44,26 +46,23 @@
 
     @include lg {
       padding: 60px 0px;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 0fr);
+      justify-content: center;
       gap: 15px;
     }
 
     @include sm {
-      grid-template-columns: repeat(1, 1fr);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
 
       padding: 60px 0px 30px 0px;
     }
 
     @include xs {
-      // grid-template-columns: repeat(1, 1fr);
-
       padding: 0px;
     }
   }
-
-
-
- 
 
   &__column {
     overflow: hidden;
@@ -101,7 +100,7 @@
       }
     }
     @include sm {
-      width: 70%;
+      flex-basis: calc(50% - 20px);
     }
   }
 
@@ -133,6 +132,9 @@
     transition: 0.3s ease;
     display: block;
     background-color: rgb(60 60 60 / 60%);
+    @include xs {
+      background-color: transparent;
+    }
 
     .collection__name {
       word-wrap: break-word;
@@ -152,6 +154,7 @@
     }
   }
 }
+
 
 .pagination {
   margin-top: 50px;
