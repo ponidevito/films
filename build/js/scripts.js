@@ -214,6 +214,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         alert("Введіть назву фільму для пошуку.");
         return;
       }
+      const pagination = document.querySelector(".pagination");
 
       try {
         const user = firebase.auth().currentUser;
@@ -231,6 +232,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.forms["header__search"]["txt"].value = "";
 
         displaySearchResults(filmsSnapshot);
+
+              pagination.style.display = "none";
+
       } catch (error) {
         console.error("Помилка при пошуку фільмів:", error);
       }
@@ -417,6 +421,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function editFilm(filmId) {
+  window.scrollTo(0, 0);
+
   let form = document.querySelector(".form");
   form.classList.toggle("block");
 
@@ -448,7 +454,7 @@ async function editFilm(filmId) {
           description: document.getElementById("filmDescription").value,
           youtubeURL: document.getElementById("trailer").value,
           imageURL: filmData.imageURL,
-          searchTitle: document.getElementById("filmName").value.toLowerCase()
+          searchTitle: document.getElementById("filmName").value.toLowerCase(),
         };
 
         const file = document.getElementById("imageInput").files[0];
@@ -508,7 +514,6 @@ async function uploadImage(file) {
 
 function displaySearchResults(filmsSnapshot) {
   const filmCollection = document.getElementById("filmCollection");
-
   filmsSnapshot.forEach((doc) => {
     const filmData = doc.data();
 
@@ -525,6 +530,7 @@ function displaySearchResults(filmsSnapshot) {
     if (filmCollection) {
       filmCollection.appendChild(filmElement);
       window.scrollTo(0, 0);
+
     } else {
       console.error("Елемент #filmCollection не знайдено.");
     }
@@ -1056,6 +1062,8 @@ function handleUserAuthentication() {
     window.location.href = "/index.html"; // Замініть на свій шлях
   } else {
     homeContainerAuth.style.display = "none";
+    userEnter.classList.remove("hide");
+    homeContainer.classList.remove("hide");
     effectBurger.style.display = "none";
     bgNonAuth.style.display="block";
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс

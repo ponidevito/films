@@ -78,6 +78,7 @@
     &:hover {
       @media (min-width: 991.98px) {
         border: 1px solid #ffd52d;
+        box-shadow: 0px 1px 14px rgba(255, 213, 45, 0.7);
       }
 
       .collection__poster {

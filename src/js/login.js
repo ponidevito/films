@@ -158,6 +158,8 @@ function handleUserAuthentication() {
     window.location.href = "/index.html"; // Замініть на свій шлях
   } else {
     homeContainerAuth.style.display = "none";
+    userEnter.classList.remove("hide");
+    homeContainer.classList.remove("hide");
     effectBurger.style.display = "none";
     bgNonAuth.style.display="block";
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс

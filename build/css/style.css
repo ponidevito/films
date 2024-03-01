@@ -991,7 +991,6 @@ input::-webkit-inner-spin-button {
 
 .details__picture img {
   max-width: 100%;
-  margin: 0 auto;
 }
 
 .cabinet {
@@ -2157,6 +2156,8 @@ body {
 
   .collection__column:hover {
     border: 1px solid #ffd52d;
+    -webkit-box-shadow: 0px 1px 14px rgba(255, 213, 45, 0.7);
+            box-shadow: 0px 1px 14px rgba(255, 213, 45, 0.7);
   }
 
   .collection__column:hover .collection__poster {
