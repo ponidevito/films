@@ -93,9 +93,7 @@
       }
     }
 
-    @include sm {
-      flex-basis: calc(50% - 20px);
-    }
+
   }
 
   &__picture {
