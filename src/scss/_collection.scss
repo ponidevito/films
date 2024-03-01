@@ -70,15 +70,14 @@
     flex-direction: column;
     position: relative;
     z-index: 3;
-    border-radius: 5px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     border: 1px solid transparent;
     transition: 0.3s ease;
     &:hover {
-      @media (min-width: 991.98px) {
+
+      .collection__picture {
         border: 1px solid #ffd52d;
-        box-shadow: 0px 1px 14px rgba(255, 213, 45, 0.7);
       }
 
       .collection__poster {
@@ -86,15 +85,10 @@
           transform: scale(1.02);
         }
       }
-      .collection__about {
-        @media (min-width: 991.98px) {
-          background-color: #ffd52d;
-        }
-      }
 
       @media (min-width: 991.98px) {
         .collection__name {
-          color: #303030;
+          text-decoration: underline;
         }
       }
     }
@@ -112,6 +106,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden; /* Додаємо overflow: hidden, щоб обрізати зайвий контент */
+    border-radius: 5px;
     @media (max-width: 1240px) {
     }
     @include sm {
@@ -130,13 +125,8 @@
     width: 100%;
     padding: 10px 10px;
     text-align: center;
-    background-color: #ffd52d;
     transition: 0.3s ease;
     display: block;
-    background-color: rgb(60 60 60 / 60%);
-    @include sm {
-      background-color: transparent;
-    }
 
     .collection__name {
       word-wrap: break-word;
