@@ -266,6 +266,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.textAlign = "center";
             filmCollection.appendChild(emptyMessage);
             collectionTitle.style.display = "none";
+            hideSpinner();
             // Створення посилання "додати фільм"
             const addFilmLink = document.createElement("a");
             addFilmLink.textContent = "Додати фільм";

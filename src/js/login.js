@@ -108,6 +108,7 @@ async function checkIfUserIsAdmin(user) {
 
       if (doc.exists) {
         const userRole = doc.data().role;
+        
         return userRole === "admin";
       } else {
         console.error("Документ користувача не існує!");

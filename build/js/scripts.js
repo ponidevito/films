@@ -268,6 +268,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             emptyMessage.style.textAlign = "center";
             filmCollection.appendChild(emptyMessage);
             collectionTitle.style.display = "none";
+            hideSpinner();
             // Створення посилання "додати фільм"
             const addFilmLink = document.createElement("a");
             addFilmLink.textContent = "Додати фільм";
@@ -677,26 +678,6 @@ function burger() {
   document.querySelector(".menu__body").classList.toggle("_active");
 }
 burgerMenu.addEventListener("click", burger);
-// const express = require('express');
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-
-// // Ваші маршрути і логіка тут...
-
-// // Прослуховуємо порт для запуску сервера
-// app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-
-// // Маршрут для головної сторінки
-// app.get('/', (req, res) => {
-//     res.send('Привіт, це головна сторінка!');
-//   });
-  
-//   // Маршрут для сторінки з колекцією фільмів
-//   app.get('/collection-films.html/page/:page', (req, res) => {
-//     const page = req.params.page;
-//     res.send(`Ви на сторінці колекції фільмів, сторінка ${page}`);
-//   });
 if (document.title === "Додати фільм") {
   const firebaseConfig = {
     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -1008,6 +989,7 @@ async function checkIfUserIsAdmin(user) {
 
       if (doc.exists) {
         const userRole = doc.data().role;
+        
         return userRole === "admin";
       } else {
         console.error("Документ користувача не існує!");

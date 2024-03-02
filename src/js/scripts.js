@@ -4,7 +4,6 @@
 @@include('toasts.js')
 @@include('spin.js')
 @@include('burger.js')
-@@include('server.js')
 @@include('firebase.js')
 @@include('modal.js')
 @@include('login.js')
