@@ -201,40 +201,37 @@ document.addEventListener("DOMContentLoaded", async function () {
       for (var i = records_per_page; i < items.length; i++) {
         items[i].style.display = "none";
       }
-      // Викликаємо функцію changePage(1) для відображення першої сторінки
     };
 
     window.searchFilms = async function () {
-      const searchTerm = document.forms["header__search"]["txt"].value
-        .trim()
-        .toLowerCase();
+      const searchTerm = document.forms["header__search"]["txt"].value.trim();
       const filmCollection = document.getElementById("filmCollection");
 
       if (searchTerm === "") {
         alert("Введіть назву фільму для пошуку.");
         return;
       }
+
       const pagination = document.querySelector(".pagination");
 
       try {
         const user = firebase.auth().currentUser;
         const userId = user.uid;
 
+        // Отримання всіх фільмів користувача
         const filmsSnapshot = await db
           .collection("films")
           .where("authorUid", "==", userId)
-          .where("searchTitle", ">=", searchTerm.toLowerCase())
-          .where("searchTitle", "<=", searchTerm.toLowerCase() + "\uf8ff")
           .get();
 
         // Очищення поточного вмісту перед відображенням нових результатів
         filmCollection.innerHTML = "";
         document.forms["header__search"]["txt"].value = "";
 
-        displaySearchResults(filmsSnapshot);
+        // Виклик функції для відображення результатів пошуку
+        displaySearchResults(filmsSnapshot, searchTerm);
 
-              pagination.style.display = "none";
-
+        pagination.style.display = "none";
       } catch (error) {
         console.error("Помилка при пошуку фільмів:", error);
       }
@@ -512,27 +509,26 @@ async function uploadImage(file) {
 
 // Поза блоком event listener
 
-function displaySearchResults(filmsSnapshot) {
+function displaySearchResults(filmsSnapshot, searchTerm) {
   const filmCollection = document.getElementById("filmCollection");
   filmsSnapshot.forEach((doc) => {
     const filmData = doc.data();
+    const searchTitle = filmData.searchTitle.toLowerCase();
 
-    const filmElement = document.createElement("a");
-    filmElement.className = "collection__column";
-    filmElement.href = `details.html?id=${doc.id}`;
-    filmElement.innerHTML = `
-      <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-      <div class="collection__about">
-        <h2 class="collection__name">${filmData.title}</h2>
-      </div>
-    `;
+    // Перевірка, чи співпадає назва фільму з пошуковим терміном
+    if (searchTitle.includes(searchTerm.toLowerCase())) {
+      const filmElement = document.createElement("a");
+      filmElement.className = "collection__column";
+      filmElement.href = `details.html?id=${doc.id}`;
+      filmElement.innerHTML = `
+        <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+        <div class="collection__about">
+          <h2 class="collection__name">${filmData.title}</h2>
+        </div>
+      `;
 
-    if (filmCollection) {
       filmCollection.appendChild(filmElement);
       window.scrollTo(0, 0);
-
-    } else {
-      console.error("Елемент #filmCollection не знайдено.");
     }
   });
 }
@@ -1201,7 +1197,6 @@ if (document.title === "Інформація про фільм") {
 document.addEventListener("DOMContentLoaded", function () {
   const protectedPages = [
     "collection-films.html",
-    "інша-захищена-сторінка.html",
   ];
 
   if (protectedPages.includes(window.location.pathname) && !checkAuth()) {

@@ -50,7 +50,6 @@ if (document.title === "Інформація про фільм") {
 document.addEventListener("DOMContentLoaded", function () {
   const protectedPages = [
     "collection-films.html",
-    "інша-захищена-сторінка.html",
   ];
 
   if (protectedPages.includes(window.location.pathname) && !checkAuth()) {
