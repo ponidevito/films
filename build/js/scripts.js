@@ -287,7 +287,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
-      } else if (!window.location.pathname.includes("index.html")) {
+      } 
+      else if (!window.location.pathname.includes("index.html")) {
         console.log("Направляю неавторизованого користувача на index.html");
         window.location.href = "index.html";
       }
@@ -1078,7 +1079,6 @@ function logOut() {
   console.log("Користувач вийшов.");
   window.location.href = "/index.html";
 }
-
 function regForm() {
     const firstName = document.getElementsByName("firstName")[0].value;
     const lastName = document.getElementsByName("lastName")[0].value;

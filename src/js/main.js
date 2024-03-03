@@ -285,7 +285,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
-      } else if (!window.location.pathname.includes("index.html")) {
+      } 
+      else if (!window.location.pathname.includes("index.html")) {
         console.log("Направляю неавторизованого користувача на index.html");
         window.location.href = "index.html";
       }
