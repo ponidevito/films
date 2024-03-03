@@ -80,25 +80,11 @@
         font-size: 16px;
       }
     }
-    @include lg {
-      // position: absolute;
-      // top: 40px;
-      // right: 0;
-      // transform: translate(-50%, 0);
-    }
-    @include sm {
-      // top: 50%;
-      // left: 50%;
-      // transform: translate(-50%, -50%);
-      // position: relative;
-      // top: unset;
-      // left: unset;
-      // transform: unset;
-    }
+
+
   }
 
-  &__right {
-  }
+
 
   &__input {
     padding: 10px;
@@ -190,6 +176,3 @@
   display: flex;
 }
 
-.hide {
-  display: none;
-}

@@ -1,5 +1,6 @@
 // Custom scripts
 
+
 // checkbox toogle
 
 function togglePasswordVisibility() {
@@ -206,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const filmCollection = document.getElementById("filmCollection");
 
       if (searchTerm === "") {
-        alert("Введіть назву фільму для пошуку.");
+        displaySearchToaster()
         return;
       }
 
@@ -374,8 +375,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
           } else {
             // Якщо користувач не адміністратор, виводити тільки його власні фільми
-            // showSpinner();
-
             const userFilmsSnapshot = await db
               .collection("films")
               .where("authorUid", "==", user.uid)
@@ -602,4 +601,3 @@ function validatePassword() {
   }
 }
 
-// test

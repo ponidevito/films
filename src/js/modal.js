@@ -78,6 +78,6 @@ function toggleLoginForm() {
 // Initialize modal with default content
 bindModal(".modal__btn", ".modal__wrapper", ".modal__close");
 
-if (document.title === "home") {
+if (document.title === "Створіть свою колекцію кіно") {
   bindModal(".modal__btnReg", ".modal__wrapper", ".modal__close");
 }

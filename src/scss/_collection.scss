@@ -50,11 +50,7 @@
     }
 
     @include sm {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
+      grid-template-columns: repeat(1, 1fr);
       padding: 60px 0px 30px 0px;
     }
 
@@ -90,6 +86,9 @@
           text-decoration: underline;
         }
       }
+    }
+    @include sm {
+      width: 70%;
     }
   }
 

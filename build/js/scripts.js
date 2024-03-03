@@ -2,6 +2,7 @@
 
 // Custom scripts
 
+
 // checkbox toogle
 
 function togglePasswordVisibility() {
@@ -208,7 +209,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const filmCollection = document.getElementById("filmCollection");
 
       if (searchTerm === "") {
-        alert("Введіть назву фільму для пошуку.");
+        displaySearchToaster()
         return;
       }
 
@@ -376,8 +377,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
           } else {
             // Якщо користувач не адміністратор, виводити тільки його власні фільми
-            // showSpinner();
-
             const userFilmsSnapshot = await db
               .collection("films")
               .where("authorUid", "==", user.uid)
@@ -604,9 +603,10 @@ function validatePassword() {
   }
 }
 
-// test
 
 // toaster
+
+
 
 // warning
 
@@ -620,7 +620,10 @@ function displayNameToaster() {
   toastr.warning("Фільм з такою назвою вже існує.");
 }
 
-
+function displaySearchToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.warning("Введіть назву фільму для пошуку");
+}
 
 // success
 
@@ -875,7 +878,7 @@ function toggleLoginForm() {
 // Initialize modal with default content
 bindModal(".modal__btn", ".modal__wrapper", ".modal__close");
 
-if (document.title === "home") {
+if (document.title === "Створіть свою колекцію кіно") {
   bindModal(".modal__btnReg", ".modal__wrapper", ".modal__close");
 }
 
@@ -951,7 +954,6 @@ const effectBurger = document.querySelector(".effect");
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
   // handleUserAuthentication(); // Викликайте цю функцію одразу після завантаження DOM
-
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
       // Якщо користувач авторизований
@@ -989,7 +991,7 @@ async function checkIfUserIsAdmin(user) {
 
       if (doc.exists) {
         const userRole = doc.data().role;
-        
+
         return userRole === "admin";
       } else {
         console.error("Документ користувача не існує!");
@@ -1008,7 +1010,8 @@ async function checkIfUserIsAdmin(user) {
 
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
-const bgNonAuth = document.querySelector(".background")
+const bgNonAuth = document.querySelector(".background");
+const siteName = document.querySelector(".header__site-name");
 
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
@@ -1019,6 +1022,8 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
+    siteName.style.display = "none";
+
     if (window.location.pathname.includes("index.html")) {
       console.log(
         "Користувач вже авторизований, перенаправляю на collection-films.html"
@@ -1027,7 +1032,6 @@ function handleUserAuthentication() {
     } else if (window.location.pathname === "/") {
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
-    // homeContainer.style.display = "none";
     hideContainer();
     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
     if (document.title === "Моя коллекція") {
@@ -1040,10 +1044,12 @@ function handleUserAuthentication() {
     window.location.href = "/index.html"; // Замініть на свій шлях
   } else {
     homeContainerAuth.style.display = "none";
-    userEnter.classList.remove("hide");
+    userEnter.classList.remove("hide-modal");
     homeContainer.classList.remove("hide");
     effectBurger.style.display = "none";
-    bgNonAuth.style.display="block";
+    bgNonAuth.style.display = "block";
+    siteName.style.display = "block";
+
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
     // або здійсніть інші дії відповідно до вашого сценарію
     console.log(

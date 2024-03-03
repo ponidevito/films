@@ -1,14 +1,18 @@
 
 
 
+
+
 {
   "hosting": {
-    "public": "build",
+    "public": "public",
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "cleanUrls": true
   }
 }
+

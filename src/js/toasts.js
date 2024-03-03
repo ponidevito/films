@@ -1,5 +1,7 @@
 // toaster
 
+
+
 // warning
 
 function displayWrongToaster() {
@@ -12,7 +14,10 @@ function displayNameToaster() {
   toastr.warning("Фільм з такою назвою вже існує.");
 }
 
-
+function displaySearchToaster() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.warning("Введіть назву фільму для пошуку");
+}
 
 // success
 
