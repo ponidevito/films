@@ -33,7 +33,6 @@ function submitForm() {
           localStorage.setItem("userName", doc.data().firstName); // Припустимо, що в Firestore є поле name
 
           // Додати/видалити класи або виконати інші дії, пов'язані з інтерфейсом
-          // searchBox.classList.add("show");
           modalLogin.classList.add("hide");
           userEnter.classList.add("hide");
           loginBox.classList.add("show-box");
@@ -69,7 +68,6 @@ const effectBurger = document.querySelector(".effect");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
-  // handleUserAuthentication(); // Викликайте цю функцію одразу після завантаження DOM
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
       // Якщо користувач авторизований
@@ -91,10 +89,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
     } 
-    // else if (!window.location.pathname.includes("/")) {
-    //   console.log("Направляю неавторизованого користувача на index.html");
-    //   window.location.href = "/";
-    // } 
     else {
       homeContainerAuth.style.display = "none";
     }
@@ -147,18 +141,10 @@ function handleUserAuthentication() {
       );
       window.location.href = "collection-films.html"; // Замініть на свій URL
     } 
-    // if (window.location.pathname.includes("/")) {
-    //   console.log(
-    //     "Користувач вже авторизований, перенаправляю на collection-films.html"
-    //   );
-    //   window.location.href = "collection-films.html"; // Замініть на свій URL
-    // } 
     else if (window.location.pathname === "/") {
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
     hideContainer();
-    // window.location.href = "collection-films.html"; // Замініть на свій URL
-
     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
     if (document.title === "Моя коллекція") {
       searchBox.classList.add("show");

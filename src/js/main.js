@@ -1,6 +1,3 @@
-// Custom scripts
-
-
 // checkbox toogle
 
 function togglePasswordVisibility() {
@@ -160,12 +157,8 @@ function renderFilms() {
     btn_next.style.visibility = "visible";
   }
 
-  // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
 }
 
-// Викликаємо функцію генерації кнопок сторінки після завантаження сторінки
-
-// test
 
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
@@ -190,7 +183,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // конфігурація Firebase
   };
 
-  const filmCollection = document.getElementById("filmCollection");
 
   if (document.title === "Моя коллекція") {
     window.onload = function () {
@@ -286,10 +278,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       } 
-      // else if (!window.location.pathname.includes("/")) {
-      //   console.log("Направляю неавторизованого користувача на index.html");
-      //   window.location.href = "index.html";
-      // }
     });
   }
 
@@ -585,7 +573,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // Інші частини вашого коду...
 });
 
 function validatePassword() {

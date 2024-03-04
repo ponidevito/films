@@ -75,10 +75,9 @@ if (document.title === "Додати фільм") {
 
       if (!existingFilms.empty) {
         console.error("Фільм з такою назвою вже існує.");
-        displayNameToaster()
+        displayNameToaster();
         return;
       }
-
 
       // Додавання нового фільму
       const docRef = await firestore.collection("films").add({

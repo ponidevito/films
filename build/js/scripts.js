@@ -1,8 +1,5 @@
 // Custom Scripts
 
-// Custom scripts
-
-
 // checkbox toogle
 
 function togglePasswordVisibility() {
@@ -162,12 +159,8 @@ function renderFilms() {
     btn_next.style.visibility = "visible";
   }
 
-  // Перевіряємо чи на першій або останній сторінці і приховуємо або показуємо кнопки btn_prev та btn_next відповідно
 }
 
-// Викликаємо функцію генерації кнопок сторінки після завантаження сторінки
-
-// test
 
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
@@ -192,7 +185,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // конфігурація Firebase
   };
 
-  const filmCollection = document.getElementById("filmCollection");
 
   if (document.title === "Моя коллекція") {
     window.onload = function () {
@@ -288,10 +280,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       } 
-      // else if (!window.location.pathname.includes("/")) {
-      //   console.log("Направляю неавторизованого користувача на index.html");
-      //   window.location.href = "index.html";
-      // }
     });
   }
 
@@ -587,7 +575,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   };
 
-  // Інші частини вашого коду...
 });
 
 function validatePassword() {
@@ -759,10 +746,9 @@ if (document.title === "Додати фільм") {
 
       if (!existingFilms.empty) {
         console.error("Фільм з такою назвою вже існує.");
-        displayNameToaster()
+        displayNameToaster();
         return;
       }
-
 
       // Додавання нового фільму
       const docRef = await firestore.collection("films").add({
@@ -918,7 +904,6 @@ function submitForm() {
           localStorage.setItem("userName", doc.data().firstName); // Припустимо, що в Firestore є поле name
 
           // Додати/видалити класи або виконати інші дії, пов'язані з інтерфейсом
-          // searchBox.classList.add("show");
           modalLogin.classList.add("hide");
           userEnter.classList.add("hide");
           loginBox.classList.add("show-box");
@@ -954,7 +939,6 @@ const effectBurger = document.querySelector(".effect");
 
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
-  // handleUserAuthentication(); // Викликайте цю функцію одразу після завантаження DOM
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
       // Якщо користувач авторизований
@@ -976,10 +960,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       }
     } 
-    // else if (!window.location.pathname.includes("/")) {
-    //   console.log("Направляю неавторизованого користувача на index.html");
-    //   window.location.href = "/";
-    // } 
     else {
       homeContainerAuth.style.display = "none";
     }
@@ -1032,18 +1012,10 @@ function handleUserAuthentication() {
       );
       window.location.href = "collection-films.html"; // Замініть на свій URL
     } 
-    // if (window.location.pathname.includes("/")) {
-    //   console.log(
-    //     "Користувач вже авторизований, перенаправляю на collection-films.html"
-    //   );
-    //   window.location.href = "collection-films.html"; // Замініть на свій URL
-    // } 
     else if (window.location.pathname === "/") {
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
     hideContainer();
-    // window.location.href = "collection-films.html"; // Замініть на свій URL
-
     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
     if (document.title === "Моя коллекція") {
       searchBox.classList.add("show");
@@ -1093,59 +1065,62 @@ function logOut() {
   window.location.href = "/";
 }
 function regForm() {
-    const firstName = document.getElementsByName("firstName")[0].value;
-    const lastName = document.getElementsByName("lastName")[0].value;
-    const emailValue = document.getElementsByName("regEmail")[0].value;
-    const passwordValue = document.getElementsByName("regPassword")[0].value;
+  const firstName = document.getElementsByName("firstName")[0].value;
+  const lastName = document.getElementsByName("lastName")[0].value;
+  const emailValue = document.getElementsByName("regEmail")[0].value;
+  const passwordValue = document.getElementsByName("regPassword")[0].value;
 
-    // Створення нового користувача в Firebase
-    firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
-        .then((userCredential) => {
-            const user = userCredential.user;
+  // Створення нового користувача в Firebase
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(emailValue, passwordValue)
+    .then((userCredential) => {
+      const user = userCredential.user;
 
-            // Зчитування ролі користувача з бази даних або Firestore
-            const db = firebase.firestore();
-            const userDocRef = db.collection("users").doc(user.uid);
+      // Зчитування ролі користувача з бази даних або Firestore
+      const db = firebase.firestore();
+      const userDocRef = db.collection("users").doc(user.uid);
 
-            // Створення документа для нового користувача в Firestore
-            userDocRef.set({
-                firstName: firstName,
-                lastName: lastName,
-                email:emailValue,
-                role: 'user'
-                // Додайте інші поля користувача, які вам потрібні
-            }).then(() => {
-                // Збереження ролі в localStorage
-                localStorage.setItem("userRole", "USER");
+      // Створення документа для нового користувача в Firestore
+      userDocRef
+        .set({
+          firstName: firstName,
+          lastName: lastName,
+          email: emailValue,
+          role: "user",
+          // Додайте інші поля користувача, які вам потрібні
+        })
+        .then(() => {
+          // Збереження ролі в localStorage
+          localStorage.setItem("userRole", "USER");
 
-                // Збереження інших даних користувача в localStorage
-                localStorage.setItem("userId", user.uid);
-                localStorage.setItem("userEmail", user.email);
-                localStorage.setItem("userName", firstName);
+          // Збереження інших даних користувача в localStorage
+          localStorage.setItem("userId", user.uid);
+          localStorage.setItem("userEmail", user.email);
+          localStorage.setItem("userName", firstName);
 
-                // Додавання/видалення класів або виконання інших дій, пов'язаних з інтерфейсом
-                modalLogin.classList.add("hide");
-                userEnter.classList.add("hide");
-                loginBox.classList.add("show-box");
+          // Додавання/видалення класів або виконання інших дій, пов'язаних з інтерфейсом
+          modalLogin.classList.add("hide");
+          userEnter.classList.add("hide");
+          loginBox.classList.add("show-box");
 
-                console.log("Успішна реєстрація та вхід:", user);
-                location.reload()
-
-                // Перенаправлення на сторінку collection-films
-                // window.location.href = "collection-films.html";
-            }).catch((error) => {
-                console.error("Помилка при створенні документа користувача:", error);
-            });
+          console.log("Успішна реєстрація та вхід:", user);
+          location.reload();
         })
         .catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.error("Помилка реєстрації та входу:", errorCode, errorMessage);
+          console.error("Помилка при створенні документа користувача:", error);
         });
+    })
+    .catch((error) => {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.error("Помилка реєстрації та входу:", errorCode, errorMessage);
+    });
 }
 
 
-  
+
+
 if (document.title === "Інформація про фільм") {
   document.addEventListener("DOMContentLoaded", function () {
     showSpinner();
@@ -1185,7 +1160,6 @@ if (document.title === "Інформація про фільм") {
           trailerIframe.src = movieData.youtubeURL;
 
           hideSpinner();
-          // Додайте інші поля інформації, які вам потрібні
         } else {
           console.error("No such document!");
         }
@@ -1196,15 +1170,13 @@ if (document.title === "Інформація про фільм") {
 
 // Перевірка автентифікації для захищених сторінок
 document.addEventListener("DOMContentLoaded", function () {
-  const protectedPages = [
-    "collection-films.html",
-  ];
+  const protectedPages = ["collection-films.html"];
 
   if (protectedPages.includes(window.location.pathname) && !checkAuth()) {
     console.log(
       "Користувач не увійшов. Перенаправлення на сторінку авторизації."
     );
-    window.location.href = "/index.html"; // Замініть це на URL вашої сторінки авторизації
+    window.location.href = "/";
   }
 });
 

@@ -37,7 +37,6 @@ if (document.title === "Інформація про фільм") {
           trailerIframe.src = movieData.youtubeURL;
 
           hideSpinner();
-          // Додайте інші поля інформації, які вам потрібні
         } else {
           console.error("No such document!");
         }
@@ -48,14 +47,12 @@ if (document.title === "Інформація про фільм") {
 
 // Перевірка автентифікації для захищених сторінок
 document.addEventListener("DOMContentLoaded", function () {
-  const protectedPages = [
-    "collection-films.html",
-  ];
+  const protectedPages = ["collection-films.html"];
 
   if (protectedPages.includes(window.location.pathname) && !checkAuth()) {
     console.log(
       "Користувач не увійшов. Перенаправлення на сторінку авторизації."
     );
-    window.location.href = "/index.html"; // Замініть це на URL вашої сторінки авторизації
+    window.location.href = "/";
   }
 });
