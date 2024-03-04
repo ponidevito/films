@@ -288,10 +288,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       } 
-      else if (!window.location.pathname.includes("index.html")) {
-        console.log("Направляю неавторизованого користувача на index.html");
-        window.location.href = "index.html";
-      }
+      // else if (!window.location.pathname.includes("/")) {
+      //   console.log("Направляю неавторизованого користувача на index.html");
+      //   window.location.href = "index.html";
+      // }
     });
   }
 
@@ -975,10 +975,12 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       }
-    } else if (!window.location.pathname.includes("index.html")) {
-      console.log("Направляю неавторизованого користувача на index.html");
-      window.location.href = "index.html";
-    } else {
+    } 
+    // else if (!window.location.pathname.includes("/")) {
+    //   console.log("Направляю неавторизованого користувача на index.html");
+    //   window.location.href = "/";
+    // } 
+    else {
       homeContainerAuth.style.display = "none";
     }
   });
@@ -1024,26 +1026,37 @@ function handleUserAuthentication() {
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
     siteName.style.display = "none";
-
-    if (window.location.pathname.includes("index.html")) {
+    if (window.location.pathname === "/") {
       console.log(
         "Користувач вже авторизований, перенаправляю на collection-films.html"
       );
       window.location.href = "collection-films.html"; // Замініть на свій URL
-    } else if (window.location.pathname === "/") {
+    } 
+    // if (window.location.pathname.includes("/")) {
+    //   console.log(
+    //     "Користувач вже авторизований, перенаправляю на collection-films.html"
+    //   );
+    //   window.location.href = "collection-films.html"; // Замініть на свій URL
+    // } 
+    else if (window.location.pathname === "/") {
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
     hideContainer();
+    // window.location.href = "collection-films.html"; // Замініть на свій URL
+
     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
     if (document.title === "Моя коллекція") {
       searchBox.classList.add("show");
     }
-  } else if (!window.location.pathname.includes("index.html")) {
+  } 
+  else if (window.location.pathname !== "/") {
     // Якщо користувач не увійшов і не знаходиться на сторінці index.html,
-    // перенаправляємо його на сторінку index.html
-    console.log("Направляю неавторизованого користувача на index.html");
-    window.location.href = "/index.html"; // Замініть на свій шлях
-  } else {
+    // перенаправляємо його на домашню сторінку
+    console.log("Направляю неавторизованого користувача на домашню сторінку");
+    window.location.href = "/"; // Замініть на свій шлях
+}
+
+  else {
     homeContainerAuth.style.display = "none";
     userEnter.classList.remove("hide-modal");
     homeContainer.classList.remove("hide");
@@ -1077,7 +1090,7 @@ function logOut() {
   userEnter.classList.remove("hide");
   loginBox.classList.remove("show-box");
   console.log("Користувач вийшов.");
-  window.location.href = "/index.html";
+  window.location.href = "/";
 }
 function regForm() {
     const firstName = document.getElementsByName("firstName")[0].value;
