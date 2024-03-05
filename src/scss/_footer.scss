@@ -1,25 +1,33 @@
 .footer {
-    padding: 20px;
-    position: relative;
-    z-index: 1;
-    background-color: #303030;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  background-color: #303030;
+  @include sm {
+    padding: 10px;
+  }
+
+  &__body {
+    // text-align: end;
+    // @include sm {
+    //     text-align: center;
+    // }
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__development {
     @include sm {
-        padding: 10px;
+      font-size: 16px;
     }
-
-    &__body {
-        text-align: end;
-        @include sm {
-            text-align: center;
-        }
+    @include xs {
+      font-size: 14px;
     }
-
-    &__development {
-        @include sm {
-            font-size: 16px;
-        }
-        @include xs {
-            font-size: 14px;
-        }
-    }
+  }
 }

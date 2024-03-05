@@ -37,6 +37,8 @@
     text-align: center;
     line-height: 1.2;
     letter-spacing: 0.2em;
+    animation: fade 1s linear;
+
     h1 {
       font-size: 2.5em;
       @include lg {
