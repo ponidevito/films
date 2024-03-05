@@ -829,7 +829,7 @@ function bindModal(trigger, modal, close) {
   });
 }
 
-function toggleRegistrationForm() {
+function toggleRegistrationForm(event) {
   const loginForm = document.querySelector(".first-modal");
   const registrationForm = document.querySelector(".second-modal");
   const registrationLink = document.getElementById("registrationLink");
@@ -844,6 +844,8 @@ function toggleRegistrationForm() {
   registrationLink.onclick = toggleLoginForm;
   regButton.style.display = "flex";
   modalTitle.textContent = "Зареєструватись";
+  event.preventDefault();
+
 }
 
 function toggleLoginForm() {
@@ -876,7 +878,7 @@ let modalLogin = document.querySelector(".modal__wrapper");
 let userEnter = document.querySelector(".header__user");
 let loginBox = document.querySelector(".header__login-box");
 
-function submitForm() {
+function submitForm(event) {
   let emailValue = document.getElementById("loginForm").elements.email.value;
   let passwordValue =
     document.getElementById("loginForm").elements.password.value;
@@ -994,7 +996,8 @@ async function checkIfUserIsAdmin(user) {
 const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
 const bgNonAuth = document.querySelector(".background");
-const siteName = document.querySelector(".header__site-name");
+const siteNameHeader = document.querySelector(".header__site-name");
+const siteName = document.querySelector(".home__site-name");
 
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
@@ -1006,6 +1009,7 @@ function handleUserAuthentication() {
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
     siteName.style.display = "none";
+    siteNameHeader.style.display = "none";
     if (window.location.pathname === "/") {
       console.log(
         "Користувач вже авторизований, перенаправляю на collection-films.html"
@@ -1035,6 +1039,7 @@ function handleUserAuthentication() {
     effectBurger.style.display = "none";
     bgNonAuth.style.display = "block";
     siteName.style.display = "block";
+    siteNameHeader.style.display = "block";
 
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
     // або здійсніть інші дії відповідно до вашого сценарію

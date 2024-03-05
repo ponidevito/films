@@ -37,7 +37,6 @@
     text-align: center;
     line-height: 1.2;
     letter-spacing: 0.2em;
-    animation: flicker 0.7s ease-in-out infinite alternate;
     h1 {
       font-size: 2.5em;
       @include lg {

@@ -42,7 +42,7 @@ function bindModal(trigger, modal, close) {
   });
 }
 
-function toggleRegistrationForm() {
+function toggleRegistrationForm(event) {
   const loginForm = document.querySelector(".first-modal");
   const registrationForm = document.querySelector(".second-modal");
   const registrationLink = document.getElementById("registrationLink");
@@ -57,6 +57,8 @@ function toggleRegistrationForm() {
   registrationLink.onclick = toggleLoginForm;
   regButton.style.display = "flex";
   modalTitle.textContent = "Зареєструватись";
+  event.preventDefault();
+
 }
 
 function toggleLoginForm() {
