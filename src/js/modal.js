@@ -1,4 +1,7 @@
 
+
+
+
 const firstNameInput = document.getElementById("firstName");
 const lastNameInput = document.getElementById("lastName");
 
@@ -75,6 +78,8 @@ function toggleLoginForm() {
   registrationLink.style.textAlign = "end";
   registrationLink.onclick = toggleRegistrationForm;
   regButton.style.display = "none";
+  event.preventDefault();
+
 }
 
 // Initialize modal with default content
