@@ -128,7 +128,6 @@ const homeContainer = document.querySelector(".home__container");
 const homeContainerAuth = document.querySelector(".home__container-auth");
 const bgNonAuth = document.querySelector(".background");
 const siteNameHeader = document.querySelector(".header__site-name");
-const siteName = document.querySelector(".home__site-name");
 
 // function handleUserAuthentication() {
 //   let userId = localStorage.getItem("userId");
@@ -207,6 +206,7 @@ function handleUserAuthentication() {
   else if (currentPath !== "/" && currentPath !== "/about.html") {
     // Якщо користувач не увійшов і не знаходиться на сторінці index.html або about.html,
     // перенаправляємо його на домашню сторінку
+
     console.log("Направляю неавторизованого користувача на домашню сторінку");
     window.location.href = "/"; // Замініть на свій шлях
   }
@@ -217,9 +217,13 @@ function handleUserAuthentication() {
       homeContainer.classList.remove("hide");
       effectBurger.style.display = "none";
       bgNonAuth.style.display = "block";
-      siteName.style.display = "block";
       siteNameHeader.style.display = "block";   
      }
+     if (document.title === "Про нас") {
+      userEnter.classList.remove("hide-modal");
+      siteNameHeader.style.display = "block";   
+     }
+    
    
 
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс

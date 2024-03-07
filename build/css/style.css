@@ -1296,6 +1296,19 @@ header .effect {
   display: none;
 }
 
+.about {
+  position: relative;
+  padding: 100px 0px;
+}
+
+.about__text {
+  margin-top: 50px;
+}
+
+.about__text p:not(:last-child) {
+  margin-bottom: 20px;
+}
+
 .footer {
   padding: 20px;
   position: relative;
@@ -1310,6 +1323,7 @@ header .effect {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  gap: 30px;
 }
 
 .footer__info {
@@ -2408,6 +2422,19 @@ body {
   }
 }
 
+@media (max-width: 650px) {
+  .footer__body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    gap: 10px;
+  }
+}
+
 @media (max-width: 576px) {
   .background.background-details {
     display: none;
@@ -2631,6 +2658,7 @@ body {
   }
 
   .footer__development {
+    text-align: center;
     font-size: 16px;
   }
 }

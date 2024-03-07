@@ -1,0 +1,21 @@
+.about {
+  position: relative;
+  padding: 100px 0px;
+  &__top {
+   
+  }
+
+  &__title {
+  }
+
+  &__text {
+    margin-top: 50px;
+    p {
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+  }
+}
+
+
