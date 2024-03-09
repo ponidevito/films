@@ -675,7 +675,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 20px;
 }
 
-.add__form {
+.form {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1315,6 +1315,11 @@ header .effect {
 
 .about__text p:not(:last-child) {
   margin-bottom: 20px;
+}
+
+.contacts {
+  padding-top: 100px;
+  position: relative;
 }
 
 .footer {

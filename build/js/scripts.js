@@ -1046,7 +1046,7 @@ function handleUserAuthentication() {
       searchBox.classList.add("show");
     }
   } 
-  else if (currentPath !== "/" && currentPath !== "/about.html") {
+  else if (currentPath !== "/" && currentPath !== "/about.html" && currentPath !== "/contacts.html") {
     // Якщо користувач не увійшов і не знаходиться на сторінці index.html або about.html,
     // перенаправляємо його на домашню сторінку
 
@@ -1081,7 +1081,7 @@ function handleUserAuthentication() {
 document.addEventListener("DOMContentLoaded", handleUserAuthentication);
 
 function hideContainer() {
-  if (document.title === "home" && document.title === "Про нас") {
+  if (document.title === "home" && document.title === "Про нас" && document.title === "Контакти") {
     homeContainer.style.display = "none";
   }
 }

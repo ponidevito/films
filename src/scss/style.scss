@@ -15,6 +15,7 @@
 @import "./home";
 @import "./burger";
 @import "./about";
+@import "./contacts";
 
 @import "./footer";
 
@@ -32,7 +33,6 @@ body {
   height: 100%;
   width: 100%;
   font-family: Montserrat;
-  // font-family: Comic Sans MS;
   letter-spacing: 0.6px;
   font-weight: 400;
   line-height: 24px;
@@ -40,11 +40,7 @@ body {
   background-color: #1a1a1a;
   color: #f0f0f0;
   line-height: 1.6;
-  //   &.lockBurger {
-  //     @media (max-width: 1100px) {
-  //       overflow: hidden;
-  //     }
-  //   }
+
 }
 
 .wrapper {

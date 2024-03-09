@@ -30,15 +30,13 @@
     margin-bottom: 20px;
   }
 
-  &__form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
 }
 
 .form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   &__group {
     display: flex;
     align-items: center;
