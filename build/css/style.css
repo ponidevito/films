@@ -240,6 +240,13 @@ input::-webkit-inner-spin-button {
 
 .header {
   background-color: #303030;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.header._active {
+  background-color: rgba(48, 48, 48, 0.822);
 }
 
 .header__body {
@@ -644,6 +651,7 @@ input::-webkit-inner-spin-button {
 
 .add {
   padding-top: 100px;
+  position: relative;
 }
 
 .add__container {
@@ -1302,7 +1310,7 @@ header .effect {
 }
 
 .about__text {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .about__text p:not(:last-child) {

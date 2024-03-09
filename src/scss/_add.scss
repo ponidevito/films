@@ -1,5 +1,6 @@
 .add {
   padding-top: 100px;
+  position: relative;
   @include sm {
     padding-top: 80px;
   }

@@ -1,4 +1,18 @@
-// checkbox toogle
+
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (
+    // document.body.scrollTop > 600 ||
+    document.documentElement.scrollTop > 0
+  ) {
+    document.querySelector(".header").classList.add("_active");
+  } else {
+    document.querySelector(".header").classList.remove("_active");
+  }
+}
 
 function togglePasswordVisibility() {
   let checkboxColorText = document.querySelector(".modal__checkbox");

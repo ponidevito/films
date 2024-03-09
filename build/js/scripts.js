@@ -1,6 +1,20 @@
 // Custom Scripts
 
-// checkbox toogle
+
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (
+    // document.body.scrollTop > 600 ||
+    document.documentElement.scrollTop > 0
+  ) {
+    document.querySelector(".header").classList.add("_active");
+  } else {
+    document.querySelector(".header").classList.remove("_active");
+  }
+}
 
 function togglePasswordVisibility() {
   let checkboxColorText = document.querySelector(".modal__checkbox");
@@ -1007,55 +1021,6 @@ const homeContainerAuth = document.querySelector(".home__container-auth");
 const bgNonAuth = document.querySelector(".background");
 const siteNameHeader = document.querySelector(".header__site-name");
 
-// function handleUserAuthentication() {
-//   let userId = localStorage.getItem("userId");
-//   let userEmail = localStorage.getItem("userEmail");
-
-//   if (userId && userEmail) {
-//     // Якщо дані користувача знайдено в localStorage, виконати відповідні дії
-//     modalLogin.classList.add("hide");
-//     userEnter.classList.add("hide");
-//     loginBox.classList.add("show-box");
-//     siteName.style.display = "none";
-//     siteNameHeader.style.display = "none";
-//     if (window.location.pathname === "/") {
-//       console.log(
-//         "Користувач вже авторизований, перенаправляю на collection-films.html"
-//       );
-//       window.location.href = "collection-films.html"; // Замініть на свій URL
-//     } 
-//     else if (window.location.pathname === "/") {
-//       window.location.href = "collection-films.html"; // Замініть на свій URL
-//     }
-//     hideContainer();
-//     console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
-//     if (document.title === "Моя коллекція") {
-//       searchBox.classList.add("show");
-//     }
-//   } 
-//   else if (window.location.pathname !== "/") {
-//     // Якщо користувач не увійшов і не знаходиться на сторінці index.html,
-//     // перенаправляємо його на домашню сторінку
-//     console.log("Направляю неавторизованого користувача на домашню сторінку");
-//     window.location.href = "/"; // Замініть на свій шлях
-// }
-
-//   else {
-//     homeContainerAuth.style.display = "none";
-//     userEnter.classList.remove("hide-modal");
-//     homeContainer.classList.remove("hide");
-//     effectBurger.style.display = "none";
-//     bgNonAuth.style.display = "block";
-//     siteName.style.display = "block";
-//     siteNameHeader.style.display = "block";
-
-//     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
-//     // або здійсніть інші дії відповідно до вашого сценарію
-//     console.log(
-//       "Користувач не увійшов. Покажіть стандартний інтерфейс або виконайте інші дії."
-//     );
-//   }
-// }
 
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
@@ -1067,7 +1032,7 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
-    siteName.style.display = "none";
+    // siteName.style.display = "none";
     siteNameHeader.style.display = "none";
     if (currentPath === "/") {
       console.log(
