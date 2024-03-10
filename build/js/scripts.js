@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             filmCollection.appendChild(addFilmLink);
           } else {
             loadFilmsData(userId);
-            updateCounter()
+            updateCounter();
 
             hideSpinner();
           }
@@ -510,8 +510,73 @@ async function uploadImage(file) {
 
 // Поза блоком event listener
 
+// function displaySearchResults(filmsSnapshot, searchTerm) {
+//   const filmCollection = document.getElementById("filmCollection");
+//   filmsSnapshot.forEach((doc) => {
+//     const filmData = doc.data();
+//     const searchTitle = filmData.searchTitle.toLowerCase();
+
+//     // Перевірка, чи співпадає назва фільму з пошуковим терміном
+//     if (searchTitle.includes(searchTerm.toLowerCase())) {
+//       const filmElement = document.createElement("a");
+//       filmElement.className = "collection__column";
+//       filmElement.href = `details.html?id=${doc.id}`;
+//       filmElement.innerHTML = `
+//         <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+//         <div class="collection__about">
+//           <h2 class="collection__name">${filmData.title}</h2>
+//         </div>
+//       `;
+
+//       filmCollection.appendChild(filmElement);
+//       window.scrollTo(0, 0);
+//     }
+//   });
+// }
+
+// function displaySearchResults(filmsSnapshot, searchTerm) {
+//   const filmCollection = document.getElementById("filmCollection");
+//   let foundFilms = false; // Змінна, щоб визначити, чи були знайдені фільми
+
+//   filmsSnapshot.forEach((doc) => {
+//     const filmData = doc.data();
+//     const searchTitle = filmData.searchTitle.toLowerCase();
+
+//     // Перевірка, чи співпадає назва фільму з пошуковим терміном
+//     if (searchTitle.includes(searchTerm.toLowerCase())) {
+//       const filmElement = document.createElement("a");
+//       filmElement.className = "collection__column";
+//       filmElement.href = `details.html?id=${doc.id}`;
+//       filmElement.innerHTML = `
+//         <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
+//         <div class="collection__about">
+//           <h2 class="collection__name">${filmData.title}</h2>
+//         </div>
+//       `;
+
+//       filmCollection.appendChild(filmElement);
+//       window.scrollTo(0, 0);
+
+//       foundFilms = true; // Встановлюємо значення, якщо фільми знайдено
+//     }
+//   });
+
+//   // Якщо фільми не були знайдені, вивести повідомлення
+//   if (!foundFilms) {
+//     const filmNoResults = document.querySelector(".collection__container");
+
+//     const noResultsElement = document.createElement("div");
+//     noResultsElement.textContent = "Нічого не знайдено";
+//     filmNoResults.appendChild(noResultsElement);
+//   }
+// }
+
 function displaySearchResults(filmsSnapshot, searchTerm) {
   const filmCollection = document.getElementById("filmCollection");
+  filmCollection.innerHTML = ""; // Очищуємо вміст колекції перед відображенням нових результатів
+  let foundFilms = false; // Змінна, щоб визначити, чи були знайдені фільми
+  const collectionBody = document.querySelector(".collection__body");
+
   filmsSnapshot.forEach((doc) => {
     const filmData = doc.data();
     const searchTitle = filmData.searchTitle.toLowerCase();
@@ -530,8 +595,20 @@ function displaySearchResults(filmsSnapshot, searchTerm) {
 
       filmCollection.appendChild(filmElement);
       window.scrollTo(0, 0);
+
+      foundFilms = true; // Встановлюємо значення, якщо фільми знайдено
     }
   });
+
+  // Якщо фільми не були знайдені, вивести повідомлення
+  if (!foundFilms) {
+    collectionBody.classList.add("flex");
+    const noResultsElement = document.createElement("div");
+    noResultsElement.innerHTML = "<p class='no-results'>Нічого не знайдено</p>";
+    filmCollection.appendChild(noResultsElement);
+  } else {
+    collectionBody.classList.remove("flex");
+  }
 }
 
 // Функція для обробки кліку на кнопку видалення

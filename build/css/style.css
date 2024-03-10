@@ -793,6 +793,15 @@ input::-webkit-inner-spin-button {
   justify-items: center;
 }
 
+.collection__body.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
 .collection__column {
   overflow: hidden;
   height: 100%;
@@ -981,6 +990,11 @@ input::-webkit-inner-spin-button {
 
 #btn_next:hover::before {
   background-color: #ffe26e;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 50px;
 }
 
 .details {

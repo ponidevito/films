@@ -47,6 +47,10 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
+    &.flex {
+      display: flex;
+      justify-content: center;
+    }
     @media (max-width: 1240px) {
       grid-template-columns: repeat(3, 1fr);
     }
@@ -253,4 +257,9 @@
 
 #btn_next:hover::before {
   background-color: #ffe26e;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 50px;
 }
