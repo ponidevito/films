@@ -262,4 +262,19 @@
 .no-results {
   text-align: center;
   font-size: 50px;
+  @include lg {
+    font-size: 40px;
+  }
+
+  @include md {
+    font-size: 30px;
+  }
+
+  @include sm {
+    font-size: 25px;
+  }
+
+  @include xs {
+    font-size: 18px;
+  }
 }
