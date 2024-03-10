@@ -1,20 +1,19 @@
 .about {
   position: relative;
   padding: 100px 0px;
-  &__top {
-   
+  @include lg {
+    padding-top: 80px;
   }
-
- 
+  @include sm {
+    padding-top: 60px;
+  }
 
   &__text {
     margin-top: 30px;
     p {
-        &:not(:last-child) {
-            margin-bottom: 20px;
-        }
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
     }
   }
 }
-
-

@@ -1,14 +1,30 @@
 .contacts {
-    padding-top: 100px;
-    position: relative;
-}
-.conatcts {
+  padding-top: 100px;
+  position: relative;
+  @include lg {
+    padding-top: 80px;
+  }
+  @include sm {
+    padding-top: 60px;
+  }
+  &__container {
+    max-width: 570px;
+  }
+  &__body {
+    padding: 20px 10px;
+    background-color: #303030;
+    border-radius: 10px;
+    margin-bottom: 20px;
+	margin-top: 30px;
+  }
 
-		&__container {
-		}
-}
-.top {
 
-		&__title {
-		}
+
+  .textarea {
+    height: 200px;
+    border-radius: 10px;
+    outline: none;
+    resize: none;
+    padding: 5px;
+  }
 }

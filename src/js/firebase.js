@@ -113,3 +113,54 @@ if (document.title === "Додати фільм") {
     }
   }
 }
+
+
+
+if (document.title === "Контакти") {
+
+
+  const form = document.querySelector(".contacts__form");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const message = document.getElementById("textarea").value;
+
+    sendMessage(name, email, message);
+  });
+
+  async function sendMessage(name, email, message) {
+    try {
+      const firestore = firebase.firestore();
+      const contactRef = firestore.collection("contacts").doc();
+
+      const currentDate = new Date();
+      const hours = currentDate.getHours().toString().padStart(2, "0");
+      const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+      const year = currentDate.getFullYear().toString().slice(-2);
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+      const day = currentDate.getDate().toString().padStart(2, "0");
+
+      const formattedTime = `${hours}.${minutes}`;
+      const formattedDate = `${month}/${day}/${year}`;
+
+      await contactRef.set({
+        name: name,
+        email: email,
+        message: message,
+        time: formattedTime,
+        date: formattedDate,
+      });
+
+      console.log("Повідомлення успішно відправлено!");
+      displaySuccesMessage()
+      form.reset();
+    } catch (error) {
+      console.error("Виникла помилка при відправці повідомлення:", error);
+    }
+  }
+;
+}
+

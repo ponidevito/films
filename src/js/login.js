@@ -88,10 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
       }
-    } 
-    // else {
-    //   homeContainerAuth.style.display = "none";
-    // }
+    }
     const homeContainerAuth = document.getElementById("homeContainerAuth");
     if (homeContainerAuth) {
       homeContainerAuth.style.display = "none";
@@ -129,7 +126,6 @@ const homeContainerAuth = document.querySelector(".home__container-auth");
 const bgNonAuth = document.querySelector(".background");
 const siteNameHeader = document.querySelector(".header__site-name");
 
-
 function handleUserAuthentication() {
   let userId = localStorage.getItem("userId");
   let userEmail = localStorage.getItem("userEmail");
@@ -153,29 +149,31 @@ function handleUserAuthentication() {
     if (document.title === "Моя коллекція") {
       searchBox.classList.add("show");
     }
-  } 
-  else if (currentPath !== "/" && currentPath !== "/about.html" && currentPath !== "/contacts.html") {
+  } else if (
+    currentPath !== "/" &&
+    currentPath !== "/about.html" &&
+    currentPath !== "/contacts.html"
+  ) {
     // Якщо користувач не увійшов і не знаходиться на сторінці index.html або about.html,
     // перенаправляємо його на домашню сторінку
 
     console.log("Направляю неавторизованого користувача на домашню сторінку");
     window.location.href = "/"; // Замініть на свій шлях
-  }
-  else {
+  } else {
     if (document.title === "Створіть свою колекцію кіно") {
       homeContainerAuth.style.display = "none";
       userEnter.classList.remove("hide-modal");
       homeContainer.classList.remove("hide");
       effectBurger.style.display = "none";
       bgNonAuth.style.display = "block";
-      siteNameHeader.style.display = "block";   
-     }
-     if (document.title === "Про нас") {
+      siteNameHeader.style.display = "block";
+    }
+    if (document.title === "Про нас" || document.title === "Контакти") {
       userEnter.classList.remove("hide-modal");
-      siteNameHeader.style.display = "block";   
-     }
-    
-   
+      siteNameHeader.style.display = "block";
+      effectBurger.style.display = "none";
+
+    }
 
     // Якщо дані користувача не знайдено, можливо, покажіть стандартний інтерфейс
     // або здійсніть інші дії відповідно до вашого сценарію
@@ -185,11 +183,14 @@ function handleUserAuthentication() {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", handleUserAuthentication);
 
 function hideContainer() {
-  if (document.title === "home" && document.title === "Про нас" && document.title === "Контакти") {
+  if (
+    document.title === "home" &&
+    document.title === "Про нас" &&
+    document.title === "Контакти"
+  ) {
     homeContainer.style.display = "none";
   }
 }

@@ -26,6 +26,11 @@ function displaySuccesToaster() {
   toastr.success("Фільм успішно додано");
 }
 
+function displaySuccesMessage() {
+  toastr.options.timeOut = 1500; // 1.5s
+  toastr.success("Відгук успішно відправлено");
+}
+
 function displayEditSuccesToaster() {
   toastr.options.timeOut = 1500; // 1.5s
   toastr.success("Відредаговано");
