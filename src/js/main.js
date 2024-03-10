@@ -1,4 +1,3 @@
-
 window.onscroll = function () {
   scrollFunction();
 };
@@ -170,9 +169,7 @@ function renderFilms() {
     btn_prev.style.visibility = "visible";
     btn_next.style.visibility = "visible";
   }
-
 }
-
 
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
@@ -197,7 +194,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // конфігурація Firebase
   };
 
-
   if (document.title === "Моя коллекція") {
     window.onload = function () {
       var listing_table = document.getElementById("filmCollection");
@@ -213,7 +209,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const filmCollection = document.getElementById("filmCollection");
 
       if (searchTerm === "") {
-        displaySearchToaster()
+        displaySearchToaster();
         return;
       }
 
@@ -286,12 +282,14 @@ document.addEventListener("DOMContentLoaded", async function () {
             filmCollection.appendChild(addFilmLink);
           } else {
             loadFilmsData(userId);
+            updateCounter()
+
             hideSpinner();
           }
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
         }
-      } 
+      }
     });
   }
 
@@ -586,7 +584,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       console.error("Помилка при видаленні фільму:", error);
     }
   };
-
 });
 
 function validatePassword() {
@@ -603,3 +600,41 @@ function validatePassword() {
   }
 }
 
+// counter
+
+// Функція для анімації зміни значення лічильника
+function animateCounter(targetValue, duration) {
+  const startTime = new Date().getTime();
+  const endTime = startTime + duration;
+
+  function updateCounter() {
+    const currentTime = new Date().getTime();
+    const progress = Math.min(1, (currentTime - startTime) / duration);
+    const counterValue = Math.floor(targetValue * progress);
+    counterElement.textContent = counterValue.toLocaleString(); // Форматування числа з комами
+
+    if (currentTime < endTime) {
+      requestAnimationFrame(updateCounter);
+    }
+  }
+
+  updateCounter();
+}
+
+// Отримання посилання на елемент лічильника
+const counterElement = document.querySelector(".collection__counter span");
+
+// Функція для оновлення значення лічильника
+async function updateCounter() {
+  try {
+    const querySnapshot = await firebase.firestore().collection("films").get();
+    const numberOfFilms = querySnapshot.size;
+    animateCounter(numberOfFilms, 1000); // Змініть час анімації за необхідності
+    counterElement.textContent = numberOfFilms;
+  } catch (error) {
+    console.error("Помилка при отриманні кількості фільмів:", error);
+  }
+}
+
+// Виклик функції оновлення при завантаженні сторінки
+// document.addEventListener("DOMContentLoaded", updateCounter);

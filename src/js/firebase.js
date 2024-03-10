@@ -114,11 +114,7 @@ if (document.title === "Додати фільм") {
   }
 }
 
-
-
 if (document.title === "Контакти") {
-
-
   const form = document.querySelector(".contacts__form");
 
   form.addEventListener("submit", function (event) {
@@ -155,12 +151,10 @@ if (document.title === "Контакти") {
       });
 
       console.log("Повідомлення успішно відправлено!");
-      displaySuccesMessage()
+      displaySuccesMessage();
       form.reset();
     } catch (error) {
       console.error("Виникла помилка при відправці повідомлення:", error);
     }
   }
-;
 }
-
