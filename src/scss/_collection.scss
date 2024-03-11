@@ -27,13 +27,11 @@
   }
 
   &__counter {
+    text-align: center;
     transition: 0.3s ease;
     span {
       font-size: 25px;
       color: #ffd52d;
-    }
-    @include lg {
-      text-align: center;
     }
   }
 
@@ -273,6 +271,4 @@
   @include sm {
     font-size: 25px;
   }
-
-
 }

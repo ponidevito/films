@@ -771,6 +771,7 @@ input::-webkit-inner-spin-button {
 }
 
 .collection__counter {
+  text-align: center;
   -webkit-transition: 0.3s ease;
   -o-transition: 0.3s ease;
   transition: 0.3s ease;
@@ -2382,10 +2383,6 @@ body {
 
   .collection__top {
     display: none;
-  }
-
-  .collection__counter {
-    text-align: center;
   }
 
   .collection__body {

@@ -36,6 +36,8 @@ if (document.title === "Інформація про фільм") {
           movieDescrValue.innerText = movieData.description;
           trailerIframe.src = movieData.youtubeURL;
 
+          // Вставити URL-посилання на відео YouTube
+          embed(movieData.youtubeURL);
           hideSpinner();
         } else {
           console.error("No such document!");
@@ -56,3 +58,23 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "/";
   }
 });
+
+function embed(url) {
+  var id;
+  // Шукати ідентифікатор відео в URL
+  if (url.includes("youtube.com")) {
+    id = url.split("?v=")[1];
+  } else if (url.includes("youtu.be")) {
+    id = url.split("/").pop();
+  } else {
+    console.error("Invalid YouTube URL");
+    return;
+  }
+
+  // Створити посилання для вбудовування
+  var embedlink = "https://www.youtube.com/embed/" + id;
+
+  // Отримати посилання на iframe і встановити новий src
+  var iframe = document.getElementById("movieTrailer");
+  iframe.src = embedlink;
+}

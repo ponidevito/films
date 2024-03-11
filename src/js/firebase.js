@@ -114,6 +114,8 @@ if (document.title === "Додати фільм") {
   }
 }
 
+// concats
+
 if (document.title === "Контакти") {
   const form = document.querySelector(".contacts__form");
 

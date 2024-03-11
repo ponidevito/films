@@ -508,68 +508,6 @@ async function uploadImage(file) {
   }
 }
 
-// Поза блоком event listener
-
-// function displaySearchResults(filmsSnapshot, searchTerm) {
-//   const filmCollection = document.getElementById("filmCollection");
-//   filmsSnapshot.forEach((doc) => {
-//     const filmData = doc.data();
-//     const searchTitle = filmData.searchTitle.toLowerCase();
-
-//     // Перевірка, чи співпадає назва фільму з пошуковим терміном
-//     if (searchTitle.includes(searchTerm.toLowerCase())) {
-//       const filmElement = document.createElement("a");
-//       filmElement.className = "collection__column";
-//       filmElement.href = `details.html?id=${doc.id}`;
-//       filmElement.innerHTML = `
-//         <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-//         <div class="collection__about">
-//           <h2 class="collection__name">${filmData.title}</h2>
-//         </div>
-//       `;
-
-//       filmCollection.appendChild(filmElement);
-//       window.scrollTo(0, 0);
-//     }
-//   });
-// }
-
-// function displaySearchResults(filmsSnapshot, searchTerm) {
-//   const filmCollection = document.getElementById("filmCollection");
-//   let foundFilms = false; // Змінна, щоб визначити, чи були знайдені фільми
-
-//   filmsSnapshot.forEach((doc) => {
-//     const filmData = doc.data();
-//     const searchTitle = filmData.searchTitle.toLowerCase();
-
-//     // Перевірка, чи співпадає назва фільму з пошуковим терміном
-//     if (searchTitle.includes(searchTerm.toLowerCase())) {
-//       const filmElement = document.createElement("a");
-//       filmElement.className = "collection__column";
-//       filmElement.href = `details.html?id=${doc.id}`;
-//       filmElement.innerHTML = `
-//         <div class="collection__picture"><img class="collection__poster" src="${filmData.imageURL}" alt="Film Poster"></div>
-//         <div class="collection__about">
-//           <h2 class="collection__name">${filmData.title}</h2>
-//         </div>
-//       `;
-
-//       filmCollection.appendChild(filmElement);
-//       window.scrollTo(0, 0);
-
-//       foundFilms = true; // Встановлюємо значення, якщо фільми знайдено
-//     }
-//   });
-
-//   // Якщо фільми не були знайдені, вивести повідомлення
-//   if (!foundFilms) {
-//     const filmNoResults = document.querySelector(".collection__container");
-
-//     const noResultsElement = document.createElement("div");
-//     noResultsElement.textContent = "Нічого не знайдено";
-//     filmNoResults.appendChild(noResultsElement);
-//   }
-// }
 
 function displaySearchResults(filmsSnapshot, searchTerm) {
   const filmCollection = document.getElementById("filmCollection");
@@ -715,8 +653,11 @@ async function updateCounter() {
   }
 }
 
-// Виклик функції оновлення при завантаженні сторінки
-// document.addEventListener("DOMContentLoaded", updateCounter);
+
+
+// embed url
+
+
 
 // toaster
 
@@ -915,6 +856,8 @@ if (document.title === "Додати фільм") {
     }
   }
 }
+
+// concats
 
 if (document.title === "Контакти") {
   const form = document.querySelector(".contacts__form");
@@ -1357,6 +1300,8 @@ if (document.title === "Інформація про фільм") {
           movieDescrValue.innerText = movieData.description;
           trailerIframe.src = movieData.youtubeURL;
 
+          // Вставити URL-посилання на відео YouTube
+          embed(movieData.youtubeURL);
           hideSpinner();
         } else {
           console.error("No such document!");
@@ -1377,6 +1322,26 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "/";
   }
 });
+
+function embed(url) {
+  var id;
+  // Шукати ідентифікатор відео в URL
+  if (url.includes("youtube.com")) {
+    id = url.split("?v=")[1];
+  } else if (url.includes("youtu.be")) {
+    id = url.split("/").pop();
+  } else {
+    console.error("Invalid YouTube URL");
+    return;
+  }
+
+  // Створити посилання для вбудовування
+  var embedlink = "https://www.youtube.com/embed/" + id;
+
+  // Отримати посилання на iframe і встановити новий src
+  var iframe = document.getElementById("movieTrailer");
+  iframe.src = embedlink;
+}
 
 /**
  * Swiper 7.3.1
