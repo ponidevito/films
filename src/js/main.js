@@ -398,7 +398,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <td>${filmData.title}</td>
                 <td>${filmData.time}, ${filmData.date}</td>
                 <td class="d-flex">
-                <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}"  onclick="editFilm('${doc.id}')">Редагувати</button>
+                <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}" onclick="editFilm('${doc.id}')">Редагувати</button>
                 <button class="admin-cabinet__button-delete delete-button link" data-id="${doc.id}" onclick="deleteFilm('${doc.id}')">Видалити</button>
                 </td>
               `;
@@ -417,6 +417,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function editFilm(filmId) {
+
   window.scrollTo(0, 0);
 
   let form = document.querySelector(".form");
@@ -461,10 +462,10 @@ async function editFilm(filmId) {
         }
 
         await updateFilm(filmId, editedFilm);
+        form.classList.remove("block");
 
         // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
         // Закриття форми після успішного оновлення фільму
-        form.style.display = "none";
       });
   } catch (error) {
     console.error("Помилка при редагуванні фільму:", error);
@@ -472,6 +473,7 @@ async function editFilm(filmId) {
 }
 
 // update film
+
 async function updateFilm(filmId, editedFilm) {
   try {
     const db = firebase.firestore();
@@ -485,6 +487,7 @@ async function updateFilm(filmId, editedFilm) {
     console.error("Помилка при оновленні фільму в Firebase:", error);
   }
 }
+
 
 async function uploadImage(file) {
   try {
