@@ -15,8 +15,8 @@ function scrollFunction() {
 
 function togglePasswordVisibility() {
   let checkboxColorText = document.querySelector(".modal__checkbox");
-  var passwordField = document.getElementById("password");
-  var showPasswordCheckbox = document.getElementById("showPassword");
+  let passwordField = document.getElementById("password");
+  let showPasswordCheckbox = document.getElementById("showPassword");
 
   showPasswordCheckbox.checked = !showPasswordCheckbox.checked;
 
@@ -196,10 +196,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   if (document.title === "Моя коллекція") {
     window.onload = function () {
-      var listing_table = document.getElementById("filmCollection");
-      var items = Array.from(listing_table.children);
+      let listing_table = document.getElementById("filmCollection");
+      let items = Array.from(listing_table.children);
       // Приховуємо всі елементи, крім перших records_per_page
-      for (var i = records_per_page; i < items.length; i++) {
+      for (let i = records_per_page; i < items.length; i++) {
         items[i].style.display = "none";
       }
     };
@@ -279,10 +279,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             addFilmLink.style.textAlign = "center";
             btn_prev.style.display = "none";
             btn_next.style.display = "none";
+            collectionCounter.classList.add('hide')
             filmCollection.appendChild(addFilmLink);
           } else {
             loadFilmsData(userId);
             updateCounter();
+            collectionCounter.classList.remove('hide')
 
             hideSpinner();
           }
@@ -335,6 +337,40 @@ document.addEventListener("DOMContentLoaded", async function () {
     db = firebase.firestore(); // Задаємо db глобальній змінній
 
     firebase.auth().onAuthStateChanged(async function (user) {
+      window.deleteFilm = async function (filmId) {
+        try {
+          if (!db) {
+            console.error("Помилка: db не ініціалізовано.");
+            return;
+          }
+
+          await db.collection("films").doc(filmId).delete();
+          console.log("Фільм видалено успішно!");
+          displayDeleteSuccesToaster();
+          // Оновлення DOM-елементу після видалення
+          const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
+          if (deletedRow) {
+            deletedRow.remove();
+            // Перерахувати номери рядків
+            const rows = document.querySelectorAll(
+              ".admin-cabinet__table tbody tr"
+            );
+            rows.forEach((row, index) => {
+              const cell = row.querySelector("td:first-child");
+              if (cell) {
+                cell.textContent = index + 1;
+              }
+            });
+          } else {
+            console.warn(
+              `Елемент з data-id=${filmId} не знайдено для видалення.`
+            );
+          }
+        } catch (error) {
+          console.error("Помилка при видаленні фільму:", error);
+        }
+      };
+
       if (user) {
         const isAdmin = await checkIfUserIsAdmin(user);
         showSpinner();
@@ -354,7 +390,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 .get();
               const userData = userSnapshot.exists ? userSnapshot.data() : {};
 
-              const row = document.createElement("tr");
+              const row = document.createElement(`tr data-id="${filmId}`);
               row.innerHTML = `
                 <td>${counter}</td>
                 <td>${userData.firstName}&nbsp${userData.lastName}</td>
@@ -369,11 +405,6 @@ document.addEventListener("DOMContentLoaded", async function () {
               adminTableBody.appendChild(row);
               counter++;
             });
-
-            const deleteButtons = document.querySelectorAll(".delete-button");
-            deleteButtons.forEach((button) => {
-              button.addEventListener("click", handleDeleteButtonClick);
-            });
           } else {
             // Якщо користувач не адміністратор, виводити тільки його власні фільми
             const userFilmsSnapshot = await db
@@ -385,17 +416,18 @@ document.addEventListener("DOMContentLoaded", async function () {
               .doc(user.uid)
               .get();
             const userData = userSnapshot.exists ? userSnapshot.data() : {};
-            console.log(userData);
 
             adminTableBody.innerHTML = ""; // Очистити поточний вміст таблиці перед заповненням новими даними
             userFilmsSnapshot.forEach((doc) => {
               const filmData = doc.data();
 
               const row = document.createElement("tr");
+              row.setAttribute("data-id", doc.id); // Додайте атрибут data-id зі значенням filmId
+
               row.innerHTML = `
                 <td>${counter}</td>
-                <td>${userData.firstName}&nbsp${userData.lastName}</td>
-                <td>${filmData.title}</td>
+                <td >${userData.firstName}&nbsp${userData.lastName}</td>
+                <td class="title">${filmData.title}</td>
                 <td>${filmData.time}, ${filmData.date}</td>
                 <td class="d-flex">
                 <button class="admin-cabinet__button-edit edit-button link" data-id="${doc.id}" onclick="editFilm('${doc.id}')">Редагувати</button>
@@ -405,8 +437,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
               adminTableBody.appendChild(row);
               counter++;
+
+              // Додати прослуховувачів подій після додавання рядка до таблиці
             });
           }
+
           hideSpinner();
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
@@ -416,8 +451,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
-async function editFilm(filmId) {
+let previousListener;
 
+async function editFilm(filmId) {
   window.scrollTo(0, 0);
 
   let form = document.querySelector(".form");
@@ -425,6 +461,7 @@ async function editFilm(filmId) {
 
   try {
     const filmDoc = await db.collection("films").doc(filmId).get();
+
     if (!filmDoc.exists) {
       console.error("Фільм не знайдено.");
       return;
@@ -439,34 +476,36 @@ async function editFilm(filmId) {
     document.getElementById("trailer").value = filmData.youtubeURL;
     document.getElementById("moviePoster").src = filmData.imageURL;
 
-    // Додаємо обробник події для форми
-    document
-      .getElementById("editFilmForm")
-      .addEventListener("submit", async function (event) {
-        event.preventDefault();
+    const editFilmForm = document.getElementById("editFilmForm");
+    editFilmForm.removeEventListener("submit", previousListener);
 
-        const editedFilm = {
-          title: document.getElementById("filmName").value,
-          year: document.getElementById("filmYear").value,
-          description: document.getElementById("filmDescription").value,
-          youtubeURL: document.getElementById("trailer").value,
-          imageURL: filmData.imageURL,
-          searchTitle: document.getElementById("filmName").value.toLowerCase(),
-        };
+    previousListener = async function (event) {
+      event.preventDefault();
 
-        const file = document.getElementById("imageInput").files[0];
+      const editedFilm = {
+        title: document.getElementById("filmName").value,
+        year: document.getElementById("filmYear").value,
+        description: document.getElementById("filmDescription").value,
+        youtubeURL: document.getElementById("trailer").value,
+        imageURL: filmData.imageURL,
+        searchTitle: document.getElementById("filmName").value.toLowerCase(),
+      };
 
-        if (file) {
-          const imageUrl = await uploadImage(file);
-          editedFilm.imageURL = imageUrl;
-        }
+      const file = document.getElementById("imageInput").files[0];
 
-        await updateFilm(filmId, editedFilm);
-        form.classList.remove("block");
+      if (file) {
+        const imageUrl = await uploadImage(file);
+        editedFilm.imageURL = imageUrl;
+      }
 
-        // Оновлення відповідного рядка у таблиці після успішного оновлення фільму в Firebase
-        // Закриття форми після успішного оновлення фільму
-      });
+      await updateFilm(filmId, editedFilm);
+
+      form.classList.remove("block");
+
+      // Додайте будь-яке інше оновлення DOM, яке вам потрібно зробити тут
+    };
+
+    editFilmForm.addEventListener("submit", previousListener);
   } catch (error) {
     console.error("Помилка при редагуванні фільму:", error);
   }
@@ -483,11 +522,25 @@ async function updateFilm(filmId, editedFilm) {
 
     console.log("Фільм успішно оновлено у Firebase.");
     displayEditSuccesToaster();
+    // Отримати посилання на рядок у таблиці
+    // Отримати посилання на рядок у таблиці за допомогою data-id
+    const editedRow = document.querySelector(`[data-id="${filmId}"]`);
+
+    if (editedRow) {
+      // Оновлення даних фільму в таблиці відповідно до нових даних
+      const filmNameElement = editedRow.querySelector(".title"); // Знайти елемент, який містить назву фільму
+      if (filmNameElement) {
+        filmNameElement.textContent = editedFilm.title;
+      }
+    } else {
+      console.warn(`Елемент з data-id=${filmId} не знайдено для оновлення.`);
+    }
   } catch (error) {
     console.error("Помилка при оновленні фільму в Firebase:", error);
   }
 }
 
+// Оновлення рядка таблиці з новими даними
 
 async function uploadImage(file) {
   try {
@@ -508,7 +561,6 @@ async function uploadImage(file) {
     throw error; // Передаємо помилку для обробки у вищих рівнях коду
   }
 }
-
 
 function displaySearchResults(filmsSnapshot, searchTerm) {
   const filmCollection = document.getElementById("filmCollection");
@@ -550,15 +602,6 @@ function displaySearchResults(filmsSnapshot, searchTerm) {
   }
 }
 
-// Функція для обробки кліку на кнопку видалення
-function handleDeleteButtonClick(event) {
-  const filmId = event.target.dataset.id;
-  const confirmDelete = confirm("Ви впевнені, що хочете видалити цей фільм?");
-  if (confirmDelete) {
-    deleteFilm(filmId);
-  }
-}
-
 // Функція для форматування дати
 function formatDate(timestamp) {
   const date = new Date(timestamp.seconds * 1000);
@@ -566,43 +609,6 @@ function formatDate(timestamp) {
 }
 
 // Функція для видалення фільму
-
-document.addEventListener("DOMContentLoaded", async function () {
-  // Інші частини вашого коду...
-
-  // Функція для видалення фільму
-  window.deleteFilm = async function (filmId) {
-    try {
-      if (!db) {
-        console.error("Помилка: db не ініціалізовано.");
-        return;
-      }
-
-      await db.collection("films").doc(filmId).delete();
-      console.log("Фільм видалено успішно!");
-      displayDeleteSuccesToaster();
-      // Оновлення DOM-елементу після видалення
-      const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
-      if (deletedRow) {
-        deletedRow.parentElement.parentElement.remove();
-        console.log("Лічильник після видалення:", counter);
-      } else {
-        console.warn(`Елемент з data-id=${filmId} не знайдено для видалення.`);
-      }
-
-      // Перерахування номерів рядків
-      const rows = document.querySelectorAll(".admin-cabinet__table tbody tr");
-      rows.forEach((row, index) => {
-        const cell = row.querySelector("td:first-child");
-        if (cell) {
-          cell.textContent = index + 1;
-        }
-      });
-    } catch (error) {
-      console.error("Помилка при видаленні фільму:", error);
-    }
-  };
-});
 
 function validatePassword() {
   const passwordInput = document.getElementById("regPassword");
@@ -635,27 +641,36 @@ function animateCounter(targetValue, duration) {
       requestAnimationFrame(updateCounter);
     }
   }
-
   updateCounter();
 }
 
-// Отримання посилання на елемент лічильника
-const counterElement = document.querySelector(".collection__counter span");
+
+const collectionCounter = document.querySelector(".collection__counter");
+const counterElement = document.querySelector(".numCounter");
+const counterElementFilms = document.querySelector(".filmsSpan");
 
 // Функція для оновлення значення лічильника
 async function updateCounter() {
+
   try {
     const querySnapshot = await firebase.firestore().collection("films").get();
     const numberOfFilms = querySnapshot.size;
     animateCounter(numberOfFilms, 1000); // Змініть час анімації за необхідності
     counterElement.textContent = numberOfFilms;
+    
+    if (numberOfFilms >= 2 && numberOfFilms <= 4) {
+      counterElementFilms.textContent = "фільма";
+  } 
+    else if (numberOfFilms === 1) {
+      counterElementFilms.textContent = "фільм";
+
+    }
+    else {
+      counterElementFilms.textContent = "фільмів";
+
+    }
   } catch (error) {
     console.error("Помилка при отриманні кількості фільмів:", error);
   }
 }
-
-
-
-// embed url
-
 

@@ -64,7 +64,9 @@ if (document.title === "Додати фільм") {
       const formattedTime = `${hours}.${minutes}`;
       const formattedDate = `${month}/${day}/${year}`;
 
-      const filmTitle = form.querySelector("input[placeholder='Назва']").value;
+      const filmTitle = form.querySelector(
+        "input[placeholder='* Назва']"
+      ).value;
 
       // Перевірка, чи існує фільм з такою ж назвою, але не належить поточному користувачеві
       const existingFilms = await firestore
@@ -84,9 +86,9 @@ if (document.title === "Додати фільм") {
         title: filmTitle,
         time: formattedTime,
         date: formattedDate,
-        year: form.querySelector("input[placeholder='Рік']").value,
-        description: form.querySelector("input[placeholder='Про фільм']").value,
-        youtubeURL: form.querySelector("input[name='youtube']").value,
+        year: document.getElementById("filmYear").value,
+        description: document.getElementById("filmDescription").value,
+        youtubeURL: document.getElementById("trailer").value,
         imageURL: url,
         authorUid: userId,
         searchTitle: filmTitle.toLowerCase(),
@@ -113,8 +115,6 @@ if (document.title === "Додати фільм") {
     }
   }
 }
-
-// concats
 
 if (document.title === "Контакти") {
   const form = document.querySelector(".contacts__form");

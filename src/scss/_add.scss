@@ -29,7 +29,6 @@
     border-radius: 10px;
     margin-bottom: 20px;
   }
-
 }
 
 .form {
@@ -73,5 +72,21 @@
   }
   &:focus {
     border: 2px solid #ffd52d;
+  }
+}
+
+.hite {
+  position: relative;
+  &__container {
+    max-width: 570px;
+  }
+}
+.hint {
+  &__title {
+    color: #ffd52d;
+  }
+
+  &__text {
+    font-size: 16px;
   }
 }

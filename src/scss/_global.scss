@@ -150,9 +150,39 @@ input::-webkit-inner-spin-button {
     font-size: 25x;
   }
 }
+
 .empty:not(:last-child) {
   margin-bottom: 20px;
 }
+
+//tooltip
+
+[data-tooltip] {
+  cursor: pointer;
+}
+
+[data-tooltip]::after {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 8px 8px 8px 0px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  content: attr(data-tooltip);
+  margin-top: -24px;
+  margin-left: 30px;
+  opacity: 0;
+  padding: 5px 7px;
+  width: 250px;
+  display: inline-table;
+  position: absolute;
+  visibility: hidden;
+  transition: all 0.4s ease-in-out;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
 
 .d-none {
   display: none;

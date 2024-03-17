@@ -145,7 +145,6 @@ function handleUserAuthentication() {
       window.location.href = "collection-films.html"; // Замініть на свій URL
     }
     hideContainer();
-    console.log("Користувач увійшов. ID:", userId, "Email:", userEmail);
     if (document.title === "Моя коллекція") {
       searchBox.classList.add("show");
     }
