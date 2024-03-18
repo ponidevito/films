@@ -393,7 +393,7 @@ input::-webkit-inner-spin-button {
   width: 80px;
   height: 50px;
   background: none;
-  border: 4px solid #ffd52d;
+  border: 2px solid #ffd52d;
   border-radius: 50px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -693,9 +693,6 @@ input::-webkit-inner-spin-button {
       -ms-flex-pack: center;
           justify-content: center;
   margin-top: 30px;
-}
-
-.add__body {
   padding: 20px 20px;
   background-color: #303030;
   border-radius: 10px;
@@ -777,6 +774,7 @@ input::-webkit-inner-spin-button {
 }
 
 .hite {
+  padding: 20px 0px 30px 0px;
   position: relative;
 }
 
@@ -784,11 +782,11 @@ input::-webkit-inner-spin-button {
   max-width: 570px;
 }
 
-.hint__title {
+.hite__title {
   color: #ffd52d;
 }
 
-.hint__text {
+.hite__text {
   font-size: 16px;
 }
 
@@ -1443,6 +1441,25 @@ header .effect {
       -ms-flex-align: center;
           align-items: center;
   gap: 20px;
+}
+
+.footer__icon-tg {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.footer__icon-tg svg path {
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.footer__icon-tg:hover svg path {
+  stroke: #0088cc;
 }
 
 /**

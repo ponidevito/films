@@ -1,5 +1,8 @@
 // Custom Scripts
 
+
+
+/* scroll */
 window.onscroll = function () {
   scrollFunction();
 };
@@ -14,7 +17,10 @@ function scrollFunction() {
     document.querySelector(".header").classList.remove("_active");
   }
 }
+/* scroll */
 
+
+// hide & show password
 function togglePasswordVisibility() {
   let checkboxColorText = document.querySelector(".modal__checkbox");
   let passwordField = document.getElementById("password");
@@ -33,6 +39,7 @@ function togglePasswordVisibility() {
   }
 }
 
+/* pagination */
 let current_page = 1;
 let records_per_page = 12;
 let filmsData = [];
@@ -61,27 +68,7 @@ function numPages() {
   return Math.ceil(filmsData.length / records_per_page);
 }
 
-// Функція для завантаження даних з Firebase
 
-async function loadFilmsData(userId) {
-  try {
-    showSpinner(); // Показати спінер перед початком завантаження
-    const filmsSnapshot = await db
-      .collection("films")
-      .where("authorUid", "==", userId)
-      .get();
-    filmsData = filmsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    renderFilms();
-    hideSpinner(); // Приховати спінер після завершення завантаження
-  } catch (error) {
-    console.error("Помилка при завантаженні фільмів з Firebase:", error);
-    hideSpinner(); // Приховати спінер після завершення завантаження
-  }
-}
 
 function generatePageButtons() {
   let pageButtonsContainer = document.getElementById("page-buttons");
@@ -173,6 +160,8 @@ function renderFilms() {
   }
 }
 
+/* pagination */
+
 let db; // Глобальна змінна для доступу до db
 let counter = 1; // Лічильник
 
@@ -185,6 +174,28 @@ window.addEventListener("resize", function () {
   }
 });
 
+// Функція для завантаження даних з Firebase
+
+async function loadFilmsData(userId) {
+  try {
+    showSpinner(); // Показати спінер перед початком завантаження
+    const filmsSnapshot = await db
+      .collection("films")
+      .where("authorUid", "==", userId)
+      .get();
+    filmsData = filmsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    renderFilms();
+    hideSpinner(); // Приховати спінер після завершення завантаження
+  } catch (error) {
+    console.error("Помилка при завантаженні фільмів з Firebase:", error);
+    hideSpinner(); // Приховати спінер після завершення завантаження
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   const firebaseConfig = {
     apiKey: "AIzaSyCL7wAwDtfMIDshLv4_aZLD0QXbC_BEBFo",
@@ -196,6 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // конфігурація Firebase
   };
 
+  // collection-films.html
   if (document.title === "Моя коллекція") {
     window.onload = function () {
       let listing_table = document.getElementById("filmCollection");
@@ -281,12 +293,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             addFilmLink.style.textAlign = "center";
             btn_prev.style.display = "none";
             btn_next.style.display = "none";
-            collectionCounter.classList.add('hide')
+            collectionCounter.classList.add("hide");
             filmCollection.appendChild(addFilmLink);
           } else {
             loadFilmsData(userId);
             updateCounter();
-            collectionCounter.classList.remove('hide')
+            collectionCounter.classList.remove("hide");
 
             hideSpinner();
           }
@@ -297,40 +309,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  if (document.title === "home") {
-    try {
-      firebase.auth().onAuthStateChanged(async function (user) {
-        if (user) {
-          const userId = user.uid;
-
-          // Перевірка ініціалізації db
-          if (!firebase.firestore) {
-            console.error("Firestore не ініціалізовано.");
-            return;
-          }
-
-          const db = firebase.firestore();
-
-          const filmsSnapshot = await db
-            .collection("films")
-            .where("authorUid", "==", userId)
-            .get();
-
-          if (filmsSnapshot.empty) {
-            const emptyMessage = document.createElement("p");
-            emptyMessage.className = "swipet-empty";
-            emptyMessage.textContent = "Ваша колекція порожня";
-            emptyMessage.style.fontSize = "25px";
-            emptyMessage.style.width = "100%";
-            emptyMessage.style.textAlign = "center";
-          }
-        }
-      });
-    } catch (error) {
-      console.error("Помилка при отриманні фільмів з Firebase:", error);
-    }
-  }
-
+  // cabinet.html
   if (document.title === "Кабінет") {
     const adminTableBody = document.querySelector(
       ".admin-cabinet__table tbody"
@@ -339,6 +318,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     db = firebase.firestore(); // Задаємо db глобальній змінній
 
     firebase.auth().onAuthStateChanged(async function (user) {
+      // delete film
       window.deleteFilm = async function (filmId) {
         try {
           if (!db) {
@@ -346,27 +326,36 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
           }
 
-          await db.collection("films").doc(filmId).delete();
-          console.log("Фільм видалено успішно!");
-          displayDeleteSuccesToaster();
-          // Оновлення DOM-елементу після видалення
-          const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
-          if (deletedRow) {
-            deletedRow.remove();
-            // Перерахувати номери рядків
-            const rows = document.querySelectorAll(
-              ".admin-cabinet__table tbody tr"
-            );
-            rows.forEach((row, index) => {
-              const cell = row.querySelector("td:first-child");
-              if (cell) {
-                cell.textContent = index + 1;
-              }
-            });
-          } else {
-            console.warn(
-              `Елемент з data-id=${filmId} не знайдено для видалення.`
-            );
+          // Запитуємо користувача про підтвердження видалення фільму
+          const confirmDelete = confirm(
+            "Ви впевнені, що хочете видалити цей фільм?"
+          );
+
+          // Якщо користувач підтверджує видалення, видаляємо фільм
+          if (confirmDelete) {
+            await db.collection("films").doc(filmId).delete();
+            console.log("Фільм видалено успішно!");
+            displayDeleteSuccesToaster();
+
+            // Оновлення DOM-елементу після видалення
+            const deletedRow = document.querySelector(`[data-id="${filmId}"]`);
+            if (deletedRow) {
+              deletedRow.remove();
+              // Перерахування номерів рядків
+              const rows = document.querySelectorAll(
+                ".admin-cabinet__table tbody tr"
+              );
+              rows.forEach((row, index) => {
+                const cell = row.querySelector("td:first-child");
+                if (cell) {
+                  cell.textContent = index + 1;
+                }
+              });
+            } else {
+              console.warn(
+                `Елемент з data-id=${filmId} не знайдено для видалення.`
+              );
+            }
           }
         } catch (error) {
           console.error("Помилка при видаленні фільму:", error);
@@ -439,11 +428,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
               adminTableBody.appendChild(row);
               counter++;
-
-              // Додати прослуховувачів подій після додавання рядка до таблиці
             });
           }
-
           hideSpinner();
         } catch (error) {
           console.error("Помилка при отриманні фільмів з Firebase:", error);
@@ -453,8 +439,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
+/* edit film */
 let previousListener;
-
 async function editFilm(filmId) {
   window.scrollTo(0, 0);
 
@@ -514,7 +500,6 @@ async function editFilm(filmId) {
 }
 
 // update film
-
 async function updateFilm(filmId, editedFilm) {
   try {
     const db = firebase.firestore();
@@ -542,6 +527,8 @@ async function updateFilm(filmId, editedFilm) {
   }
 }
 
+/* edit film */
+
 // Оновлення рядка таблиці з новими даними
 
 async function uploadImage(file) {
@@ -564,6 +551,7 @@ async function uploadImage(file) {
   }
 }
 
+// search results
 function displaySearchResults(filmsSnapshot, searchTerm) {
   const filmCollection = document.getElementById("filmCollection");
   filmCollection.innerHTML = ""; // Очищуємо вміст колекції перед відображенням нових результатів
@@ -626,7 +614,7 @@ function validatePassword() {
   }
 }
 
-// counter
+/* counter */
 
 // Функція для анімації зміни значення лічильника
 function animateCounter(targetValue, duration) {
@@ -646,36 +634,31 @@ function animateCounter(targetValue, duration) {
   updateCounter();
 }
 
-
 const collectionCounter = document.querySelector(".collection__counter");
 const counterElement = document.querySelector(".numCounter");
 const counterElementFilms = document.querySelector(".filmsSpan");
 
 // Функція для оновлення значення лічильника
 async function updateCounter() {
-
   try {
     const querySnapshot = await firebase.firestore().collection("films").get();
     const numberOfFilms = querySnapshot.size;
     animateCounter(numberOfFilms, 1000); // Змініть час анімації за необхідності
     counterElement.textContent = numberOfFilms;
-    
+
     if (numberOfFilms >= 2 && numberOfFilms <= 4) {
       counterElementFilms.textContent = "фільма";
-  } 
-    else if (numberOfFilms === 1) {
+    } else if (numberOfFilms === 1) {
       counterElementFilms.textContent = "фільм";
-
-    }
-    else {
+    } else {
       counterElementFilms.textContent = "фільмів";
-
     }
   } catch (error) {
     console.error("Помилка при отриманні кількості фільмів:", error);
   }
 }
 
+/* counter */
 
 // toaster
 
@@ -1013,8 +996,7 @@ if (document.title === "Створіть свою колекцію кіно") {
   bindModal(".modal__btnReg", ".modal__wrapper", ".modal__close");
 }
 
-// // login
-
+//  login
 let searchBox = document.querySelector(".header__box");
 let modalLogin = document.querySelector(".modal__wrapper");
 let userEnter = document.querySelector(".header__user");
@@ -1078,9 +1060,7 @@ function submitForm(event) {
     });
 }
 
-// test
 const effectBurger = document.querySelector(".effect");
-
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
   firebase.auth().onAuthStateChanged(async function (user) {
@@ -1151,7 +1131,6 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
-    // siteName.style.display = "none";
     siteNameHeader.style.display = "none";
     if (currentPath === "/") {
       console.log(
@@ -1201,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", handleUserAuthentication);
 
 function hideContainer() {
   if (
-    document.title === "home" &&
+    document.title === "Створіть свою колекцію фільмів" &&
     document.title === "Про нас" &&
     document.title === "Контакти"
   ) {
@@ -1209,6 +1188,7 @@ function hideContainer() {
   }
 }
 
+// login out
 function logOut() {
   localStorage.removeItem("userId");
   localStorage.removeItem("userEmail");

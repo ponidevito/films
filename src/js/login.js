@@ -1,5 +1,4 @@
-// // login
-
+//  login
 let searchBox = document.querySelector(".header__box");
 let modalLogin = document.querySelector(".modal__wrapper");
 let userEnter = document.querySelector(".header__user");
@@ -63,9 +62,7 @@ function submitForm(event) {
     });
 }
 
-// test
 const effectBurger = document.querySelector(".effect");
-
 document.addEventListener("DOMContentLoaded", async function () {
   const filmCollection = document.getElementById("filmCollection");
   firebase.auth().onAuthStateChanged(async function (user) {
@@ -136,7 +133,6 @@ function handleUserAuthentication() {
     modalLogin.classList.add("hide");
     userEnter.classList.add("hide");
     loginBox.classList.add("show-box");
-    // siteName.style.display = "none";
     siteNameHeader.style.display = "none";
     if (currentPath === "/") {
       console.log(
@@ -186,7 +182,7 @@ document.addEventListener("DOMContentLoaded", handleUserAuthentication);
 
 function hideContainer() {
   if (
-    document.title === "home" &&
+    document.title === "Створіть свою колекцію фільмів" &&
     document.title === "Про нас" &&
     document.title === "Контакти"
   ) {
@@ -194,6 +190,7 @@ function hideContainer() {
   }
 }
 
+// login out
 function logOut() {
   localStorage.removeItem("userId");
   localStorage.removeItem("userEmail");

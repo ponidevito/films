@@ -24,6 +24,19 @@
     gap: 20px;
   }
 
+  &__icon-tg {
+    display: flex;
+    transition: 0.3s;
+    svg path {
+      transition: 0.3s;
+    }
+    &:hover {
+      svg path {
+        stroke: #0088cc;
+      }
+    }
+  }
+
   &__development {
     @include sm {
       text-align: center;
